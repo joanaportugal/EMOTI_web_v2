@@ -14,17 +14,17 @@
        </div>
        <div style="width:100%">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
-        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
-        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
-        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
-        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
-        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
+        <li class="mb-3"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
+        <li class="mb-3"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
+        <li class="mb-3"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
+        <li class="mb-3"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
+        <li class="mb-3"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
        </ul>
        </div>
       </div>
 
-      <div style="width:100% d-flex align-items-center">
-         <button id="logout" class="mb-4 p-1"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
+      <div style="width:100%" class="d-flex justify-content-center">
+         <button id="logout" class="mb-4 p-1 col-8"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
       </div>
     </div>
 
@@ -34,17 +34,13 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'SideBar',
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #sideBar{
-  width:18vw;
   height:100vh;
   background-color:#FDFDF3;
   border-right: 1px solid #707070 ;
@@ -59,7 +55,6 @@ li{
 li a {
     color: #BFBFBF;
     padding-left: 10px;
-
 }
 #logout{
   display: flex;
