@@ -1,24 +1,33 @@
 <template>
   <div>
-    <div id="sideBar">
-       <b-img src="../assets/Grupo 440.png" fluid alt="Fluid image" style="width:95%"></b-img>
-       <div style="margin-top:5px;margin-bottom:5px;background-color:red;" id="items">
+    <div id="sideBar" class="px-2 d-flex flex-column align-items-center justify-content-between">
+
+      <div>
+         <b-img src="../assets/Grupo 440.png" fluid alt="Fluid image" style="width:95%" class="mt-2"></b-img>
+         <div style="margin-top:20px;margin-bottom:20px;background-color:#F5F5EB;" id="items" class="rounded">
           <b-img src="../assets/Imagem 1.png" fluid alt="Fluid image" style="width:27%;margin-top:10px;margin-bottom:10px;margin-left:8px;"></b-img>
-          <div style="d">
-            <p>Joana Portugal</p>
+          <div class="px-2">
+            <p style="font-weight:bold;">Joana Portugal</p>
             <p>Criança</p>
           </div>
-          <b-img src="../assets/1f44b.png" fluid alt="Fluid image" style="width:15%;"></b-img>
+          <b-img src="../assets/1f44b.png" fluid alt="Fluid image" style="width:15%;" class="m-2"></b-img>
        </div>
-       <ul>
-        <li style="margin-bottom:10px;"><span class="material-icons-round" style="padding-right:5px;">home</span><router-link to="#"> Página Principal</router-link></li>
-        <li style="margin-bottom:10px;"><span class="material-icons-round" style="padding-right:5px;">home</span><router-link to="#"> Atividades</router-link></li>
-        <li style="margin-bottom:10px;"><span class="material-icons-round" style="padding-right:5px;">home</span><router-link to="#"> Perfil</router-link></li>
-        <li style="margin-bottom:10px;"><span class="material-icons-round" style="padding-right:5px;">home</span><router-link to="#"> Escola Virtual</router-link></li>
-        <li style="margin-bottom:10px;"><span class="material-icons-round" style="padding-right:5px;">home</span><router-link to="#"> Atividades Extras</router-link></li>
+       <div style="width:100%">
+        <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
+        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
+        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
+        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
+        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
+        <li style="margin-bottom:10px;"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
        </ul>
-       <button id="logout"><span class="material-icons-round" style="padding-right:5px;">home</span> Terminar Sessão</button>
+       </div>
+      </div>
+
+      <div style="width:100% d-flex align-items-center">
+         <button id="logout" class="mb-4 p-1"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
+      </div>
     </div>
+
     
   </div>
 </template>
@@ -35,7 +44,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #sideBar{
-  width:15vw;
+  width:18vw;
   height:100vh;
   background-color:#FDFDF3;
   border-right: 1px solid #707070 ;
@@ -44,6 +53,13 @@ li{
   display: flex;
   flex-direction: row;
   align-items:center;
+  color: #BFBFBF;
+  width: 100%;
+}
+li a {
+    color: #BFBFBF;
+    padding-left: 10px;
+
 }
 #logout{
   display: flex;
@@ -59,5 +75,10 @@ li{
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
 }
 </style>
