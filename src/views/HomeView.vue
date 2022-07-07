@@ -3,11 +3,11 @@
       <aside>
         <SideBar />
       </aside>
-      <main class="d-flex flex-column justify-content-between">
+      <main class="d-flex flex-column">
         <AppSearch />
         <p>aaaa</p>
-        <AppFooter />
       </main>
+      <AppFooter />
   </div>
 </template>
 
