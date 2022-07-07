@@ -14,17 +14,17 @@
        </div>
        <div style="width:100%">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
-        <li class="mb-3"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
-        <li class="mb-3"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
-        <li class="mb-3"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
-        <li class="mb-3"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
-        <li class="mb-3"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
        </ul>
        </div>
       </div>
 
       <div style="width:100%" class="d-flex justify-content-center">
-         <button id="logout" class="mb-4 p-1 col-8"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
+         <button id="logout" class="mb-4 p-2 col-9" :style="{fontFamily:'EAmbit SemiBold'}"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
       </div>
     </div>
 
@@ -46,19 +46,29 @@ export default {
   border-right: 1px solid #707070 ;
 }
 li{
-  display: flex;
-  flex-direction: row;
-  align-items:center;
+  font-family: "EAmbit SemiBold";
   color: #BFBFBF;
   width: 100%;
+  font-size: 19px;
+  background-color:#E87461;
+  border-radius: 5px;
+  padding:2%;
 }
 li a {
-    color: #BFBFBF;
-    padding-left: 10px;
+  color: #FDFDF3;
+  display: flex;
+  flex:row;
+  align-items: center;
+  text-decoration: none;
+}
+li a span{
+  padding-right:10px;
+  font-size: 30px;
 }
 #logout{
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color:#F5F5EB;
   border:none;
   border-radius:8px;
