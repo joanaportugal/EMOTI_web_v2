@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import HomeView from '../views/HomeView.vue'
-import HomeView2 from '../views/HomeView2.vue'
+import ActivitiesView from '../views/ActivitiesView.vue'
+import ActivityView from '../views/ActivityView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -24,9 +26,25 @@ const routes = [
     },
   },
   {
-    path: "/home2",
-    name: "home",
-    component: HomeView2,
+    path: "/activities",
+    name: "activities",
+    component: ActivitiesView,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/activities/:id",
+    name: "activity",
+    component: ActivityView,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: ProfileView,
     meta: {
       requiresAuth: false,
     },
