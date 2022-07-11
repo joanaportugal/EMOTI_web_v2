@@ -14,9 +14,9 @@
        </div>
        <div style="width:100%">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
-        <li class="mb-4"><router-link to="HomeView"><span class="material-icons-round">home</span> Página Principal</router-link></li>
-        <li class="mb-4"><router-link to="ActivityView"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
-        <li class="mb-4"><router-link to="ProfileView"><span class="material-icons-round">person</span> Perfil</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
+        <li class="mb-4"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
         <li class="mb-4"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
         <li class="mb-4"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
        </ul>
