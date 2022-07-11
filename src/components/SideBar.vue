@@ -47,20 +47,28 @@ export default {
 }
 li{
   font-family: "EAmbit SemiBold";
-  color: #BFBFBF;
   width: 100%;
   font-size: 19px;
-  background-color:#E87461;
+  background-color:#FDFDF3;
   border-radius: 5px;
   padding:2%;
 }
+
+li:hover{
+  background-color:#E87461;
+}
+
 li a {
-  color: #FDFDF3;
+  color: #bfbfbf;
   display: flex;
   flex:row;
   align-items: center;
   text-decoration: none;
 }
+li:hover a{
+  color: #FDFDF3;
+}
+
 li a span{
   padding-right:10px;
   font-size: 30px;
