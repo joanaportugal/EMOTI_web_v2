@@ -395,7 +395,7 @@ import AppFooter from "@/components/AppFooter.vue";
 import AppSearch from "@/components/AppSearch.vue";
 
 export default {
-  name: "ProfileView",
+  name: "VirtualSchool",
   components: {
     SideBar,
     AppFooter,
@@ -408,17 +408,6 @@ export default {
       optSelected: "Turmas",
       classSelected: "Turma",
       childSelected: "Joana Portugal",
-      //
-      passForm: {
-        oldPass: "",
-        newPass: "",
-        confPass: "",
-      },
-      formAdd: {
-        childName: "",
-        childPass: "",
-      },
-      newImg: "",
     };
   },
 };

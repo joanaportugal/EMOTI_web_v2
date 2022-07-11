@@ -6,6 +6,7 @@ import ActivitiesView from '../views/ActivitiesView.vue'
 import ActivityView from '../views/ActivityView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import VirtualSchool from '../views/VirtualSchool.vue'
+import ExtraActivities from '../views/ExtraActivities.vue'
 
 Vue.use(VueRouter)
 
@@ -54,6 +55,14 @@ const routes = [
     path: "/school",
     name: "virtualSchool",
     component: VirtualSchool,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/extra",
+    name: "extraActivities",
+    component: ExtraActivities,
     meta: {
       requiresAuth: false,
     },
