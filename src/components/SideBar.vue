@@ -14,9 +14,9 @@
        </div>
        <div style="width:100%">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
-        <li class="mb-4"><router-link to="#"><span class="material-icons-round">home</span> Página Principal</router-link></li>
-        <li class="mb-4"><router-link to="#"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
-        <li class="mb-4"><router-link to="#"><span class="material-icons-round">person</span> Perfil</router-link></li>
+        <li class="mb-4"><router-link to="HomeView"><span class="material-icons-round">home</span> Página Principal</router-link></li>
+        <li class="mb-4"><router-link to="ActivityView"><span class="material-icons-round">sports_esports</span> Atividades</router-link></li>
+        <li class="mb-4"><router-link to="ProfileView"><span class="material-icons-round">person</span> Perfil</router-link></li>
         <li class="mb-4"><router-link to="#"><span class="material-icons-round">school</span> Escola Virtual</router-link></li>
         <li class="mb-4"><router-link to="#"><span class="material-icons-round">square_foot</span> Atividades Extras</router-link></li>
        </ul>
@@ -47,20 +47,28 @@ export default {
 }
 li{
   font-family: "EAmbit SemiBold";
-  color: #BFBFBF;
   width: 100%;
   font-size: 19px;
-  background-color:#E87461;
+  background-color:#FDFDF3;
   border-radius: 5px;
   padding:2%;
 }
+
+li:hover{
+  background-color:#E87461;
+}
+
 li a {
-  color: #FDFDF3;
+  color: #bfbfbf;
   display: flex;
   flex:row;
   align-items: center;
   text-decoration: none;
 }
+li:hover a{
+  color: #FDFDF3;
+}
+
 li a span{
   padding-right:10px;
   font-size: 30px;
