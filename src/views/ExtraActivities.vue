@@ -266,7 +266,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 aside {
   width: 18vw;
 }
