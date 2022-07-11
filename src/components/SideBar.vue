@@ -24,7 +24,7 @@
       </div>
 
       <div style="width:100%" class="d-flex justify-content-center">
-         <button id="logout" class="mb-4 p-2 col-9" :style="{fontFamily:'EAmbit SemiBold'}"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
+         <button id="logout" class="mb-4 p-2 col-10" :style="{fontFamily:'EAmbit SemiBold'}"><span class="material-icons-round" style="padding-right:5px;">logout</span> Terminar Sessão</button>
       </div>
     </div>
 
