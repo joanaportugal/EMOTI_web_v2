@@ -1,7 +1,7 @@
 <template>
   <div
     class="d-flex align-items-center"
-    style="width: 82vw; border-bottom: 1px solid #707070"
+    style="border-bottom: 1px solid #707070"
   >
     <b-input-group class="col-10">
       <template #prepend>

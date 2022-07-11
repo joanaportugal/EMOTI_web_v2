@@ -3,11 +3,11 @@
     <aside>
       <SideBar />
     </aside>
-    <main class="d-flex flex-column">
+    <main>
       <AppSearch />
       <b-container class="bv-example-row mt-5">
-        <b-row class="d-flex flex-row justify-content-center">
-          <b-col cols="12"><!--b-col cols="7"-->
+        <b-row class="d-flex justify-content-center">
+          <b-col cols="10">
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
               Queres Brincar ?
             </h2>
@@ -32,44 +32,88 @@
                 </div>
             </div>
             -->
-            <div class="col-12 row pt-3 pb-3 justify-content-center" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
-                <div class="col-3 d-flex flex-row justify-content-center"><b-button :style="{backgroundColor:'#e87461',border:'none'}" class="d-flex flex-row justify-content-center align-items-center p-0 p-1"><span class="material-icons-round" :style="{fontSize:'30px'}">keyboard_arrow_left</span></b-button></div>
-                <div class="col-6 d-flex flex-row justify-content-center align-items-center">Pergunta 1 de 1</div>
-                <div class="col-3 d-flex flex-row justify-content-center"><b-button :style="{backgroundColor:'#e87461',border:'none'}" class="d-flex flex-row justify-content-center align-items-center p-0 p-1"><span class="material-icons-round" :style="{fontSize:'30px'}">keyboard_arrow_right</span></b-button></div>
-                <div class="col-10 p-0 d-flex flex-row justify-content-around mt-3 mb-2">
-                    <b-img src="../assets/Imagem 5.png" fluid></b-img>
-                    <b-img src="../assets/Imagem 5.png"   fluid></b-img>
-                </div>
-                <div class="col-12 d-flex flex-row justify-content-center align-items-center mt-4 mb-2">
-                    <b-button class="d-flex flex-row align-items-center" :style="{backgroundColor:'#e87461',border:'none'}"><span class="material-icons-round" style="padding-right:5px;">photo_camera</span> Tirar Foto</b-button>
-                </div>
+            <div
+              class="row pt-3 pb-3 justify-content-center"
+              :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+            >
+              <div class="col-3 d-flex justify-content-center">
+                <b-button
+                  :style="{ backgroundColor: '#e87461', border: 'none' }"
+                  class="d-flex flex-row justify-content-center align-items-center p-0 p-1"
+                  ><span
+                    class="material-icons-round"
+                    :style="{ fontSize: '30px' }"
+                    >keyboard_arrow_left</span
+                  ></b-button
+                >
+              </div>
+              <div
+                class="col-6 d-flex justify-content-center align-items-center"
+              >
+                Pergunta 1 de 1
+              </div>
+              <div class="col-3 d-flex justify-content-center">
+                <b-button
+                  :style="{ backgroundColor: '#e87461', border: 'none' }"
+                  class="d-flex flex-row justify-content-center align-items-center p-0 p-1"
+                  ><span
+                    class="material-icons-round"
+                    :style="{ fontSize: '30px' }"
+                    >keyboard_arrow_right</span
+                  ></b-button
+                >
+              </div>
+              <div class="col-10 p-0 d-flex justify-content-around mt-3 mb-2">
+                <b-img src="../assets/Imagem 5.png" fluid></b-img>
+                <b-img src="../assets/Imagem 5.png" fluid></b-img>
+              </div>
+              <div
+                class="col-12 d-flex justify-content-center align-items-center mt-4 mb-2"
+              >
+                <b-button
+                  class="d-flex align-items-center"
+                  :style="{ backgroundColor: '#e87461', border: 'none' }"
+                  ><span class="material-icons-round" style="padding-right: 5px"
+                    >photo_camera</span
+                  >
+                  Tirar Foto</b-button
+                >
+              </div>
             </div>
           </b-col>
         </b-row>
       </b-container>
+      <AppFooter />
     </main>
-    <AppFooter />
   </div>
 </template>
 
 <script>
 import SideBar from "@/components/SideBar.vue";
-import AppFooter from "@/components/AppFooter.vue";
 import AppSearch from "@/components/AppSearch.vue";
+import AppFooter from "@/components/AppFooter.vue";
 
 export default {
-  name: "HomeView",
+  name: "BaseView",
   components: {
     SideBar,
-    AppFooter,
     AppSearch,
+    AppFooter,
   },
 };
 </script>
 
 <style scoped>
 aside {
+  height: 100%;
   width: 18vw;
-  background-color: #e87361cf;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+main {
+  margin-left: 18vw;
 }
 </style>

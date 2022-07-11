@@ -3,7 +3,7 @@
     <aside>
       <SideBar />
     </aside>
-    <main class="d-flex flex-column">
+    <main>
       <AppSearch />
       <b-container class="bv-example-row mt-5">
         <b-row>
@@ -12,13 +12,7 @@
               Catálogo
             </h2>
             <div
-              class="
-                rounded
-                d-flex
-                flex-row flex-wrap
-                justify-content-around
-                align-items-around
-              "
+              class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around"
               style="border: 2px solid #e87461"
             >
               <div class="col-12 mt-2 d-flex flex-row justify-content-end">
@@ -40,22 +34,7 @@
               <div class="m-3" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                  "
-                  style="
-                    background-color: #e87361cf;
-                    position: absolute;
-                    bottom: 0px;
-                    left: 0px;
-                    border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                    min-height: 15%;
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -70,12 +49,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -89,22 +63,7 @@
               <div class="m-3" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                  "
-                  style="
-                    background-color: #e87361cf;
-                    position: absolute;
-                    bottom: 0px;
-                    left: 0px;
-                    border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                    min-height: 15%;
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -119,12 +78,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -138,22 +92,7 @@
               <div class="m-3" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                  "
-                  style="
-                    background-color: #e87361cf;
-                    position: absolute;
-                    bottom: 0px;
-                    left: 0px;
-                    border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                    min-height: 15%;
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -168,12 +107,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -187,22 +121,7 @@
               <div class="m-3" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                  "
-                  style="
-                    background-color: #e87361cf;
-                    position: absolute;
-                    bottom: 0px;
-                    left: 0px;
-                    border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                    min-height: 15%;
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -217,12 +136,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -242,14 +156,7 @@
             <div class="rounded px-2" style="border: 2px solid #e87461">
               <div class="d-flex flex-row my-3">
                 <div
-                  class="
-                    col-6
-                    p-0
-                    d-flex
-                    flex-row
-                    justify-content-center
-                    align-items-center
-                  "
+                  class="col-6 p-0 d-flex flex-row justify-content-center align-items-center"
                 >
                   <b-img src="../assets/Imagem 7.png"></b-img>
                   <b-badge
@@ -288,7 +195,6 @@
             </div>
           </b-col>
         </b-row>
-
         <b-sidebar
           id="sidebar-right"
           right
@@ -351,7 +257,7 @@
                 >
                 <b-form-select-option
                   :value="sugest"
-                  v-for="(sugest, index) in sugestions"
+                  v-for="(sugest, index) in suggestions"
                   :key="index"
                   >{{ sugest }}</b-form-select-option
                 >
@@ -382,22 +288,22 @@
           </div>
         </b-sidebar>
       </b-container>
+      <AppFooter />
     </main>
-    <AppFooter />
   </div>
 </template>
 
 <script>
 import SideBar from "@/components/SideBar.vue";
-import AppFooter from "@/components/AppFooter.vue";
 import AppSearch from "@/components/AppSearch.vue";
+import AppFooter from "@/components/AppFooter.vue";
 
 export default {
   name: "HomeView",
   components: {
     SideBar,
-    AppFooter,
     AppSearch,
+    AppFooter,
   },
   data() {
     return {
@@ -414,18 +320,33 @@ export default {
         "Atividades Personalizadas (Tutor)",
         "Atividades Personalizadas (Professor)",
       ],
-      sugestions: ["Tutor", "Professor", "Ambos"],
+      suggestions: ["Tutor", "Professor", "Ambos"],
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
 aside {
+  height: 100%;
   width: 18vw;
-  background-color: #e87361cf;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
 }
-.sideFilter {
-  background-color: #fdfdf3;
+
+main {
+  margin-left: 18vw;
+}
+
+.activityTitle {
+  background-color: #e87361cf;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  min-height: 15%;
 }
 </style>
