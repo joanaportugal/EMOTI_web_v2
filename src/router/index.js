@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import ActivitiesView from '../views/ActivitiesView.vue'
 import ActivityView from '../views/ActivityView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import VirtualSchool from '../views/VirtualSchool.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,14 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: ProfileView,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/school",
+    name: "virtualSchool",
+    component: VirtualSchool,
     meta: {
       requiresAuth: false,
     },
