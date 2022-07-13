@@ -7,7 +7,9 @@
       <AppSearch />
       <b-container class="bv-example-row mt-5">
         <b-row class="mx-4">
-          <h2 style="font-family: 'EAmbit SemiBold'" class="p-0 col-12">Dados Pessoais</h2>
+          <h2 style="font-family: 'EAmbit SemiBold'" class="p-0 col-12">
+            Dados Pessoais
+          </h2>
 
           <div class="py-4 d-flex flex-row flex-wrap col-9 profileCard">
             <div
@@ -96,21 +98,23 @@
                 </b-form-group>
               </b-form>
             </div>
-             <div class=" col-12 d-flex flex-row justify-content-end">
-                <b-button
-                  :style="{
-                    color: '#fdfdf3',
-                    'background-color': '#e87461',
-                    border: 'none',
-                  }"
-                  v-b-modal.modal-profile
-                  @click="whatModalDo = 'changekey'"
-                  >Alterar Passsword</b-button
-                >
-              </div>
+            <div class="col-12 d-flex flex-row justify-content-end">
+              <b-button
+                :style="{
+                  color: '#fdfdf3',
+                  'background-color': '#e87461',
+                  border: 'none',
+                }"
+                v-b-modal.modal-profile
+                @click="whatModalDo = 'changekey'"
+                >Alterar Passsword</b-button
+              >
+            </div>
           </div>
 
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">Crianças</h2>
+          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
+            Crianças
+          </h2>
           <div class="d-flex col-12 p-0 profileCard" style="height: 510px">
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
@@ -118,7 +122,15 @@
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
                   </h3>
-                  <b-link :style="{color: '#2b4141'}"><span class="material-icons-round" :style="{fontSize: '30px'}" v-b-modal.modal-profile @click="whatModalDo = 'addChild'">add_circle</span></b-link>
+                  <b-link :style="{ color: '#2b4141' }"
+                    ><span
+                      class="material-icons-round"
+                      :style="{ fontSize: '30px' }"
+                      v-b-modal.modal-profile
+                      @click="whatModalDo = 'addChild'"
+                      >add_circle</span
+                    ></b-link
+                  >
                 </div>
                 <b-form class="my-2">
                   <b-form-input
@@ -127,7 +139,7 @@
                   ></b-form-input>
                 </b-form>
               </div>
-              <div class="p-2" style="height: 400px; overflow-y: scroll">
+              <div class="p-2" style="height: 397.5px; overflow-y: scroll">
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
@@ -271,22 +283,22 @@
                   </span>
                 </h5>
 
-                <table class="col-12" >
+                <table class="col-12">
                   <thead>
-                    <tr style="background: #e87461; color: #fbfbf3;">
+                    <tr style="background: #e87461; color: #fbfbf3">
                       <th class="px-4">Turma</th>
                       <th>Professor</th>
                       <th>Ações</th>
                     </tr>
-                   </thead>
+                  </thead>
                   <tbody>
                     <tr style="border-bottom: 2px solid #707070">
                       <td class="px-4 py-3">AA</td>
                       <td>Maria das Dores Soares</td>
                       <td>
                         <button
-                          class="btn btn-danger d-flex flex-row  align-items-center p-1"
-                          style="background: #e95353;border:none"
+                          class="btn btn-danger d-flex flex-row align-items-center p-1"
+                          style="background: #e95353; border: none"
                         >
                           <span
                             class="material-icons-round mx-1"
@@ -336,25 +348,24 @@
                 </div>
                 <div class="col-7 py-3">
                   <p
-                      style="
-                        font-family: 'EAmbit SemiBold';
-                        color: white;
-                        font-size: 28px;
-                      "
-                      class="m-0"
-                    >
-                      Tristeza
-                    </p>
-                    <b-progress max="20" style="height: 20px">
-                      <b-progress-bar
-                        value="10"
-                        :label="`10/20`"
-                        variant="warning"
-                        class="py-2"
-                      ></b-progress-bar>
-                    </b-progress>
+                    style="
+                      font-family: 'EAmbit SemiBold';
+                      color: white;
+                      font-size: 28px;
+                    "
+                    class="m-0"
+                  >
+                    Tristeza
+                  </p>
+                  <b-progress max="20" style="height: 20px">
+                    <b-progress-bar
+                      value="10"
+                      :label="`10/20`"
+                      variant="warning"
+                      class="py-2"
+                    ></b-progress-bar>
+                  </b-progress>
                 </div>
-               
               </div>
               <b-card-footer
                 style="
@@ -669,7 +680,6 @@ aside {
   z-index: 1;
   top: 0;
   left: 0;
-  
 }
 
 main {
@@ -694,7 +704,7 @@ form label {
   color: #e87461;
 }
 
-table{
+table {
   border-collapse: collapse;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
