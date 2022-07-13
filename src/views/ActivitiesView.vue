@@ -15,7 +15,9 @@
               class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around"
               style="border: 2px solid #e87461"
             >
-              <div class="col-12 mt-2 d-flex flex-row justify-content-end">
+              <div
+                class="col-12 mt-2 d-flex flex-row justify-content-end cardItem"
+              >
                 <b-button
                   class="d-flex flex-row align-items-center"
                   :style="{
@@ -31,8 +33,60 @@
                   Filtrar</b-button
                 >
               </div>
-              <div class="m-3" style="position: relative">
+              <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
+                <div
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
+                >
+                  <div>
+                    <p class="d-flex align-content-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >smart_toy</span
+                      >
+                      <span style="font-size: 20px">Queres brincar?</span>
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <button class="btn p-0">
+                      <span
+                        class="material-icons-round p-0"
+                        style="font-size: 32px"
+                        >play_circle_fill</span
+                      >
+                    </button>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >school</span
+                      >
+                      <button
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
+                        style="background: #bfbfbf"
+                      >
+                        <span class="material-icons-round">mode_edit</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
@@ -60,8 +114,60 @@
                   >
                 </div>
               </div>
-              <div class="m-3" style="position: relative">
+              <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
+                <div
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
+                >
+                  <div>
+                    <p class="d-flex align-content-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >smart_toy</span
+                      >
+                      <span style="font-size: 20px">Queres brincar?</span>
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <button class="btn p-0">
+                      <span
+                        class="material-icons-round p-0"
+                        style="font-size: 32px"
+                        >play_circle_fill</span
+                      >
+                    </button>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >school</span
+                      >
+                      <button
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
+                        style="background: #bfbfbf"
+                      >
+                        <span class="material-icons-round">mode_edit</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
@@ -89,8 +195,60 @@
                   >
                 </div>
               </div>
-              <div class="m-3" style="position: relative">
+              <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
+                <div
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
+                >
+                  <div>
+                    <p class="d-flex align-content-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >smart_toy</span
+                      >
+                      <span style="font-size: 20px">Queres brincar?</span>
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <button class="btn p-0">
+                      <span
+                        class="material-icons-round p-0"
+                        style="font-size: 32px"
+                        >play_circle_fill</span
+                      >
+                    </button>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >school</span
+                      >
+                      <button
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
+                        style="background: #bfbfbf"
+                      >
+                        <span class="material-icons-round">mode_edit</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
@@ -118,8 +276,60 @@
                   >
                 </div>
               </div>
-              <div class="m-3" style="position: relative">
+              <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
+                <div
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
+                >
+                  <div>
+                    <p class="d-flex align-content-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >smart_toy</span
+                      >
+                      <span style="font-size: 20px">Queres brincar?</span>
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <button class="btn p-0">
+                      <span
+                        class="material-icons-round p-0"
+                        style="font-size: 32px"
+                        >play_circle_fill</span
+                      >
+                    </button>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        style="padding-right: 8px"
+                        >school</span
+                      >
+                      <button
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
+                        style="background: #bfbfbf"
+                      >
+                        <span class="material-icons-round">mode_edit</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div
                   class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
@@ -341,6 +551,14 @@ main {
   width: 82vw;
 }
 
+.cardItem:hover .activityTitle {
+  opacity: 0;
+}
+
+.cardItem:hover .cardContent {
+  opacity: 0.8;
+}
+
 .activityTitle {
   background-color: #e87361cf;
   position: absolute;
@@ -349,5 +567,19 @@ main {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   min-height: 15%;
+}
+
+.cardContent {
+  background: #e87461;
+  border-radius: 5px;
+  opacity: 0;
+  height: 25vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.cardContent * {
+  color: white;
 }
 </style>
