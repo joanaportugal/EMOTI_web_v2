@@ -7,22 +7,22 @@
       <AppSearch />
       <b-container class="bv-example-row mt-5">
         <b-row class="mx-4">
-          <h2 style="font-family: 'EAmbit SemiBold'">Dados Pessoais</h2>
+          <h2 style="font-family: 'EAmbit SemiBold'" class="p-0 col-12">Dados Pessoais</h2>
 
-          <div class="py-4 d-flex col-12 profileCard">
+          <div class="py-4 d-flex flex-row flex-wrap col-9 profileCard">
             <div
               class="col-4 d-flex flex-row justify-content-center align-items-center"
             >
               <img
                 src="../assets/Imagem 1.png"
-                :style="{ width: '220px', height: '220px' }"
+                :style="{ width: '220px' }"
                 class="rounded-circle"
               />
               <b-button
                 style="
                   position: absolute;
                   z-index: 1;
-                  right: 50px;
+                  right: 6%;
                   bottom: 40px;
                   background-color: #e87461;
                   border: none;
@@ -30,6 +30,7 @@
                 pill
                 size="sm"
                 v-b-modal.modal-profile
+                class="d-flex flex-row justify-content-center align-items-center p-2"
                 @click="whatModalDo = 'changePicture'"
               >
                 <span
@@ -94,7 +95,8 @@
                   ></b-form-input>
                 </b-form-group>
               </b-form>
-              <div class="d-flex flex-row justify-content-end">
+            </div>
+             <div class=" col-12 d-flex flex-row justify-content-end">
                 <b-button
                   :style="{
                     color: '#fdfdf3',
@@ -106,10 +108,9 @@
                   >Alterar Passsword</b-button
                 >
               </div>
-            </div>
           </div>
 
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-4">Crianças</h2>
+          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">Crianças</h2>
           <div class="d-flex col-12 p-0 profileCard" style="height: 510px">
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
@@ -117,14 +118,7 @@
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
                   </h3>
-                  <b-button
-                    style="background-color: #2b4141; height: 28px"
-                    class="border-0 rounded-circle"
-                    size="sm"
-                    v-b-modal.modal-profile
-                    @click="whatModalDo = 'addChild'"
-                    >+</b-button
-                  >
+                  <b-link :style="{color: '#2b4141'}"><span class="material-icons-round" :style="{fontSize: '30px'}" v-b-modal.modal-profile @click="whatModalDo = 'addChild'">add_circle</span></b-link>
                 </div>
                 <b-form class="my-2">
                   <b-form-input
@@ -277,20 +271,22 @@
                   </span>
                 </h5>
 
-                <table class="col-12">
-                  <tr style="background: #e87461; color: #fbfbf3">
-                    <th class="px-4">Turma</th>
-                    <th>Professor</th>
-                    <th>Ações</th>
-                  </tr>
+                <table class="col-12" >
+                  <thead>
+                    <tr style="background: #e87461; color: #fbfbf3;">
+                      <th class="px-4">Turma</th>
+                      <th>Professor</th>
+                      <th>Ações</th>
+                    </tr>
+                   </thead>
                   <tbody>
                     <tr style="border-bottom: 2px solid #707070">
                       <td class="px-4 py-3">AA</td>
                       <td>Maria das Dores Soares</td>
                       <td>
                         <button
-                          class="btn btn-danger d-flex justify-content- p-1"
-                          style="background: #e95353"
+                          class="btn btn-danger d-flex flex-row  align-items-center p-1"
+                          style="background: #e95353;border:none"
                         >
                           <span
                             class="material-icons-round mx-1"
@@ -323,11 +319,11 @@
           </h2>
           <div class="py-4 d-flex col-12 profileCard">
             <b-card
-              class="p-0"
+              class="p-0 d-flex flex-row"
               style="width: 310px; background: #e36e63; border-radius: 10px"
             >
-              <b-card-text style="border-radius: 10px">
-                <div class="d-flex px-2 pt-1">
+              <div class="col-12 row">
+                <div class="col-5 py-3">
                   <img
                     src="https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1571606089"
                     class="p-2"
@@ -337,8 +333,9 @@
                       border-radius: 50%;
                     "
                   />
-                  <div class="col-8">
-                    <p
+                </div>
+                <div class="col-7 py-3">
+                  <p
                       style="
                         font-family: 'EAmbit SemiBold';
                         color: white;
@@ -356,9 +353,9 @@
                         class="py-2"
                       ></b-progress-bar>
                     </b-progress>
-                  </div>
                 </div>
-              </b-card-text>
+               
+              </div>
               <b-card-footer
                 style="
                   background: #d85549;
@@ -672,6 +669,7 @@ aside {
   z-index: 1;
   top: 0;
   left: 0;
+  
 }
 
 main {
@@ -694,5 +692,12 @@ form label {
 
 .activeChild {
   color: #e87461;
+}
+
+table{
+  border-collapse: collapse;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow: hidden;
 }
 </style>
