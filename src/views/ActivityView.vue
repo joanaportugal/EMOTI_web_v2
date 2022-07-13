@@ -115,5 +115,6 @@ aside {
 
 main {
   margin-left: 18vw;
+  width: 82vw;
 }
 </style>
