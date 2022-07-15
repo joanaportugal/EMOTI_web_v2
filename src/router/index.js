@@ -7,6 +7,9 @@ import ActivityView from '../views/ActivityView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import VirtualSchool from '../views/VirtualSchool.vue'
 import ExtraActivities from '../views/ExtraActivities.vue'
+import ManageUsers from '../views/ManageUsers.vue'
+import ManageActivities from '../views/ManageActivities.vue'
+import ManageBadges from '../views/ManageBadges.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +66,30 @@ const routes = [
     path: "/extra",
     name: "extraActivities",
     component: ExtraActivities,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/manageUsers",
+    name: "manageUsers",
+    component: ManageUsers,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/manageActivities",
+    name: "manageActivities",
+    component: ManageActivities,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/manageBadges",
+    name: "manageBadges",
+    component: ManageBadges,
     meta: {
       requiresAuth: false,
     },

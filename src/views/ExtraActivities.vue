@@ -7,17 +7,17 @@
       <AppSearch />
       <b-container class="bv-example-row mt-5">
         <b-row class="d-flex justify-content-center">
-          <b-col cols="11">
+          <b-col cols="12">
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
               Gerir Atividades Extras
             </h2>
 
             <div
-              class="row pt-3 pb-3 justify-content-center"
+              class="row justify-content-center"
               :style="{
                 border: '2px solid #e87461',
                 borderRadius: '5px',
-                height: '390px',
+                height: '460px',
               }"
             >
               <div class="p-0 col-4" style="border-right: 2px solid #e87461">
@@ -40,7 +40,7 @@
                     ></b-form-input>
                   </b-form>
                 </div>
-                <div class="p-2" style="height: 281px; overflow-y: scroll">
+                <div class="p-2" style="height: 351px; overflow-y: scroll">
                   <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                   <article>
                     <div
@@ -109,7 +109,7 @@
                   </article>
                 </div>
               </div>
-              <div class="col-8 py-3" style="overflow-y: scroll">
+              <div class="col-8 py-3" style="overflow-y: scroll; height: 455px">
                 <div class="d-flex justify-content-between">
                   <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
                     Detalhes
