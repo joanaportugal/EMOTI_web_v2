@@ -5,113 +5,7 @@
     </aside>
     <main>
       <AppSearch />
-<<<<<<< HEAD
-      <b-container class="bv-example-row mt-5">
-        <b-row class="d-flex justify-content-center">
-          <b-col cols="12">
-            <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
-              Gerir Atividades Extras
-            </h2>
 
-            <div
-              class="row justify-content-center"
-              :style="{
-                border: '2px solid #e87461',
-                borderRadius: '5px',
-                height: '460px',
-              }"
-            >
-              <div class="p-0 col-4" style="border-right: 2px solid #e87461">
-                <div class="border-bottom pt-3 px-2">
-                  <div class="d-flex justify-content-between">
-                    <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
-                      Lista
-                    </h3>
-                    <b-button
-                      style="background-color: #2b4141; height: 28px"
-                      class="border-0 rounded-circle"
-                      size="sm"
-                      >+</b-button
-                    >
-                  </div>
-                  <b-form class="my-2">
-                    <b-form-input
-                      id="ativityName"
-                      placeholder="Pesquisa por nome..."
-                    ></b-form-input>
-                  </b-form>
-                </div>
-                <div class="p-2" style="height: 351px; overflow-y: scroll">
-                  <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
-                  <article>
-                    <div
-                      class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                      style="border-bottom: 1px solid #707070"
-                    >
-                      <button
-                        class="btn d-flex align-items-center col-10 p-0"
-                        @click="ativitySelected = 'AtividadeA'"
-                      >
-                        <b-avatar
-                          variant="light"
-                          text="A"
-                          size="2.5rem"
-                        ></b-avatar>
-                        <span
-                          class="m-0 mx-2"
-                          style="font-family: 'EAmbit SemiBold'"
-                          :class="{
-                            activeItem: ativitySelected === 'AtividadeA',
-                          }"
-                        >
-                          AtividadeA
-                        </span>
-                      </button>
-                      <button class="btn">
-                        <span
-                          class="material-icons-round"
-                          style="color: #e87461"
-                          >delete_forever</span
-                        >
-                      </button>
-                    </div>
-
-                    <div
-                      class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                      style="border-bottom: 1px solid #707070"
-                    >
-                      <button
-                        class="btn d-flex align-items-center col-10 p-0"
-                        @click="ativitySelected = 'AtividadeB'"
-                      >
-                        <b-avatar
-                          variant="light"
-                          text="B"
-                          size="2.5rem"
-                        ></b-avatar>
-                        <span
-                          class="m-0 mx-2"
-                          style="font-family: 'EAmbit SemiBold'"
-                          :class="{
-                            activeItem: ativitySelected === 'AtividadeB',
-                          }"
-                        >
-                          AtividadeB
-                        </span>
-                      </button>
-                      <button class="btn">
-                        <span
-                          class="material-icons-round"
-                          style="color: #e87461"
-                          >delete_forever</span
-                        >
-                      </button>
-                    </div>
-                  </article>
-                </div>
-              </div>
-              <div class="col-8 py-3" style="overflow-y: scroll; height: 455px">
-=======
       <b-container class="bv-example-row mt-3 mb-5">
         <b-row class="mx-4">
           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
@@ -123,7 +17,7 @@
           >
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
->>>>>>> 22fd04cbbe77c06ee1d3d302795e402ea4c31e95
+
                 <div class="d-flex justify-content-between">
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
