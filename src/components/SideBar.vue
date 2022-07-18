@@ -5,7 +5,6 @@
       class="px-2 d-flex flex-column align-items-center justify-content-between"
     >
       <div>
-<<<<<<< HEAD
         <b-img
           src="../assets/Grupo 440.png"
           fluid
@@ -33,11 +32,9 @@
               margin-left: 8px;
             "
           ></b-img>
-=======
          <b-img src="../assets/Grupo 440.png" fluid alt="Fluid image" style="width:95%" class="mt-2"></b-img>
          <div style="margin-top:20px;margin-bottom:20px;background-color:#F5F5EB;" id="items" class="rounded">
           <b-img src="../assets/Imagem 1.png" fluid alt="Fluid image" style="width:27%;margin-top:10px;margin-bottom:10px;margin-left:8px;border-radius:10px"></b-img>
->>>>>>> 22fd04cbbe77c06ee1d3d302795e402ea4c31e95
           <div class="px-2">
             <p style="font-weight: bold">Joana Portugal</p>
             <p>Criança</p>
