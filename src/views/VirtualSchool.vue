@@ -7,31 +7,36 @@
       <AppSearch />
       <b-container class="bv-example-row mt-5">
         <b-row class="mx-4">
-          <button
-            class="btn p-0 mr-4"
+          <b-link
             @click="optSelected = 'Turmas'"
             :style="{
+              color: '#2B4141',
+              textDecoration: 'none',
+              fontSize: '30px',
               'font-family': 'EAmbit SemiBold',
               opacity: optSelected === 'Turmas' ? 1 : 0.2,
             }"
-          >
-            <h2 class="m-0">Turmas</h2>
-          </button>
-          <button
-            class="btn p-0"
+            >Turmas
+          </b-link>
+
+          <b-link
             @click="optSelected = 'Alunos'"
+            class="mx-4"
             :style="{
+              color: '#2B4141',
+              textDecoration: 'none',
+              fontSize: '30px',
               'font-family': 'EAmbit SemiBold',
               opacity: optSelected === 'Alunos' ? 1 : 0.2,
             }"
           >
-            <h2 class="m-0">Alunos</h2>
-          </button>
+            Alunos
+          </b-link>
 
           <div
             v-if="optSelected === 'Turmas'"
-            class="d-flex col-12 p-0 mt-2 schoolCard"
-            style="height: 390px"
+            class="d-flex col-12 p-0 mt-2 mb-3 schoolCard"
+            style="height: 500px"
           >
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
@@ -39,13 +44,15 @@
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
                   </h3>
-                  <b-button
-                    style="background-color: #2b4141; height: 28px"
-                    class="border-0 rounded-circle"
-                    size="sm"
-                    v-b-modal.modal-profile
+                  <b-link
+                    :style="{ color: '#2b4141' }"
+                    v-b-modal.modal-virtual-school
                     @click="whatModalDo = 'addClass'"
-                    >+</b-button
+                    ><span
+                      class="material-icons-round"
+                      :style="{ fontSize: '30px' }"
+                      >add_circle</span
+                    ></b-link
                   >
                 </div>
                 <b-form class="my-2">
@@ -55,11 +62,17 @@
                   ></b-form-input>
                 </b-form>
               </div>
-              <div class="p-2" style="height: 281px; overflow-y: scroll">
+              <div class="p-2" style="height: 388px; overflow-y: scroll">
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -89,7 +102,13 @@
                   </div>
 
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -123,7 +142,16 @@
                 <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
                   Detalhes
                 </h3>
-                <button class="btn" style="background: #e87461; color: white">
+                <button
+                  class="btn"
+                  v-b-modal.modal-virtual-school
+                  @click="whatModalDo = 'editClass'"
+                  style="
+                    background: #bfbfbf;
+                    color: #fdfdf3;
+                    font-family: EAmbit SemiBold;
+                  "
+                >
                   Alterar Nome
                 </button>
               </div>
@@ -136,7 +164,7 @@
                 </span>
               </h5>
 
-              <table class="col-12">
+              <table class="col-12 mb-5">
                 <tr style="background: #e87461; color: #fbfbf3">
                   <th class="px-4">Nome do Aluno</th>
                   <th>Nome do Tutor</th>
@@ -148,22 +176,38 @@
                     <td>João Soares Pereira de Amorim</td>
                     <td class="d-flex py-2">
                       <button
-                        class="btn btn-danger d-flex p-1"
-                        style="background: #bfbfbf"
+                        class="
+                          btn
+                          d-flex
+                          flex-row
+                          align-items-center
+                          justify-content-center
+                          p-1
+                        "
+                        size="sm"
+                        style="background: #bfbfbf; border: none"
                       >
                         <span
-                          class="material-icons-round mx-1"
-                          style="color: white; font-size: 18px"
+                          class="material-icons-round"
+                          style="color: white; font-size: 26px"
                           >person</span
                         >
                       </button>
                       <button
-                        class="btn btn-danger d-flex p-1 mx-1"
-                        style="background: #e95353"
+                        class="
+                          btn btn-danger
+                          d-flex
+                          flex-row
+                          align-items-center
+                          p-1
+                          mx-2
+                        "
+                        size="sm"
+                        style="background: #e95353; border: none"
                       >
                         <span
-                          class="material-icons-round mx-1"
-                          style="color: white; font-size: 18px"
+                          class="material-icons-round"
+                          style="color: white; font-size: 26px"
                           >delete_forever</span
                         >
                       </button>
@@ -193,12 +237,20 @@
                     <td>João Soares Pereira de Amorim</td>
                     <td>
                       <button
-                        class="btn btn-danger d-flex justify-content- p-1"
-                        style="background: #e95353"
+                        class="
+                          btn btn-danger
+                          d-flex
+                          flex-row
+                          align-items-center
+                          p-1
+                          mx-2
+                        "
+                        size="sm"
+                        style="background: #e95353; border: none"
                       >
                         <span
-                          class="material-icons-round mx-1"
-                          style="color: white; font-size: 18px"
+                          class="material-icons-round"
+                          style="color: white; font-size: 26px"
                           >delete_forever</span
                         >
                       </button>
@@ -211,8 +263,8 @@
 
           <div
             v-if="optSelected === 'Alunos'"
-            class="d-flex col-12 p-0 mt-2 schoolCard"
-            style="height: 390px"
+            class="d-flex col-12 p-0 mt-2 mb-3 schoolCard"
+            style="height: 500px"
           >
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
@@ -220,13 +272,15 @@
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
                   </h3>
-                  <b-button
-                    style="background-color: #2b4141; height: 28px"
-                    class="border-0 rounded-circle"
-                    size="sm"
-                    v-b-modal.modal-profile
+                  <b-link
+                    :style="{ color: '#2b4141' }"
+                    v-b-modal.modal-virtual-school
                     @click="whatModalDo = 'addStudent'"
-                    >+</b-button
+                    ><span
+                      class="material-icons-round"
+                      :style="{ fontSize: '30px' }"
+                      >add_circle</span
+                    ></b-link
                   >
                 </div>
                 <b-form class="my-2">
@@ -236,11 +290,17 @@
                   ></b-form-input>
                 </b-form>
               </div>
-              <div class="p-2" style="height: 281px; overflow-y: scroll">
+              <div class="p-2" style="height: 388px; overflow-y: scroll">
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -270,7 +330,13 @@
                   </div>
 
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -304,7 +370,16 @@
                 <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
                   Detalhes
                 </h3>
-                <button class="btn" style="background: #e87461; color: white">
+                <button
+                  class="btn"
+                  style="
+                    background: #bfbfbf;
+                    color: #fdfdf3;
+                    font-family: EAmbit SemiBold;
+                  "
+                  v-b-modal.modal-virtual-school
+                  @click="whatModalDo = 'editStudent'"
+                >
                   Alterar Turma
                 </button>
               </div>
@@ -394,6 +469,276 @@
       </b-container>
       <AppFooter />
     </main>
+    <b-modal
+      id="modal-virtual-school"
+      centered
+      hide-footer
+      header-border-variant="0"
+      header-class="color"
+      body-class="color"
+    >
+      <div
+        v-if="whatModalDo == 'addClass'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Nova Turma
+        </h4>
+
+        <b-form
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
+          <b-form-group
+            label-cols="2"
+            label-cols-lg="2"
+            label-size="sm"
+            label-align-sm="left"
+            label="Nome:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              v-model="newImg"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <div class="d-flex flex-row justify-content-end">
+            <b-button
+              type="submit"
+              class="text-end"
+              :style="{
+                color: '#fdfdf3',
+                'background-color': '#e87461',
+                border: 'none',
+              }"
+              >Adicionar</b-button
+            >
+          </div>
+        </b-form>
+      </div>
+
+      <div
+        v-if="whatModalDo == 'addStudent'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Novo Aluno
+        </h4>
+
+        <b-form
+          @submit.prevent="addStudent()"
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Username:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              v-model="studentUsername"
+              required
+              @change="getStudentInfo()"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Nome:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              required
+              disabled
+              v-model="studentName"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Tutor:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              disabled
+              v-model="studentTutor"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Turma:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-select id="input-sm" required v-model="teamToAdd">
+              <b-form-select-option
+                v-for="(team, index) in getTeacherClasses"
+                :key="index"
+                :value="team.name"
+              >
+                {{ team.name }}
+              </b-form-select-option>
+            </b-form-select>
+          </b-form-group>
+          <div class="d-flex flex-row justify-content-end">
+            <b-button
+              type="submit"
+              :style="{
+                color: '#fdfdf3',
+                'background-color': '#e87461',
+                border: 'none',
+              }"
+              >Adicionar</b-button
+            >
+          </div>
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
+        </b-form>
+      </div>
+
+      <div
+        v-if="whatModalDo == 'editStudent'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Alterar Turma
+        </h4>
+        <b-form
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Turma:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-select id="input-sm" required v-model="teamToAdd">
+              <b-form-select-option
+                v-for="(team, index) in getTeacherClasses"
+                :key="index"
+                :value="team.name"
+              >
+                {{ team.name }}
+              </b-form-select-option>
+            </b-form-select>
+          </b-form-group>
+          <div class="d-flex flex-row justify-content-end">
+            <b-button
+              type="submit"
+              :style="{
+                color: '#fdfdf3',
+                'background-color': '#e87461',
+                border: 'none',
+              }"
+              >Alterar</b-button
+            >
+          </div>
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
+        </b-form>
+      </div>
+
+      <div
+        v-if="whatModalDo == 'editClass'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Alterar Nome
+        </h4>
+
+        <b-form
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
+          <b-form-group
+            label-cols="2"
+            label-cols-lg="2"
+            label-size="sm"
+            label-align-sm="left"
+            label="Nome:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              v-model="newImg"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <div class="d-flex flex-row justify-content-end">
+            <b-button
+              type="submit"
+              class="text-end"
+              :style="{
+                color: '#fdfdf3',
+                'background-color': '#e87461',
+                border: 'none',
+              }"
+              >Alterar</b-button
+            >
+          </div>
+        </b-form>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -448,5 +793,16 @@ main {
 
 .activeItem {
   color: #e87461;
+}
+
+table {
+  border-collapse: collapse;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow: hidden;
+}
+
+.color {
+  background-color: #fdfdf3;
 }
 </style>
