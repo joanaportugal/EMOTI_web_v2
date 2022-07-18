@@ -1,7 +1,7 @@
 <template>
   <nav
     id="sideBar"
-    class="d-flex flex-column align-items-center justify-content-between"
+    class="d-flex flex-column align-items-center justify-content-between px-2"
     style="background-color: #fdfdf3"
   >
     <div id="items" class="rounded d-flex flex-column m-0">
@@ -42,9 +42,7 @@
         ></b-img>
       </div>
       <div style="width: 100%">
-        <ul
-          class="d-flex flex-column justify-content-start m-0 p-0 px-2 col-12"
-        >
+        <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
           <li class="mb-4">
             <router-link :to="{ name: 'home' }"
               ><span class="material-icons-round">home</span> Página

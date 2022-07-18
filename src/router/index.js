@@ -7,9 +7,7 @@ import ActivityView from '../views/ActivityView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import VirtualSchool from '../views/VirtualSchool.vue'
 import ExtraActivities from '../views/ExtraActivities.vue'
-import ManageUsers from '../views/ManageUsers.vue'
-import ManageActivities from '../views/ManageActivities.vue'
-import ManageBadges from '../views/ManageBadges.vue'
+import ManageView from '../views/ManageView.vue'
 
 Vue.use(VueRouter)
 
@@ -19,7 +17,7 @@ const routes = [
     name: 'landing',
     component: LandingView,
     meta: {
-      notRequiresAuth:true,
+      notRequiresAuth: true,
     }
   },
   {
@@ -71,25 +69,9 @@ const routes = [
     },
   },
   {
-    path: "/manageUsers",
-    name: "manageUsers",
-    component: ManageUsers,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: "/manageActivities",
-    name: "manageActivities",
-    component: ManageActivities,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: "/manageBadges",
-    name: "manageBadges",
-    component: ManageBadges,
+    path: "/manage",
+    name: "manage",
+    component: ManageView,
     meta: {
       requiresAuth: false,
     },
