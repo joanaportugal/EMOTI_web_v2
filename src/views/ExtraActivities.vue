@@ -17,7 +17,6 @@
           >
             <div class="p-0 col-4" style="border-right: 2px solid #e87461">
               <div class="border-bottom pt-3 px-2">
-
                 <div class="d-flex justify-content-between">
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
@@ -44,13 +43,7 @@
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -80,13 +73,7 @@
                   </div>
 
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -132,15 +119,7 @@
                     Atribuir Atividade
                   </button>
                   <button
-                    class="
-                      btn
-                      d-flex
-                      flex-row
-                      jusitfy-content-center
-                      align-items-center
-                      p-2
-                      mx-3
-                    "
+                    class="btn d-flex flex-row jusitfy-content-center align-items-center p-2 mx-3"
                     style="background: #bfbfbf; color: white"
                     v-b-modal.modal-extra
                     @click="whatModalDo = 'editActivityExtra'"
@@ -260,14 +239,7 @@
                     <td class="px-4 py-3">João Soares Pereira de Amorim</td>
                     <td class="d-flex py-2">
                       <button
-                        class="
-                          btn btn-danger
-                          d-flex
-                          flex-row
-                          align-items-center
-                          p-1
-                          mx-2
-                        "
+                        class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
                         style="background: #e95353; border: none"
                       >
