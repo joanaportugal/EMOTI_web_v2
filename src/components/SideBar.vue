@@ -2,12 +2,9 @@
   <nav
     id="sideBar"
     class="d-flex flex-column align-items-center justify-content-between"
+    style="background-color: #fdfdf3"
   >
-    <div
-      style="background-color: #f5f5eb"
-      id="items"
-      class="rounded d-flex flex-column m-0"
-    >
+    <div id="items" class="rounded d-flex flex-column m-0">
       <b-img
         src="../assets/Grupo 440.png"
         fluid
@@ -16,7 +13,7 @@
         class="mt-2"
       ></b-img>
       <div
-        style="margin-top: 20px; margin-bottom: 20px; background-color: #f5f5eb"
+        style="margin-top: 20px; margin-bottom: 20px"
         id="items"
         class="rounded"
       >
