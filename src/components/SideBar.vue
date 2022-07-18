@@ -13,7 +13,7 @@
         class="mt-2"
       ></b-img>
       <div
-        style="margin-top: 20px; margin-bottom: 20px"
+        style="margin-top: 20px; margin-bottom: 20px; background-color: #f5f5eb"
         id="items"
         class="rounded"
       >
