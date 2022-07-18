@@ -13,7 +13,13 @@
 
           <div class="py-4 d-flex flex-row flex-wrap col-9 profileCard">
             <div
-              class="col-4 d-flex flex-row justify-content-center align-items-center"
+              class="
+                col-4
+                d-flex
+                flex-row
+                justify-content-center
+                align-items-center
+              "
             >
               <img
                 src="../assets/Imagem 1.png"
@@ -32,7 +38,13 @@
                 pill
                 size="sm"
                 v-b-modal.modal-profile
-                class="d-flex flex-row justify-content-center align-items-center p-2"
+                class="
+                  d-flex
+                  flex-row
+                  justify-content-center
+                  align-items-center
+                  p-2
+                "
                 @click="whatModalDo = 'changePicture'"
               >
                 <span
@@ -122,12 +134,13 @@
                   <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
                     Lista
                   </h3>
-                  <b-link :style="{ color: '#2b4141' }"
+                  <b-link
+                    :style="{ color: '#2b4141' }"
+                    v-b-modal.modal-profile
+                    @click="whatModalDo = 'addChild'"
                     ><span
                       class="material-icons-round"
                       :style="{ fontSize: '30px' }"
-                      v-b-modal.modal-profile
-                      @click="whatModalDo = 'addChild'"
                       >add_circle</span
                     ></b-link
                   >
@@ -143,7 +156,13 @@
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -173,7 +192,13 @@
                   </div>
 
                   <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pb-1
+                      mt-2
+                    "
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -209,7 +234,12 @@
                 <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
                   Detalhes
                 </h3>
-                <button class="btn" style="background: #e87461; color: white">
+                <button
+                  class="btn"
+                  style="background: #e87461; color: white"
+                  @click="whatModalDo = 'intoclass'"
+                  v-b-modal.modal-profile
+                >
                   Pedidos de Inscrição
                 </button>
               </div>
@@ -223,15 +253,23 @@
                   </span>
                 </h5>
 
-                <div class="d-flex align-items-center">
-                  <div class="col-5">
+                <div class="d-flex align-items-center mb-5">
+                  <div
+                    class="
+                      col-4
+                      d-flex
+                      flex-row
+                      justify-content-end
+                      align-items-center
+                    "
+                  >
                     <img
                       src="../assets/Imagem 1.png"
                       :style="{ width: '200px', height: '200px' }"
                       class="rounded-circle"
                     />
                   </div>
-                  <b-form>
+                  <b-form class="col-8 p-0">
                     <b-form-group
                       label="Nome:"
                       label-for="profileName"
@@ -273,7 +311,7 @@
                   </b-form>
                 </div>
               </div>
-              <div class="mb-4">
+              <div class="mb-5">
                 <h5 class="d-flex align-items-center my-4">
                   <span class="material-icons-round" style="color: #e87461"
                     >school</span
@@ -297,14 +335,15 @@
                       <td>Maria das Dores Soares</td>
                       <td>
                         <button
-                          class="btn btn-danger d-flex flex-row align-items-center p-1"
+                          class="
+                            btn btn-danger
+                            d-flex
+                            flex-row
+                            align-items-center
+                          "
+                          size="sm"
                           style="background: #e95353; border: none"
                         >
-                          <span
-                            class="material-icons-round mx-1"
-                            style="color: white; font-size: 18px"
-                            >close</span
-                          >
                           Anular
                         </button>
                       </td>
@@ -326,16 +365,16 @@
             </div>
           </div>
 
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-4">
+          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5">
             Conquistas
           </h2>
           <div class="py-4 d-flex col-12 profileCard">
             <b-card
-              class="p-0 d-flex flex-row"
+              class="p-0"
               style="width: 310px; background: #e36e63; border-radius: 10px"
             >
-              <div class="col-12 row">
-                <div class="col-5 py-3">
+              <div class="col-12 d-flex flex-row">
+                <div class="col-4 py-3 px-0">
                   <img
                     src="https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1571606089"
                     class="p-2"
@@ -346,7 +385,7 @@
                     "
                   />
                 </div>
-                <div class="col-7 py-3">
+                <div class="col-8 py-3 px-0">
                   <p
                     style="
                       font-family: 'EAmbit SemiBold';
@@ -395,9 +434,18 @@
         class="text-center"
         v-if="whatModalDo == 'changekey'"
       >
-        <h4 :style="{ color: '#e87461' }">Alterar Password</h4>
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Alterar Password
+        </h4>
 
-        <b-form @submit.prevent="changePassword()">
+        <b-form
+          @submit.prevent="changePassword()"
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <b-form-group
             label-cols="4"
             label-cols-lg="4"
@@ -477,11 +525,20 @@
       <div
         :style="{ fontFamily: 'EAmbit SemiBold' }"
         class="text-center"
-        v-if="whatModalDo == 'addkid'"
+        v-if="whatModalDo == 'addChild'"
       >
-        <h4 :style="{ color: '#e87461' }">Associar Criança</h4>
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Associar Criança
+        </h4>
 
-        <b-form @submit.prevent="addChild()">
+        <b-form
+          @submit.prevent="addChild()"
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <b-form-group
             label-cols="4"
             label-cols-lg="4"
@@ -546,9 +603,14 @@
         class="text-center d-flex flex-column align-items-center"
         v-if="whatModalDo == 'intoclass'"
       >
-        <h4 :style="{ color: '#e87461' }">Pedidos para associar</h4>
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Pedidos para associar
+        </h4>
 
-        <table class="col-12 mt-3 ml-4 mr-4 mb-3 text-center">
+        <table class="col-12 mt-3 ml-4 mr-4 mb-3 text-center px-2 pb-3">
           <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
             <th class="p-1">Turma</th>
             <th>Professor</th>
@@ -603,9 +665,18 @@
         class="text-center"
         v-if="whatModalDo == 'changePicture'"
       >
-        <h4 :style="{ color: '#e87461' }">Alterar Foto</h4>
+        <h4
+          :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
+          class="mb-4"
+        >
+          Alterar Foto
+        </h4>
 
-        <b-form @submit="alterImg()">
+        <b-form
+          @submit="alterImg()"
+          class="px-2 pb-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <b-form-group
             label-cols="4"
             label-cols-lg="4"

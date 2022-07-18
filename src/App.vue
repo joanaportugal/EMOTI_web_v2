@@ -34,5 +34,22 @@ export default {
   user-select: none;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color:#fdfdf3
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #D9D9D5;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #BFBFBF;
+  border-radius: 20px;
+}
 
 </style>

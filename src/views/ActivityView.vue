@@ -5,82 +5,59 @@
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5">
-        <b-row class="d-flex justify-content-center">
-          <b-col cols="10">
-            <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
-              Queres Brincar ?
-            </h2>
-            <!--
-            <div class="col-12 row pt-3 pb-3 justify-content-center" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
-                <div class="col-2 d-flex flex-row justify-content-end"><b-button :style="{backgroundColor:'#e87461',border:'none'}" class="d-flex flex-row justify-content-center align-items-center p-0 p-1"><span class="material-icons-round" :style="{fontSize:'30px'}">keyboard_arrow_left</span></b-button></div>
-                <div class="col-6 d-flex flex-row justify-content-center align-items-center">Pergunta 1 de 1</div>
-                <div class="col-2"><b-button :style="{backgroundColor:'#e87461',border:'none'}" class="d-flex flex-row justify-content-center align-items-center p-0 p-1"><span class="material-icons-round" :style="{fontSize:'30px'}">keyboard_arrow_right</span></b-button></div> 
-                <div class="col-9 d-flex flex-row justify-content-center mt-3">
-                    <b-img src="../assets/Imagem 5.png" fluid></b-img>
-                </div>
-                <div class="col-8 mt-2 p-0">Seleciona a opção certa !</div>
-                <div class="col-8 mb-4">
-                    <b-form-group v-slot="{ ariaDescribedby }">
-                        <b-form-radio-group  :aria-describedby="ariaDescribedby" stacked>
-                        <b-form-radio class="mb-3" size="lg" :aria-describedby="ariaDescribedby" name="some-radios">aa</b-form-radio>
-                        <b-form-radio class="mb-3" size="lg" :aria-describedby="ariaDescribedby" name="some-radios">aa</b-form-radio>
-                        <b-form-radio class="mb-3" size="lg" :aria-describedby="ariaDescribedby" name="some-radios">aa</b-form-radio>
-                        <b-form-radio class="mb-3" size="lg" :aria-describedby="ariaDescribedby" name="some-radios">aa</b-form-radio>
-                        </b-form-radio-group>
-                    </b-form-group>
-                </div>
+      <b-container class="bv-example-row  mt-3 mb-5">
+        <!-- Reconhecimento
+        <b-row class="mx-4">
+           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
+            Queres brincar ?
+          </h2>
+          <div class="col-12 p-0 d-flex flex-row flex-wrap" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
+            <div class="col-2 d-flex flex-row justify-content-end p-0 mt-3 mb-2 px-3" >
+              <b-button :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none'}" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_left</span></b-button>
             </div>
-            -->
-            <div
-              class="row pt-3 pb-3 justify-content-center"
-              :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
-            >
-              <div class="col-3 d-flex justify-content-center">
-                <b-button
-                  :style="{ backgroundColor: '#e87461', border: 'none' }"
-                  class="d-flex flex-row justify-content-center align-items-center p-0 p-1"
-                  ><span
-                    class="material-icons-round"
-                    :style="{ fontSize: '30px' }"
-                    >keyboard_arrow_left</span
-                  ></b-button
-                >
-              </div>
-              <div
-                class="col-6 d-flex justify-content-center align-items-center"
-              >
-                Pergunta 1 de 1
-              </div>
-              <div class="col-3 d-flex justify-content-center">
-                <b-button
-                  :style="{ backgroundColor: '#e87461', border: 'none' }"
-                  class="d-flex flex-row justify-content-center align-items-center p-0 p-1"
-                  ><span
-                    class="material-icons-round"
-                    :style="{ fontSize: '30px' }"
-                    >keyboard_arrow_right</span
-                  ></b-button
-                >
-              </div>
-              <div class="col-10 p-0 d-flex justify-content-around mt-3 mb-2">
-                <b-img src="../assets/Imagem 5.png" fluid></b-img>
-                <b-img src="../assets/Imagem 5.png" fluid></b-img>
-              </div>
-              <div
-                class="col-12 d-flex justify-content-center align-items-center mt-4 mb-2"
-              >
-                <b-button
-                  class="d-flex align-items-center"
-                  :style="{ backgroundColor: '#e87461', border: 'none' }"
-                  ><span class="material-icons-round" style="padding-right: 5px"
-                    >photo_camera</span
-                  >
-                  Tirar Foto</b-button
-                >
-              </div>
+            <div class="col-8 d-flex flex-row align-items-end justify-content-center mt-2 mb-2 px-3" >
+              <p style="font-size:20px">Pergunta <span style="font-weight:bolder;color:#e87461">1</span> de <span style="font-weight:bolder">10</span>
+              </p>
             </div>
-          </b-col>
+            <div class="col-2 d-flex flex-row justify-content-start p-0  mt-3 mb-2 px-3" >
+              <b-button :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none'}" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_right</span></b-button>
+            </div>
+            <div class="col-6 d-flex flex-row justify-content-end my-4">
+              <b-img src="../assets/Imagem 5.png"></b-img>
+            </div>
+            <div class="col-6 d-flex flex-row justify-content-start my-4">
+              <b-img src="../assets/Imagem 5.png"></b-img>
+            </div>
+            <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-2 mb-4">
+              <b-button :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none',fontFamily:'EAmbit SemiBold'}" class="d-flex flex-row align-items-center"><span class="material-icons-round" :style="{fontSize:'30px',paddingRight:'5px'}">photo_camera</span> Tirar Foto</b-button>
+            </div>
+          </div>
+        </b-row>-->
+
+        <!--Quiz-->
+        <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center">
+           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-8">
+            Queres brincar ?
+          </h2>
+          <div class="col-8 p-0 d-flex flex-row flex-wrap justify-content-center" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
+            <div class="col-7 d-flex flex-row justify-content-between p-0 align-items-end my-3">
+               <b-button :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none'}" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_left</span></b-button>
+              <p style="font-size:20px">Pergunta <span style="font-weight:bolder;color:#e87461">1</span> de <span style="font-weight:bolder">10</span></p>
+               <b-button :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none'}" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_right</span></b-button>
+            </div>
+            <div class="col-8 d-flex flex-row align-items-center justify-content-center">
+              <b-img src="../assets/Imagem 5.png"></b-img>
+            </div>
+            <div class="col-7 p-0">
+              <b-form-group label="Seleciona a opção correta!" v-slot="{ ariaDescribedby }">
+                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A" size="lg">Option A</b-form-radio>
+                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="B" size="lg">Option B</b-form-radio>
+                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="C" size="lg">Option C</b-form-radio>
+                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="D" size="lg">Option D</b-form-radio>
+              </b-form-group>
+            </div>
+            
+          </div>
         </b-row>
       </b-container>
       <AppFooter />

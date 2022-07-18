@@ -536,7 +536,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 aside {
   height: 100%;
   width: 18vw;
@@ -581,5 +581,9 @@ main {
 
 .cardContent * {
   color: white;
+}
+
+.sideFilter{
+  background-color: #fbfbf3;
 }
 </style>
