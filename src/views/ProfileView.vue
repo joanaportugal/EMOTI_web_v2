@@ -32,8 +32,6 @@
                   z-index: 1;
                   right: 6%;
                   bottom: 40px;
-                  background-color: #e87461;
-                  border: none;
                 "
                 pill
                 size="sm"
@@ -46,6 +44,7 @@
                   p-2
                 "
                 @click="whatModalDo = 'changePicture'"
+                id="orange"
               >
                 <span
                   class="material-icons-round"
@@ -112,11 +111,7 @@
             </div>
             <div class="col-12 d-flex flex-row justify-content-end">
               <b-button
-                :style="{
-                  color: '#fdfdf3',
-                  'background-color': '#e87461',
-                  border: 'none',
-                }"
+                id="orange"
                 v-b-modal.modal-profile
                 @click="whatModalDo = 'changekey'"
                 >Alterar Passsword</b-button
@@ -236,7 +231,7 @@
                 </h3>
                 <button
                   class="btn"
-                  style="background: #e87461; color: white"
+                  id="orange"
                   @click="whatModalDo = 'intoclass'"
                   v-b-modal.modal-profile
                 >
@@ -341,8 +336,8 @@
                             flex-row
                             align-items-center
                           "
+                          id="red"
                           size="sm"
-                          style="background: #e95353; border: none"
                         >
                           Anular
                         </button>
@@ -500,11 +495,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Alterar</b-button
             >
           </div>
@@ -576,11 +567,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Associar</b-button
             >
           </div>
@@ -626,7 +613,7 @@
             <td>
               <b-button
                 size="sm"
-                style="background-color: #4da1a9; border: none"
+                id="green"
                 class="ml-2 mr-1"
                 @click="
                   acceptRequest(
@@ -641,7 +628,7 @@
               <b-button
                 variant="danger"
                 size="sm"
-                style="border: none"
+                id="red"
                 class="ml-1 mr-2"
                 @click="
                   removeRequest(
@@ -697,11 +684,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Alterar</b-button
             >
           </div>
@@ -780,5 +763,35 @@ table {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   overflow: hidden;
+}
+
+#orange {
+  background: #e87461;
+  border: 1px solid #e87461;
+  color:#fdfdf3;
+}
+#orange:hover {
+  background: #fdfdf3;
+  color: #e87461;
+  border: 1px solid #e87461;
+}
+
+#red{
+  border:1px solid #E95353;
+}
+#red:hover{
+  background-color: #fdfdf3;
+  color:#E95353;
+  border: 1px solid #E95353;
+}
+
+#green{
+  background-color:#4da1a9;
+  color:#fdfdf3;
+  border:1px solid #4da1a9;
+}
+#green:hover{
+  background-color:#fdfdf3;
+  color:#4da1a9;
 }
 </style>

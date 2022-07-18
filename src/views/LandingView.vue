@@ -1,15 +1,26 @@
 <template>
   <div id="backgroundW" class="d-flex align-items-center">
-  <b-container class="col-12 d-flex flex-row justify-content-between pl-5 pr-2">
-      <div class="col-12 col-md-4 d-flex flex-column align-items-center justify-content-around pt-2">
-         <picture>
+    <b-container
+      class="col-12 d-flex flex-row justify-content-between pl-5 pr-2"
+    >
+      <div
+        class="
+          col-12 col-md-4
+          d-flex
+          flex-column
+          align-items-center
+          justify-content-around
+          pt-2
+        "
+      >
+        <picture>
           <source type="image/webp" srcset="../assets/logo2.webp" />
           <source type="image/png" srcset="../assets/logo2.png" />
           <img src="../assets/logo2.png" width="400px" alt="" />
         </picture>
-        
+
         <div class="mt-3 text-center">
-          <h5 style="font-size: 25px;font-family: EAmbit SemiBold">
+          <h5 style="font-size: 25px; font-family: EAmbit SemiBold">
             Olá queres brincar e aprender ao mesmo tempo ?
           </h5>
           <p style="font-size: 20px">
@@ -17,12 +28,25 @@
             e professores podem juntarem-se a ti, nesta aventura!
           </p>
         </div>
-        
-        <div class="w-75 d-flex flex-row justify-content-around pt-2">
-          <b-button @click="whatDo = 'login'" size="lg" style="width: 40%;background-color: #e87461;border: #e87461;font-family: EAmbit SemiBold;" v-b-modal.modal-center>Entrar</b-button>
-          <b-button @click="whatDo = 'register'" size="lg" style="width: 40%;background-color: #fdfdf3;border: 1px solid #e87461;color: #e87461;font-family: EAmbit SemiBold;" v-b-modal.modal-center>Registar</b-button>
-        </div>
 
+        <div class="w-75 d-flex flex-row justify-content-around pt-2">
+          <b-button
+            id="orange"
+            @click="whatDo = 'login'"
+            size="lg"
+            :style="{ width: '40%', fontFamily: 'EAmbit SemiBold' }"
+            v-b-modal.modal-center
+            >Entrar</b-button
+          >
+          <b-button
+            id="white"
+            @click="whatDo = 'register'"
+            size="lg"
+            style="width: 40%; font-family: EAmbit SemiBold"
+            v-b-modal.modal-center
+            >Registar</b-button
+          >
+        </div>
       </div>
 
       <div class="col-7">
@@ -33,7 +57,7 @@
         </picture>
       </div>
 
-       <b-modal
+      <b-modal
         id="modal-center"
         centered
         hide-footer
@@ -43,14 +67,19 @@
       >
         <div
           v-if="whatDo == 'login'"
-          style="font-family: EAmbit Regular; color: #2B4141"
+          style="font-family: EAmbit Regular; color: #2b4141"
           class="text-center"
         >
           <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
             Autenticar
           </h3>
 
-          <b-form action="" @submit.prevent="login" :style="{border:'2px solid #e87461',borderRadius:'5px'}" class="px-3 pt-4 pb-3">
+          <b-form
+            action=""
+            @submit.prevent="login"
+            :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+            class="px-3 pt-4 pb-3"
+          >
             <b-input-group class="mb-4">
               <b-form-input
                 v-model="formLogin.username"
@@ -71,10 +100,7 @@
             </b-input-group>
 
             <div class="d-flex flex-row justify-content-end">
-              <b-button
-                type="submit"
-                style="background-color: #e87461; color: #fdfdf3; border: none"
-                class="mb-2 w-25"
+              <b-button type="submit" class="mb-2 w-25" id="orange"
                 >Entrar</b-button
               >
             </div>
@@ -94,14 +120,19 @@
 
         <div
           v-else
-          style="font-family: EAmbit Regular; color: #2B4141"
+          style="font-family: EAmbit Regular; color: #2b4141"
           class="text-center"
         >
           <h3 class="mt-3 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
             Registar
           </h3>
 
-          <b-form action="" @submit.prevent="register" :style="{border:'2px solid #e87461',borderRadius:'5px'}" class="px-3 pt-4 pb-3">
+          <b-form
+            action=""
+            @submit.prevent="register"
+            :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+            class="px-3 pt-4 pb-3"
+          >
             <b-input-group class="mb-4">
               <b-form-input
                 v-model="formRegister.username"
@@ -126,7 +157,7 @@
                 type="password"
                 v-model="c_password"
                 placeholder="Confirmar Password"
-                style="background-color:white"
+                style="background-color: white"
                 required
               ></b-form-input>
             </b-input-group>
@@ -145,7 +176,7 @@
                 type="email"
                 v-model="formRegister.email"
                 placeholder="Email"
-                style="background-color: white "
+                style="background-color: white"
                 required
               ></b-form-input>
             </b-input-group>
@@ -168,10 +199,7 @@
               </b-form-select>
             </b-input-group>
             <div class="d-flex flex-row justify-content-end">
-              <b-button
-                type="submit"
-                style="background-color: #e87461; color: #fdfdf3; border: none"
-                class="mb-2 w-25"
+              <b-button type="submit" class="mb-2 w-25" id="orange"
                 >Registar</b-button
               >
             </div>
@@ -189,15 +217,13 @@
           </b-form>
         </div>
       </b-modal>
-      
     </b-container>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'LandingView',
+  name: "LandingView",
   data() {
     return {
       warning: "",
@@ -218,7 +244,7 @@ export default {
       },
     };
   },
-}
+};
 </script>
 
 <style>
@@ -229,7 +255,28 @@ export default {
   background-size: 1540px auto;
 }
 
-.color{
-  background-color:#fdfdf3
+.color {
+  background-color: #fdfdf3;
+}
+
+#orange {
+  background: #e87461;
+  border: 1px solid #e87461;
+}
+#orange:hover {
+  background: #fdfdf3;
+  color: #e87461;
+  border: 1px solid #e87461;
+}
+
+#white {
+  background-color: #fdfdf3;
+  border: 1px solid #e87461;
+  color: #e87461;
+}
+
+#white:hover {
+  background-color: #e87461;
+  color: #fdfdf3;
 }
 </style>

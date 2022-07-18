@@ -114,13 +114,13 @@
                     class="btn"
                     v-b-modal.modal-extra
                     @click="whatModalDo = 'visibility'"
-                    style="background: #e87461; color: white"
+                    id="orange"
                   >
                     Atribuir Atividade
                   </button>
                   <button
                     class="btn d-flex flex-row jusitfy-content-center align-items-center p-2 mx-3"
-                    style="background: #bfbfbf; color: white"
+                    id="grey"
                     v-b-modal.modal-extra
                     @click="whatModalDo = 'editActivityExtra'"
                   >
@@ -241,11 +241,11 @@
                       <button
                         class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
-                        style="background: #e95353; border: none"
+                        id="red"
                       >
                         <span
                           class="material-icons-round"
-                          style="color: white; font-size: 26px"
+                          style="font-size: 26px"
                           >delete_forever</span
                         >
                       </button>
@@ -390,11 +390,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Adicionar</b-button
             >
           </div>
@@ -458,6 +454,24 @@
               >
             </div>
           </b-form-group>
+          <div class="d-flex flex-row justify-content-end">
+            <b-button
+              type="submit"
+              class="text-end"
+              id="orange"
+              >Aplicar Visibilidade</b-button
+            >
+          </div>
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
         </b-form>
       </div>
 
@@ -573,11 +587,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Aplicar Alterações</b-button
             >
           </div>
@@ -638,5 +648,35 @@ table {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   overflow: hidden;
+}
+
+#orange {
+  background: #e87461;
+  border: 1px solid #e87461;
+  color:#fdfdf3;
+}
+#orange:hover {
+  background: #fdfdf3;
+  color: #e87461;
+  border: 1px solid #e87461;
+}
+
+#grey{
+  background-color:#bfbfbf;
+  color:#fdfdf3;
+  border:1px solid #bfbfbf;
+}
+#grey:hover{
+  background-color:#fdfdf3;
+  color:#bfbfbf;
+}
+
+#red{
+  border:1px solid #E95353;
+}
+#red:hover{
+  background-color: #fdfdf3;
+  color:#E95353;
+  border: 1px solid #E95353;
 }
 </style>

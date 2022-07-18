@@ -146,11 +146,7 @@
                   class="btn"
                   v-b-modal.modal-virtual-school
                   @click="whatModalDo = 'editClass'"
-                  style="
-                    background: #bfbfbf;
-                    color: #fdfdf3;
-                    font-family: EAmbit SemiBold;
-                  "
+                  id="grey"
                 >
                   Alterar Nome
                 </button>
@@ -185,11 +181,11 @@
                           p-1
                         "
                         size="sm"
-                        style="background: #bfbfbf; border: none"
+                        id="grey"
                       >
                         <span
                           class="material-icons-round"
-                          style="color: white; font-size: 26px"
+                          style="font-size: 26px"
                           >person</span
                         >
                       </button>
@@ -203,11 +199,11 @@
                           mx-2
                         "
                         size="sm"
-                        style="background: #e95353; border: none"
+                        id="red"
                       >
                         <span
                           class="material-icons-round"
-                          style="color: white; font-size: 26px"
+                          style="font-size: 26px"
                           >delete_forever</span
                         >
                       </button>
@@ -246,11 +242,11 @@
                           mx-2
                         "
                         size="sm"
-                        style="background: #e95353; border: none"
+                        id="red"
                       >
                         <span
                           class="material-icons-round"
-                          style="color: white; font-size: 26px"
+                          style="font-size: 26px"
                           >delete_forever</span
                         >
                       </button>
@@ -373,10 +369,9 @@
                 <button
                   class="btn"
                   style="
-                    background: #bfbfbf;
-                    color: #fdfdf3;
                     font-family: EAmbit SemiBold;
                   "
+                  id="grey"
                   v-b-modal.modal-virtual-school
                   @click="whatModalDo = 'editStudent'"
                 >
@@ -513,11 +508,7 @@
             <b-button
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Adicionar</b-button
             >
           </div>
@@ -613,11 +604,7 @@
           <div class="d-flex flex-row justify-content-end">
             <b-button
               type="submit"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
+              id="orange"
               >Adicionar</b-button
             >
           </div>
@@ -804,5 +791,35 @@ table {
 
 .color {
   background-color: #fdfdf3;
+}
+
+#grey{
+  background-color:#bfbfbf;
+  color:#fdfdf3;
+  border:1px solid #bfbfbf;
+}
+#grey:hover{
+  background-color:#fdfdf3;
+  color:#bfbfbf;
+}
+
+#red{
+  border:1px solid #E95353;
+}
+#red:hover{
+  background-color: #fdfdf3;
+  color:#E95353;
+  border: 1px solid #E95353;
+}
+
+#orange {
+  background: #e87461;
+  border: 1px solid #e87461;
+  color:#fdfdf3;
+}
+#orange:hover {
+  background: #fdfdf3;
+  color: #e87461;
+  border: 1px solid #e87461;
 }
 </style>
