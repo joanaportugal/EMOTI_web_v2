@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Página Principal" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5">
+      <b-container class="bv-example-row">
         <b-row>
           <b-col cols="8">
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
@@ -42,26 +42,31 @@
                       >play_circle</span
                     ></router-link
                   >
-                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color:#fdfdf3">sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash dlashjdashdal djadhasdlasjdha ldhjadhaj</p>
-                    <div class="col-12 mb-2 p-0 d-flex flex-row justify-content-end">
-                       <span
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >school</span
                       >
                     </div>
-                   </div>
+                  </div>
                 </div>
               </div>
               <div class="m-3 myCard" style="position: relative">
@@ -91,29 +96,34 @@
                       >play_circle</span
                     ></router-link
                   >
-                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color:#fdfdf3">sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash dlashjdashdal djadhasdlasjdha ldhjadhaj</p>
-                    <div class="col-12 mb-2 p-0 d-flex flex-row justify-content-end">
-                       <span
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >school</span
                       >
                     </div>
-                   </div>
+                  </div>
                 </div>
               </div>
-               <div class="m-3 myCard" style="position: relative">
+              <div class="m-3 myCard" style="position: relative">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -140,29 +150,34 @@
                       >play_circle</span
                     ></router-link
                   >
-                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color:#fdfdf3">sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash dlashjdashdal djadhasdlasjdha ldhjadhaj</p>
-                    <div class="col-12 mb-2 p-0 d-flex flex-row justify-content-end">
-                       <span
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px;color:#fdfdf3"
+                        style="padding-right: 8px; color: #fdfdf3"
                         >school</span
                       >
                     </div>
-                   </div>
+                  </div>
                 </div>
               </div>
-               <div class="m-3 myCard" style="position: relative">
+              <div class="m-3 myCard" style="position: relative">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -189,16 +204,19 @@
                       >play_circle</span
                     ></router-link
                   >
-                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                     <p class="col-12 p-0 m-0" style="color:#fdfdf3">sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash dlashjdashdal djadhasdlasjdha ldhjadhaj</p>
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 m-0" style="color: #fdfdf3">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
                     <div class="col-12 p-0 d-flex flex-row justify-content-end">
                       <button
                         class="btn p-1 rounded-circle d-flex justify-content-center align-items-center mb-1"
-                        style="background: #bfbfbf;color:#fdfdf3"
+                        style="background: #bfbfbf; color: #fdfdf3"
                       >
                         <span class="material-icons-round">mode_edit</span>
                       </button>
-                   </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -251,6 +269,14 @@ main {
   width: 82vw;
 }
 
+main header {
+  width: 82vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 .activityTitle {
   background-color: #e87361cf;
   position: absolute;
@@ -261,20 +287,19 @@ main {
   min-height: 15%;
   transition: min-height 1s;
 }
-.myCard:hover .activityTitle{
-  min-height:75%;
+.myCard:hover .activityTitle {
+  min-height: 75%;
 }
 
-#moreInfo{
-  visibility:hidden;
-  height:0vh;
+#moreInfo {
+  visibility: hidden;
+  height: 0vh;
   transition: visibility 1s ease-out;
   transition: height 1s ease-out;
 }
 
-.myCard:hover #moreInfo{
+.myCard:hover #moreInfo {
   visibility: visible;
   height: auto;
 }
-
 </style>

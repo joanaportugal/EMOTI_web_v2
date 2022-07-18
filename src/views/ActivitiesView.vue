@@ -1,24 +1,18 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Atividades" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5">
+      <b-container class="bv-example-row">
         <b-row>
           <b-col cols="8">
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
               Catálogo
             </h2>
             <div
-              class="
-                rounded
-                d-flex
-                flex-row flex-wrap
-                justify-content-around
-                align-items-around
-              "
+              class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around"
               style="border: 2px solid #e87461"
             >
               <div
@@ -40,13 +34,7 @@
               <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    cardContent
-                    p-2
-                    d-flex
-                    flex-column
-                    justify-content-between
-                  "
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
                 >
                   <div>
                     <p class="d-flex align-content-center">
@@ -89,14 +77,7 @@
                         >school</span
                       >
                       <button
-                        class="
-                          btn
-                          p-1
-                          rounded-circle
-                          d-flex
-                          justify-content-center
-                          align-items-center
-                        "
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
                         style="background: #bfbfbf"
                       >
                         <span class="material-icons-round">mode_edit</span>
@@ -105,14 +86,7 @@
                   </div>
                 </div>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                    activityTitle
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -127,12 +101,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -146,13 +115,7 @@
               <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    cardContent
-                    p-2
-                    d-flex
-                    flex-column
-                    justify-content-between
-                  "
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
                 >
                   <div>
                     <p class="d-flex align-content-center">
@@ -195,14 +158,7 @@
                         >school</span
                       >
                       <button
-                        class="
-                          btn
-                          p-1
-                          rounded-circle
-                          d-flex
-                          justify-content-center
-                          align-items-center
-                        "
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
                         style="background: #bfbfbf"
                       >
                         <span class="material-icons-round">mode_edit</span>
@@ -211,14 +167,7 @@
                   </div>
                 </div>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                    activityTitle
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -233,12 +182,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -252,13 +196,7 @@
               <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    cardContent
-                    p-2
-                    d-flex
-                    flex-column
-                    justify-content-between
-                  "
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
                 >
                   <div>
                     <p class="d-flex align-content-center">
@@ -301,14 +239,7 @@
                         >school</span
                       >
                       <button
-                        class="
-                          btn
-                          p-1
-                          rounded-circle
-                          d-flex
-                          justify-content-center
-                          align-items-center
-                        "
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
                         style="background: #bfbfbf"
                       >
                         <span class="material-icons-round">mode_edit</span>
@@ -317,14 +248,7 @@
                   </div>
                 </div>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                    activityTitle
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -339,12 +263,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -358,13 +277,7 @@
               <div class="m-3 cardItem" style="position: relative">
                 <b-img src="../assets/Imagem 2.png" fluid></b-img>
                 <div
-                  class="
-                    cardContent
-                    p-2
-                    d-flex
-                    flex-column
-                    justify-content-between
-                  "
+                  class="cardContent p-2 d-flex flex-column justify-content-between"
                 >
                   <div>
                     <p class="d-flex align-content-center">
@@ -407,14 +320,7 @@
                         >school</span
                       >
                       <button
-                        class="
-                          btn
-                          p-1
-                          rounded-circle
-                          d-flex
-                          justify-content-center
-                          align-items-center
-                        "
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
                         style="background: #bfbfbf"
                       >
                         <span class="material-icons-round">mode_edit</span>
@@ -423,14 +329,7 @@
                   </div>
                 </div>
                 <div
-                  class="
-                    col-12
-                    d-flex
-                    flex-row
-                    justify-content-between
-                    align-items-center
-                    activityTitle
-                  "
+                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -445,12 +344,7 @@
                   </p>
                   <router-link
                     to="#"
-                    class="
-                      d-flex
-                      flex-row
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="d-flex flex-row justify-content-center align-items-center"
                     style="color: #fdfdf3"
                     ><span
                       class="material-icons-round"
@@ -476,14 +370,7 @@
             <div class="rounded px-2" style="border: 2px solid #e87461">
               <div class="d-flex flex-row my-3">
                 <div
-                  class="
-                    col-6
-                    p-0
-                    d-flex
-                    flex-row
-                    justify-content-center
-                    align-items-center
-                  "
+                  class="col-6 p-0 d-flex flex-row justify-content-center align-items-center"
                 >
                   <b-img src="../assets/Imagem 7.png"></b-img>
                   <b-badge
@@ -664,6 +551,18 @@ aside {
 main {
   margin-left: 18vw;
   width: 82vw;
+}
+
+main header {
+  width: 81.3vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+main > div {
+  margin-top: 7rem;
 }
 
 .cardItem:hover .activityTitle {

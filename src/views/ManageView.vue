@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Gerir" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5 col-12">
+      <b-container class="bv-example-row col-12">
         <div class="mb-4">
           <b-link
             @click="optSelected = 'Utilizadores'"
@@ -962,5 +962,13 @@ aside {
 main {
   margin-left: 18vw;
   width: 82vw;
+}
+
+main header {
+  width: 82vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 </style>

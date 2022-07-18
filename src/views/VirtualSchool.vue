@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Escola Virtual" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5">
+      <b-container class="bv-example-row">
         <b-row class="mx-4">
           <b-link
             @click="optSelected = 'Turmas'"
@@ -66,13 +66,7 @@
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -102,13 +96,7 @@
                   </div>
 
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -172,14 +160,7 @@
                     <td>João Soares Pereira de Amorim</td>
                     <td class="d-flex py-2">
                       <button
-                        class="
-                          btn
-                          d-flex
-                          flex-row
-                          align-items-center
-                          justify-content-center
-                          p-1
-                        "
+                        class="btn d-flex flex-row align-items-center justify-content-center p-1"
                         size="sm"
                         id="grey"
                       >
@@ -190,14 +171,7 @@
                         >
                       </button>
                       <button
-                        class="
-                          btn btn-danger
-                          d-flex
-                          flex-row
-                          align-items-center
-                          p-1
-                          mx-2
-                        "
+                        class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
                         id="red"
                       >
@@ -233,14 +207,7 @@
                     <td>João Soares Pereira de Amorim</td>
                     <td>
                       <button
-                        class="
-                          btn btn-danger
-                          d-flex
-                          flex-row
-                          align-items-center
-                          p-1
-                          mx-2
-                        "
+                        class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
                         id="red"
                       >
@@ -290,13 +257,7 @@
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -326,13 +287,7 @@
                   </div>
 
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -368,9 +323,7 @@
                 </h3>
                 <button
                   class="btn"
-                  style="
-                    font-family: EAmbit SemiBold;
-                  "
+                  style="font-family: EAmbit SemiBold"
                   id="grey"
                   v-b-modal.modal-virtual-school
                   @click="whatModalDo = 'editStudent'"
@@ -505,10 +458,7 @@
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Adicionar</b-button
             >
           </div>
@@ -602,11 +552,7 @@
             </b-form-select>
           </b-form-group>
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              id="orange"
-              >Adicionar</b-button
-            >
+            <b-button type="submit" id="orange">Adicionar</b-button>
           </div>
           <div
             v-if="warning != ''"
@@ -769,6 +715,14 @@ main {
   width: 82vw;
 }
 
+main header {
+  width: 81.3vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 .btn {
   text-align: left;
 }
@@ -793,29 +747,29 @@ table {
   background-color: #fdfdf3;
 }
 
-#grey{
-  background-color:#bfbfbf;
-  color:#fdfdf3;
-  border:1px solid #bfbfbf;
+#grey {
+  background-color: #bfbfbf;
+  color: #fdfdf3;
+  border: 1px solid #bfbfbf;
 }
-#grey:hover{
-  background-color:#fdfdf3;
-  color:#bfbfbf;
+#grey:hover {
+  background-color: #fdfdf3;
+  color: #bfbfbf;
 }
 
-#red{
-  border:1px solid #E95353;
+#red {
+  border: 1px solid #e95353;
 }
-#red:hover{
+#red:hover {
   background-color: #fdfdf3;
-  color:#E95353;
-  border: 1px solid #E95353;
+  color: #e95353;
+  border: 1px solid #e95353;
 }
 
 #orange {
   background: #e87461;
   border: 1px solid #e87461;
-  color:#fdfdf3;
+  color: #fdfdf3;
 }
 #orange:hover {
   background: #fdfdf3;

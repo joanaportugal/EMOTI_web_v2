@@ -1,7 +1,7 @@
 <template>
-  <div
+  <header
     class="d-flex align-items-center"
-    style="border-bottom: 1px solid #707070"
+    style="border-bottom: 1px solid #707070; background-color: #fdfdf3"
   >
     <b-input-group class="col-10">
       <template #prepend>
@@ -34,7 +34,7 @@
         >
       </b-button>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>

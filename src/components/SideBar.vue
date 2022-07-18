@@ -43,52 +43,70 @@
       </div>
       <div style="width: 100%">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
-          <li class="mb-4">
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Página Principal',
+            }"
+          >
             <router-link :to="{ name: 'home' }"
               ><span class="material-icons-round">home</span> Página
               Principal</router-link
             >
           </li>
-          <li class="mb-4">
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Atividades',
+            }"
+          >
             <router-link :to="{ name: 'activities' }"
               ><span class="material-icons-round">sports_esports</span>
               Atividades</router-link
             >
           </li>
-          <li class="mb-4">
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Perfil',
+            }"
+          >
             <router-link :to="{ name: 'profile' }"
               ><span class="material-icons-round">person</span>
               Perfil</router-link
             >
           </li>
-          <li class="mb-4">
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Escola Virtual',
+            }"
+          >
             <router-link :to="{ name: 'virtualSchool' }"
               ><span class="material-icons-round">school</span> Escola
               Virtual</router-link
             >
           </li>
-          <li class="mb-4">
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Atividades Extras',
+            }"
+          >
             <router-link :to="{ name: 'extraActivities' }"
               ><span class="material-icons-round">square_foot</span> Atividades
               Extras</router-link
             >
           </li>
-          <li class="mb-4">
-            <router-link :to="{ name: 'manageUsers' }"
-              ><span class="material-icons-round">manage_accounts</span> Gerir
-              Utilizadores</router-link
-            >
-          </li>
-          <li class="mb-4">
-            <router-link :to="{ name: 'manageActivities' }"
-              ><span class="material-icons-round">extension</span> Gerir
-              Atividades</router-link
-            >
-          </li>
-          <li class="mb-4">
-            <router-link :to="{ name: 'manageBadges' }"
-              ><span class="material-icons-round">badge</span> Gerir
-              Badges</router-link
+          <li
+            :class="{
+              'mb-4': true,
+              selected: activeTab === 'Gerir',
+            }"
+          >
+            <router-link :to="{ name: 'manage' }"
+              ><span class="material-icons-round">manage_accounts</span>
+              Gerir</router-link
             >
           </li>
         </ul>
@@ -113,6 +131,9 @@
 <script>
 export default {
   name: "SideBar",
+  props: {
+    activeTab: String,
+  },
 };
 </script>
 
@@ -144,6 +165,14 @@ li a {
   text-decoration: none;
 }
 li:hover a {
+  color: #fdfdf3;
+}
+
+.selected {
+  background-color: #e87461;
+}
+
+.selected a {
   color: #fdfdf3;
 }
 

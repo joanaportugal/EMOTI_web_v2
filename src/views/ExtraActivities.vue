@@ -1,12 +1,12 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Atividades Extras" />
     </aside>
     <main>
       <AppSearch />
 
-      <b-container class="bv-example-row mt-3 mb-5">
+      <b-container class="bv-example-row mb-5">
         <b-row class="mx-4">
           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
             Gerir Atividades Extras
@@ -387,10 +387,7 @@
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Adicionar</b-button
             >
           </div>
@@ -455,10 +452,7 @@
             </div>
           </b-form-group>
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Aplicar Visibilidade</b-button
             >
           </div>
@@ -584,10 +578,7 @@
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Aplicar Alterações</b-button
             >
           </div>
@@ -643,6 +634,14 @@ main {
   width: 82vw;
 }
 
+main header {
+  width: 81.3vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 table {
   border-collapse: collapse;
   border-top-left-radius: 5px;
@@ -653,7 +652,7 @@ table {
 #orange {
   background: #e87461;
   border: 1px solid #e87461;
-  color:#fdfdf3;
+  color: #fdfdf3;
 }
 #orange:hover {
   background: #fdfdf3;
@@ -661,22 +660,22 @@ table {
   border: 1px solid #e87461;
 }
 
-#grey{
-  background-color:#bfbfbf;
-  color:#fdfdf3;
-  border:1px solid #bfbfbf;
+#grey {
+  background-color: #bfbfbf;
+  color: #fdfdf3;
+  border: 1px solid #bfbfbf;
 }
-#grey:hover{
-  background-color:#fdfdf3;
-  color:#bfbfbf;
+#grey:hover {
+  background-color: #fdfdf3;
+  color: #bfbfbf;
 }
 
-#red{
-  border:1px solid #E95353;
+#red {
+  border: 1px solid #e95353;
 }
-#red:hover{
+#red:hover {
   background-color: #fdfdf3;
-  color:#E95353;
-  border: 1px solid #E95353;
+  color: #e95353;
+  border: 1px solid #e95353;
 }
 </style>

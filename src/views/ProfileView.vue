@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Perfil" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row mt-5">
+      <b-container class="bv-example-row">
         <b-row class="mx-4">
           <h2 style="font-family: 'EAmbit SemiBold'" class="p-0 col-12">
             Dados Pessoais
@@ -13,13 +13,7 @@
 
           <div class="py-4 d-flex flex-row flex-wrap col-9 profileCard">
             <div
-              class="
-                col-4
-                d-flex
-                flex-row
-                justify-content-center
-                align-items-center
-              "
+              class="col-4 d-flex flex-row justify-content-center align-items-center"
             >
               <img
                 src="../assets/Imagem 1.png"
@@ -27,22 +21,11 @@
                 class="rounded-circle"
               />
               <b-button
-                style="
-                  position: absolute;
-                  z-index: 1;
-                  right: 6%;
-                  bottom: 40px;
-                "
+                style="position: absolute; z-index: 1; right: 6%; bottom: 40px"
                 pill
                 size="sm"
                 v-b-modal.modal-profile
-                class="
-                  d-flex
-                  flex-row
-                  justify-content-center
-                  align-items-center
-                  p-2
-                "
+                class="d-flex flex-row justify-content-center align-items-center p-2"
                 @click="whatModalDo = 'changePicture'"
                 id="orange"
               >
@@ -151,13 +134,7 @@
                 <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
                 <article>
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -187,13 +164,7 @@
                   </div>
 
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      pb-1
-                      mt-2
-                    "
+                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     style="border-bottom: 1px solid #707070"
                   >
                     <button
@@ -250,13 +221,7 @@
 
                 <div class="d-flex align-items-center mb-5">
                   <div
-                    class="
-                      col-4
-                      d-flex
-                      flex-row
-                      justify-content-end
-                      align-items-center
-                    "
+                    class="col-4 d-flex flex-row justify-content-end align-items-center"
                   >
                     <img
                       src="../assets/Imagem 1.png"
@@ -330,12 +295,7 @@
                       <td>Maria das Dores Soares</td>
                       <td>
                         <button
-                          class="
-                            btn btn-danger
-                            d-flex
-                            flex-row
-                            align-items-center
-                          "
+                          class="btn btn-danger d-flex flex-row align-items-center"
                           id="red"
                           size="sm"
                         >
@@ -492,10 +452,7 @@
             ></b-form-input>
           </b-form-group>
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Alterar</b-button
             >
           </div>
@@ -564,10 +521,7 @@
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Associar</b-button
             >
           </div>
@@ -681,10 +635,7 @@
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
-            <b-button
-              type="submit"
-              class="text-end"
-              id="orange"
+            <b-button type="submit" class="text-end" id="orange"
               >Alterar</b-button
             >
           </div>
@@ -741,6 +692,14 @@ main {
   width: 82vw;
 }
 
+main header {
+  width: 81.3vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 .profileCard {
   border: 2px solid #e87461;
   border-radius: 5px;
@@ -768,7 +727,7 @@ table {
 #orange {
   background: #e87461;
   border: 1px solid #e87461;
-  color:#fdfdf3;
+  color: #fdfdf3;
 }
 #orange:hover {
   background: #fdfdf3;
@@ -776,22 +735,22 @@ table {
   border: 1px solid #e87461;
 }
 
-#red{
-  border:1px solid #E95353;
+#red {
+  border: 1px solid #e95353;
 }
-#red:hover{
+#red:hover {
   background-color: #fdfdf3;
-  color:#E95353;
-  border: 1px solid #E95353;
+  color: #e95353;
+  border: 1px solid #e95353;
 }
 
-#green{
-  background-color:#4da1a9;
-  color:#fdfdf3;
-  border:1px solid #4da1a9;
+#green {
+  background-color: #4da1a9;
+  color: #fdfdf3;
+  border: 1px solid #4da1a9;
 }
-#green:hover{
-  background-color:#fdfdf3;
-  color:#4da1a9;
+#green:hover {
+  background-color: #fdfdf3;
+  color: #4da1a9;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar />
+      <SideBar activeTab="Atividades" />
     </aside>
     <main>
       <AppSearch />
-      <b-container class="bv-example-row  mt-3 mb-5">
+      <b-container class="bv-example-row mb-5">
         <!-- Reconhecimento
         <b-row class="mx-4">
            <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
@@ -36,27 +36,88 @@
 
         <!--Quiz-->
         <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center">
-           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-8">
+          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-8">
             Queres brincar ?
           </h2>
-          <div class="col-8 p-0 d-flex flex-row flex-wrap justify-content-center" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
-            <div class="col-7 d-flex flex-row justify-content-between p-0 align-items-end my-3">
-               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_left</span></b-button>
-              <p style="font-size:20px">Pergunta <span style="font-weight:bolder;color:#e87461">1</span> de <span style="font-weight:bolder">10</span></p>
-               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_right</span></b-button>
+          <div
+            class="col-8 p-0 d-flex flex-row flex-wrap justify-content-center"
+            :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          >
+            <div
+              class="col-7 d-flex flex-row justify-content-between p-0 align-items-end my-3"
+            >
+              <b-button
+                id="orange"
+                class="d-flex flex-row align-items-center justify-content-center p-2"
+                ><span
+                  class="material-icons-round"
+                  :style="{ fontSize: '35px' }"
+                  >keyboard_arrow_left</span
+                ></b-button
+              >
+              <p style="font-size: 20px">
+                Pergunta
+                <span style="font-weight: bolder; color: #e87461">1</span> de
+                <span style="font-weight: bolder">10</span>
+              </p>
+              <b-button
+                id="orange"
+                class="d-flex flex-row align-items-center justify-content-center p-2"
+                ><span
+                  class="material-icons-round"
+                  :style="{ fontSize: '35px' }"
+                  >keyboard_arrow_right</span
+                ></b-button
+              >
             </div>
-            <div class="col-8 d-flex flex-row align-items-center justify-content-center">
+            <div
+              class="col-8 d-flex flex-row align-items-center justify-content-center"
+            >
               <b-img src="../assets/Imagem 5.png"></b-img>
             </div>
             <div class="col-7 p-0">
-              <b-form-group label="Seleciona a opção correta!" v-slot="{ ariaDescribedby }">
-                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A" size="lg">Option A</b-form-radio>
-                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="B" size="lg">Option B</b-form-radio>
-                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="C" size="lg">Option C</b-form-radio>
-                <b-form-radio class="mb-2" v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="D" size="lg">Option D</b-form-radio>
+              <b-form-group
+                label="Seleciona a opção correta!"
+                v-slot="{ ariaDescribedby }"
+              >
+                <b-form-radio
+                  class="mb-2"
+                  v-model="selected"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="A"
+                  size="lg"
+                  >Option A</b-form-radio
+                >
+                <b-form-radio
+                  class="mb-2"
+                  v-model="selected"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="B"
+                  size="lg"
+                  >Option B</b-form-radio
+                >
+                <b-form-radio
+                  class="mb-2"
+                  v-model="selected"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="C"
+                  size="lg"
+                  >Option C</b-form-radio
+                >
+                <b-form-radio
+                  class="mb-2"
+                  v-model="selected"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="D"
+                  size="lg"
+                  >Option D</b-form-radio
+                >
               </b-form-group>
             </div>
-            
           </div>
         </b-row>
       </b-container>
@@ -95,10 +156,18 @@ main {
   width: 82vw;
 }
 
+main header {
+  width: 81.3vw;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 #orange {
   background: #e87461;
   border: 1px solid #e87461;
-  color:#fdfdf3;
+  color: #fdfdf3;
 }
 #orange:hover {
   background: #fdfdf3;
