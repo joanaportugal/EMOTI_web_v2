@@ -22,9 +22,21 @@
           height: 10vh;
           font-size: 25px;
         "
-      @click="openSearch=true"
-     
+        @click="openSearch = true"
+        @keyup.esc="openSearch = false"
+        v-model="searchForm"
       ></b-form-input>
+      <b-input-group-append>
+        <b-input-group-text
+          v-if="searchForm != ''"
+          @click="searchForm = ''"
+          :style="{ backgroundColor: '#fdfdf3', border: 'none' }"
+        >
+          <b-link class="p-0" :style="{ fontSize: '25px', color: '#2B4141' }"
+            ><b-icon-x></b-icon-x
+          ></b-link>
+        </b-input-group-text>
+      </b-input-group-append>
     </b-input-group>
     <div class="col-2 d-flex flex-row justify-content-end pr-5">
       <b-button
@@ -128,8 +140,7 @@
         left: '75.5px',
         borderRadius: '5px',
       }"
-      v-if="openSearch==true"
-   
+      v-if="openSearch == true && searchForm != ''"
     >
       <h3 :style="{ color: '#2B4141', fontFamily: 'EAmbit SemiBold' }">
         Resultados (45)
@@ -143,37 +154,56 @@
           <h5 style="font-family: 'EAmbit SemiBold'">Pessoas (2)</h5>
           <div class="my-2 d-flex flex-row">
             <div class="col-9 p-0">
-            <b-avatar variant="light" text="PS" size="2.5rem"></b-avatar>
-            <span
-              class="m-0 mx-2"
-              style="font-family: 'EAmbit SemiBold'"
-            >
-              Pedro Silva
-            </span>
+              <b-avatar variant="light" text="PS" size="2.5rem"></b-avatar>
+              <span class="m-0 mx-2" style="font-family: 'EAmbit SemiBold'">
+                Pedro Silva
+              </span>
             </div>
-            <div class="col-3 p-0 d-flex flex-row justify-content-end align-items-center">
-              <b-link :style="{ fontSize: '15px',color:'#e87461' }">
-                <span class="material-icons-round" style="font-size: 32px">arrow_outward</span>
+            <div
+              class="
+                col-3
+                p-0
+                d-flex
+                flex-row
+                justify-content-end
+                align-items-center
+              "
+            >
+              <b-link :style="{ fontSize: '15px', color: '#e87461' }">
+                <span class="material-icons-round" style="font-size: 32px"
+                  >arrow_outward</span
+                >
               </b-link>
             </div>
           </div>
         </div>
-        <hr>
+        <hr />
         <div class="my-2">
           <h5 style="font-family: 'EAmbit SemiBold'">Atividades (43)</h5>
           <div class="my-2 d-flex flex-row">
             <div class="col-9 p-0">
-              <b-img src="../assets/Imagem 7.png" :style="{width:'6vw'}"></b-img>
-            <span
-              class="m-0 mx-2"
-              style="font-family: 'EAmbit SemiBold'"
-            >
-              Queres brincar ?
-            </span>
+              <b-img
+                src="../assets/Imagem 7.png"
+                :style="{ width: '6vw' }"
+              ></b-img>
+              <span class="m-0 mx-2" style="font-family: 'EAmbit SemiBold'">
+                Queres brincar ?
+              </span>
             </div>
-            <div class="col-3 p-0 d-flex flex-row justify-content-end align-items-center">
-              <b-link :style="{ fontSize: '15px',color:'#e87461' }">
-                <span class="material-icons-round" style="font-size: 32px">arrow_outward</span>
+            <div
+              class="
+                col-3
+                p-0
+                d-flex
+                flex-row
+                justify-content-end
+                align-items-center
+              "
+            >
+              <b-link :style="{ fontSize: '15px', color: '#e87461' }">
+                <span class="material-icons-round" style="font-size: 32px"
+                  >arrow_outward</span
+                >
               </b-link>
             </div>
           </div>
@@ -189,7 +219,8 @@ export default {
   data() {
     return {
       openNotification: false,
-      openSearch:false
+      openSearch: false,
+      searchForm: "",
     };
   },
 };
