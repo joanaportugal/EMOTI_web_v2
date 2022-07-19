@@ -46,7 +46,11 @@
           </b-link>
         </div>
 
-        <section v-if="optSelected === 'Utilizadores'" class="p-3" :style="{border:'2px solid #e87461',borderRadius:'5px'}" >
+        <section
+          v-if="optSelected === 'Utilizadores'"
+          class="p-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <div class="p-0 col-12 d-flex align-items-center">
             <b-form inline class="col-10 p-0">
               <label for="filterName">Nome: </label>
@@ -131,7 +135,11 @@
             </table>
           </div>
         </section>
-        <section v-if="optSelected === 'Atividades'" class="p-3" :style="{border:'2px solid #e87461',borderRadius:'5px'}" >
+        <section
+          v-if="optSelected === 'Atividades'"
+          class="p-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <div class="p-0 col-12 d-flex align-items-center">
             <b-form inline class="col-8 p-0">
               <label class="mr-sm-2" for="filterTitle">Título: </label>
@@ -225,7 +233,11 @@
             </table>
           </div>
         </section>
-        <section v-if="optSelected === 'Badges'" class="p-3" :style="{border:'2px solid #e87461',borderRadius:'5px'}" >
+        <section
+          v-if="optSelected === 'Badges'"
+          class="p-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <div class="p-0 col-12 d-flex align-items-center">
             <b-form inline class="col-10 p-0">
               <label class="mr-sm-2" for="filterTitle">Descrição: </label>
@@ -286,15 +298,27 @@
       </b-container>
       <AppFooter />
     </main>
-    <b-modal id="modalManageActivities" centered hide-footer header-border-variant="0" header-class="color" body-class="color" size="lg">
-      <div v-if="whatModalDo == 'addActivity'"  :style="{ fontFamily: 'EAmbit SemiBold' }" class="text-center">
+    <b-modal
+      id="modalManageActivities"
+      centered
+      hide-footer
+      header-border-variant="0"
+      header-class="color"
+      body-class="color"
+      size="lg"
+    >
+      <div
+        v-if="whatModalDo == 'addActivity'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
         <h4
           :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
           class="mb-4"
         >
           Nova Atividade
         </h4>
-        
+
         <b-form
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
@@ -409,14 +433,18 @@
         </b-form>
       </div>
 
-      <div v-if="whatModalDo == 'editActivity'" :style="{ fontFamily: 'EAmbit SemiBold' }" class="text-center">
+      <div
+        v-if="whatModalDo == 'editActivity'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
         <h4
           :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
           class="mb-4"
         >
           Editar Atividade
         </h4>
-        
+
         <b-form
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
@@ -531,14 +559,21 @@
         </b-form>
       </div>
 
-      <div v-if="whatModalDo == 'seeEmotions'" :style="{ fontFamily: 'EAmbit SemiBold' }" class="text-center">
+      <div
+        v-if="whatModalDo == 'seeEmotions'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
         <h4
           :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
           class="mb-4"
         >
           Emoções
         </h4>
-        <div class="px-3 py-3" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
+        <div
+          class="px-3 py-3"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <b-form class="col-12 p-0">
             <b-form-group
               label-cols="1"
@@ -551,7 +586,6 @@
             >
               <b-form-input
                 id="input-sm"
-               
                 v-model="newEmotion"
                 required
               ></b-form-input>
@@ -569,40 +603,54 @@
             >
           </div>
 
-        <hr />
+          <hr />
 
-        <div style="min-height: 40vh;">
-          <table class="col-12 text-center">
-            <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
-              <th class="p-1">Nome</th>
-              <th>Ação</th>
-            </tr>
-            <tr :style="{ 'border-bottom': '2px solid #707070' }">
-              <td class="p-4">Nome</td>
-              <td>
-                <b-button
-                  style="border: none"
-                  variant="danger"
-                  class="ml-2 mr-1"
-                  ><b-icon icon="trash-fill"></b-icon
-                ></b-button>
-              </td>
-            </tr>
-          </table>
-        </div>
+          <div style="min-height: 40vh">
+            <table class="col-12 text-center">
+              <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
+                <th class="p-1">Nome</th>
+                <th>Ação</th>
+              </tr>
+              <tr :style="{ 'border-bottom': '2px solid #707070' }">
+                <td class="p-4">Nome</td>
+                <td>
+                  <b-button
+                    style="border: none"
+                    variant="danger"
+                    class="ml-2 mr-1"
+                    ><b-icon icon="trash-fill"></b-icon
+                  ></b-button>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </b-modal>
 
-    <b-modal id="modalManageBadges" centered hide-footer header-border-variant="0" header-class="color" body-class="color">
-      <div v-if="whatModalDo == 'addBadge'" :style="{ fontFamily: 'EAmbit SemiBold' }" class="text-center">
+    <b-modal
+      id="modalManageBadges"
+      centered
+      hide-footer
+      header-border-variant="0"
+      header-class="color"
+      body-class="color"
+    >
+      <div
+        v-if="whatModalDo == 'addBadge'"
+        :style="{ fontFamily: 'EAmbit SemiBold' }"
+        class="text-center"
+      >
         <h4
           :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
           class="mb-4"
         >
           Novo Badge
         </h4>
-        <b-form class="px-3 py-2" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
+        <b-form
+          class="px-3 py-2"
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+        >
           <b-form-group
             label-cols="3"
             label-cols-lg="3"
@@ -669,7 +717,7 @@
               <b-form-select-option value="">--Emoção--</b-form-select-option>
             </b-form-select>
           </b-form-group>
-           <div class="d-flex flex-row justify-content-end">
+          <div class="d-flex flex-row justify-content-end">
             <b-button type="submit" class="text-end" id="orange"
               >Adicionar</b-button
             >
@@ -688,174 +736,170 @@
       </div>
     </b-modal>
 
-    <b-modal id="modalManageUsers" centered hide-footer header-border-variant="0" header-class="color" body-class="color">
-      <div v-if="whatModalDo == 'addUser'"  style="font-family: EAmbit Regular; color: #2b4141" class="text-center">
+    <b-modal
+      id="modalManageUsers"
+      centered
+      hide-footer
+      header-border-variant="0"
+      header-class="color"
+      body-class="color"
+    >
+      <div
+        v-if="whatModalDo == 'addUser'"
+        style="font-family: EAmbit Regular; color: #2b4141"
+        class="text-center"
+      >
         <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
-            Adicionar Administrador
-          </h3>
-          <b-form
-            :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
-            class="px-3 pt-4"
-          >
-            <b-input-group class="mb-4">
-              <b-form-input
-                
-                placeholder="Username"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          Adicionar Administrador
+        </h3>
+        <b-form
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          class="px-3 pt-4"
+        >
+          <b-input-group class="mb-4">
+            <b-form-input
+              placeholder="Username"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="password"
-               
-                placeholder="Password"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="password"
+              placeholder="Password"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="password"
-              
-                placeholder="Confirmar Password"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="password"
+              placeholder="Confirmar Password"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-              
-                placeholder="Nome"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              placeholder="Nome"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="email"
-                
-                placeholder="Email"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="email"
+              placeholder="Email"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-3">
-              <b-form-select
-              
-                required
-                style="background-color: white"
+          <b-input-group class="mb-3">
+            <b-form-select required style="background-color: white">
+              <b-form-select-option :value="null" disabled
+                >Quem sou eu ?</b-form-select-option
               >
-                <b-form-select-option :value="null" disabled
-                  >Quem sou eu ?</b-form-select-option
-                >
-                <b-form-select-option
-                  v-for="(option, index) in options"
-                  :key="index"
-                  :value="option"
-                  >{{ option }}</b-form-select-option
-                >
-              </b-form-select>
-            </b-input-group>
-            <div class="d-flex flex-row justify-content-end">
-              <b-button type="submit" class=" w-25" id="orange"
-                >Adicionar</b-button
+              <b-form-select-option
+                v-for="(option, index) in options"
+                :key="index"
+                :value="option"
+                >{{ option }}</b-form-select-option
               >
-            </div>
-
-            <div
-              v-if="warning != ''"
-              :style="{
-                'background-color': '#C82333',
-                color: '#fdfdf3',
-                'border-radius': '4px',
-              }"
+            </b-form-select>
+          </b-input-group>
+          <div class="d-flex flex-row justify-content-end">
+            <b-button type="submit" class="w-25" id="orange"
+              >Adicionar</b-button
             >
-              <p>{{ warning }}</p>
-            </div>
-          </b-form>
+          </div>
+
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
+        </b-form>
       </div>
 
-      <div v-if="whatModalDo == 'seeUser'" style="font-family: EAmbit Regular; color: #2b4141" class="text-center">
+      <div
+        v-if="whatModalDo == 'seeUser'"
+        style="font-family: EAmbit Regular; color: #2b4141"
+        class="text-center"
+      >
         <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
-            Informações
-          </h3>
-          <b-form
-            :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
-            class="px-3 pt-4"
-          >
-            <b-input-group class="mb-4">
-              <b-form-input
-                
-                placeholder="Username"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          Informações
+        </h3>
+        <b-form
+          :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          class="px-3 pt-4"
+        >
+          <b-input-group class="mb-4">
+            <b-form-input
+              placeholder="Username"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="password"
-               
-                placeholder="Password"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="password"
+              placeholder="Password"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="password"
-              
-                placeholder="Confirmar Password"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="password"
+              placeholder="Confirmar Password"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-              
-                placeholder="Nome"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              placeholder="Nome"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-4">
-              <b-form-input
-                type="email"
-                
-                placeholder="Email"
-                style="background-color: white"
-                required
-              ></b-form-input>
-            </b-input-group>
+          <b-input-group class="mb-4">
+            <b-form-input
+              type="email"
+              placeholder="Email"
+              style="background-color: white"
+              required
+            ></b-form-input>
+          </b-input-group>
 
-            <b-input-group class="mb-3">
-              <b-form-select
-              
-                required
-                style="background-color: white"
+          <b-input-group class="mb-3">
+            <b-form-select required style="background-color: white">
+              <b-form-select-option :value="null" disabled
+                >Quem sou eu ?</b-form-select-option
               >
-                <b-form-select-option :value="null" disabled
-                  >Quem sou eu ?</b-form-select-option
-                >
-                <b-form-select-option
-                  v-for="(option, index) in options"
-                  :key="index"
-                  :value="option"
-                  >{{ option }}</b-form-select-option
-                >
-              </b-form-select>
-            </b-input-group>
-        
-          </b-form>
+              <b-form-select-option
+                v-for="(option, index) in options"
+                :key="index"
+                :value="option"
+                >{{ option }}</b-form-select-option
+              >
+            </b-form-select>
+          </b-input-group>
+        </b-form>
       </div>
     </b-modal>
   </div>
@@ -961,9 +1005,9 @@ main {
   width: 82vw;
 }
 
-main header {
+main > header {
   width: 82vw;
-  z-index: 2;
+  z-index: 1;
   position: fixed;
   top: 0;
   right: 0;

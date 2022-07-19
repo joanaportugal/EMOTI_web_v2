@@ -715,9 +715,9 @@ main {
   width: 82vw;
 }
 
-main header {
+main > header {
   width: 81.3vw;
-  z-index: 2;
+  z-index: 1;
   position: fixed;
   top: 0;
   right: 0;
