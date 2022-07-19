@@ -186,8 +186,8 @@ li a span {
   justify-content: center;
   background-color: #f5f5eb;
   border: none;
-  border-radius: 8px;
-  color: #e87461;
+  border-radius: 5px;
+  color: #e95353;
 }
 
 #items {
@@ -200,5 +200,11 @@ li a span {
 p {
   margin: 0;
   font-size: 14px;
+}
+
+#logout:hover{
+  color: #f5f5eb;
+  background-color: #e95353;
+
 }
 </style>
