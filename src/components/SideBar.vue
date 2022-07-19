@@ -105,7 +105,7 @@
             }"
           >
             <router-link :to="{ name: 'manage' }"
-              ><span class="material-icons-round">manage_accounts</span>
+              ><span class="material-icons-round">construction</span>
               Gerir</router-link
             >
           </li>

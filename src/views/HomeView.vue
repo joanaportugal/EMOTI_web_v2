@@ -81,7 +81,7 @@
                     <span
                       class="material-icons-round"
                       style="padding-right: 8px"
-                      >extension</span
+                      >crop_free</span
                     >
                     Queres Brincar ?
                   </p>

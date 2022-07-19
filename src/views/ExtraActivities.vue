@@ -8,7 +8,7 @@
 
       <b-container class="bv-example-row mb-5">
         <b-row class="mx-4">
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
+          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-3 p-0 col-12">
             Gerir Atividades Extras
           </h2>
           <div
