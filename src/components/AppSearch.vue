@@ -14,6 +14,7 @@
         </div>
       </template>
       <b-form-input
+        id="search"
         placeholder="Pesquisa alguma coisa..."
         style="
           background-color: #fdfdf3;
@@ -238,5 +239,11 @@ export default {
   background-color: #fdfdf3;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
+}
+
+#search:focus{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
 }
 </style>
