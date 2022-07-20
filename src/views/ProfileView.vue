@@ -7,7 +7,7 @@
       <AppSearch />
       <b-container class="bv-example-row">
         <b-row class="mx-4">
-          <h2 style="font-family: 'EAmbit SemiBold'" class="p-0 col-12">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 col-12">
             Dados Pessoais
           </h2>
 
@@ -21,7 +21,7 @@
                 class="rounded-circle"
               />
               <b-button
-                style="position: absolute; z-index: 1; right: 6%; bottom: 40px"
+                :style="{position: 'absolute', zIndex: '1', right: '6%', bottom: '40px'}"
                 pill
                 size="sm"
                 v-b-modal.modal-profile
@@ -31,7 +31,7 @@
               >
                 <span
                   class="material-icons-round"
-                  style="display: flex; justify-content: center"
+                  :style="{display: 'flex' , justifyContent: 'center'}"
                   >add_photo_alternate</span
                 >
               </b-button>
@@ -102,14 +102,14 @@
             </div>
           </div>
 
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 p-0 col-12">
             Crianças
           </h2>
-          <div class="d-flex col-12 p-0 profileCard" style="height: 510px">
-            <div class="p-0 col-4" style="border-right: 2px solid #e87461">
+          <div class="d-flex col-12 p-0 profileCard" :style="{height: '510px'}">
+            <div class="p-0 col-4" :style="{borderRight: '2px solid #e87461'}">
               <div class="border-bottom pt-3 px-2">
                 <div class="d-flex justify-content-between">
-                  <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
+                  <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="m-0">
                     Lista
                   </h3>
                   <b-link
@@ -130,12 +130,12 @@
                   ></b-form-input>
                 </b-form>
               </div>
-              <div class="p-2" style="height: 397.5px; overflow-y: scroll">
-                <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
+              <div class="p-2" :style="{height: '397.5px', overflowY: 'scroll'}">
+                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados (1)</h5>
                 <article>
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    style="border-bottom: 1px solid #707070"
+                    :style="{borderBottom: '1px solid #707070'}"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
@@ -148,7 +148,7 @@
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
-                        style="font-family: 'EAmbit SemiBold'"
+                        :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
                           activeChild: childSelected === 'Joana Portugal',
                         }"
@@ -157,7 +157,7 @@
                       </span>
                     </button>
                     <button class="btn">
-                      <span class="material-icons-round" style="color: #e87461"
+                      <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
                     </button>
@@ -165,7 +165,7 @@
 
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    style="border-bottom: 1px solid #707070"
+                    :style="{borderBottom: '1px solid #707070'}"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
@@ -178,7 +178,7 @@
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
-                        style="font-family: 'EAmbit SemiBold'"
+                        :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
                           activeChild: childSelected === 'Pedro Silva',
                         }"
@@ -187,7 +187,7 @@
                       </span>
                     </button>
                     <button class="btn">
-                      <span class="material-icons-round" style="color: #e87461"
+                      <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
                     </button>
@@ -195,9 +195,9 @@
                 </article>
               </div>
             </div>
-            <div class="col-8 py-3" style="overflow-y: scroll">
+            <div class="col-8 py-3" :style="{overflowY: 'scroll'}">
               <div class="d-flex justify-content-between">
-                <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
+                <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 m-0">
                   Detalhes
                 </h3>
                 <button
@@ -211,10 +211,10 @@
               </div>
               <div class="mb-4">
                 <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" style="color: #e87461"
+                  <span class="material-icons-round" :style="{color: '#e87461'}"
                     >info</span
                   >
-                  <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                     Informações Gerais
                   </span>
                 </h5>
@@ -273,24 +273,24 @@
               </div>
               <div class="mb-5">
                 <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" style="color: #e87461"
+                  <span class="material-icons-round" :style="{color: '#e87461'}"
                     >school</span
                   >
-                  <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                     Turmas
                   </span>
                 </h5>
 
                 <table class="col-12">
                   <thead>
-                    <tr style="background: #e87461; color: #fbfbf3">
+                    <tr :style="{background: '#e87461', color: '#fbfbf3'}">
                       <th class="px-4">Turma</th>
                       <th>Professor</th>
                       <th>Ações</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="border-bottom: 2px solid #707070">
+                    <tr :style="{borderBottom: '2px solid #707070'}">
                       <td class="px-4 py-3">AA</td>
                       <td>Maria das Dores Soares</td>
                       <td>
@@ -309,10 +309,10 @@
 
               <div class="mb-4">
                 <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" style="color: #e87461"
+                  <span class="material-icons-round" :style="{color: '#e87461'}"
                     >equalizer</span
                   >
-                  <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                     Estatísticas
                   </span>
                 </h5>
@@ -320,38 +320,40 @@
             </div>
           </div>
 
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5">
             Conquistas
           </h2>
           <div class="py-4 d-flex col-12 profileCard">
             <b-card
               class="p-0"
-              style="width: 310px; background: #e36e63; border-radius: 10px"
+              :style="{width: '310px', background: '#e36e63', borderRadius: '10px'}"
             >
               <div class="col-12 d-flex flex-row">
                 <div class="col-4 py-3 px-0">
                   <img
                     src="https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1571606089"
                     class="p-2"
-                    style="
-                      height: 76px;
-                      border: 5px solid #d85549;
-                      border-radius: 50%;
+                    :style="{
+                      height: '76px',
+                      border: '5px solid #d85549',
+                      borderRadius: '50%'
+                    }
                     "
                   />
                 </div>
                 <div class="col-8 py-3 px-0">
                   <p
-                    style="
-                      font-family: 'EAmbit SemiBold';
-                      color: white;
-                      font-size: 28px;
+                    :style="{
+                      fontFamily: 'EAmbit SemiBold',
+                      color: 'white',
+                      fontSize: '28px'
+                    }
                     "
                     class="m-0"
                   >
                     Tristeza
                   </p>
-                  <b-progress max="20" style="height: 20px">
+                  <b-progress max="20" :style="{height: '20px'}">
                     <b-progress-bar
                       value="10"
                       :label="`10/20`"
@@ -362,10 +364,11 @@
                 </div>
               </div>
               <b-card-footer
-                style="
-                  background: #d85549;
-                  border-bottom-left-radius: 10px;
-                  border-bottom-right-radius: 10px;
+                :style="{
+                  background: '#d85549',
+                  borderBottomLeftRadius: '10px',
+                  borderBottomRightRadius: '10px'
+                }
                 "
               >
               </b-card-footer>
@@ -694,7 +697,7 @@ main {
 
 main > header {
   width: 81.3vw;
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   top: 0;
   right: 0;

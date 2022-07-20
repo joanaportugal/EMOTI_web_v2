@@ -1,14 +1,14 @@
 <template>
   <header
     class="d-flex align-items-center"
-    style="border-bottom: 1px solid #707070; background-color: #fdfdf3"
+    :style="{borderBottom: '1px solid #707070', backgroundColor: '#fdfdf3'}"
   >
     <b-input-group class="col-10">
       <template #prepend>
         <div
           class="d-flex flex-row justify-content-center align-items-center mx-3"
         >
-          <span class="material-icons-round" style="font-size: 32px"
+          <span class="material-icons-round" :style="{fontSize: '32px'}"
             >search</span
           >
         </div>
@@ -16,12 +16,13 @@
       <b-form-input
         id="search"
         placeholder="Pesquisa alguma coisa..."
-        style="
-          background-color: #fdfdf3;
-          border: none;
-          color: #2b4141;
-          height: 10vh;
-          font-size: 25px;
+        :style="{
+          backgroundColor: '#fdfdf3',
+          border: 'none',
+          color: '#2b4141',
+          height: '10vh',
+          fontSize: '25px'
+        }
         "
         @click="openSearch = true"
         @keyup.esc="openSearch = false"
@@ -51,11 +52,11 @@
           rounded-circle
           p-2
         "
-        style="background-color: #e87461; border: none"
+        :style="{backgroundColor: '#e87461', border: 'none'}"
         @click="openNotification = true"
         v-if="openNotification == false"
       >
-        <span class="material-icons-round" style="font-size: 30px"
+        <span class="material-icons-round" :style="{fontSize: '30px'}"
           >notifications</span
         >
       </b-button>
@@ -70,11 +71,11 @@
           rounded-circle
           p-2
         "
-        style="background-color: #e87461; border: none"
+        :style="{backgroundColor: '#e87461', border: 'none'}"
         @click="openNotification = false"
         v-if="openNotification == true"
       >
-        <span class="material-icons-round" style="font-size: 30px">close</span>
+        <span class="material-icons-round" :style="{fontSize: '30px'}">close</span>
       </b-button>
     </div>
     <!--Notificações-->
@@ -110,6 +111,7 @@
               class="
                 col-12
                 p-0
+                m-0
                 d-flex
                 flex-row
                 justify-content-between
@@ -152,11 +154,11 @@
         class="px-3"
       >
         <div class="my-2">
-          <h5 style="font-family: 'EAmbit SemiBold'">Pessoas (2)</h5>
+          <h5 :style="{fontFamily: 'EAmbit SemiBold' }">Pessoas (2)</h5>
           <div class="my-2 d-flex flex-row">
             <div class="col-9 p-0">
               <b-avatar variant="light" text="PS" size="2.5rem"></b-avatar>
-              <span class="m-0 mx-2" style="font-family: 'EAmbit SemiBold'">
+              <span class="m-0 mx-2" :style="{fontFamily: 'EAmbit SemiBold' }">
                 Pedro Silva
               </span>
             </div>
@@ -171,7 +173,7 @@
               "
             >
               <b-link :style="{ fontSize: '15px', color: '#e87461' }">
-                <span class="material-icons-round" style="font-size: 32px"
+                <span class="material-icons-round" :style="{fontSize: '32px'}"
                   >arrow_outward</span
                 >
               </b-link>
@@ -180,14 +182,14 @@
         </div>
         <hr />
         <div class="my-2">
-          <h5 style="font-family: 'EAmbit SemiBold'">Atividades (43)</h5>
+          <h5 :style="{fontFamily: 'EAmbit SemiBold' }">Atividades (43)</h5>
           <div class="my-2 d-flex flex-row">
             <div class="col-9 p-0">
               <b-img
                 src="../assets/Imagem 7.png"
                 :style="{ width: '6vw' }"
               ></b-img>
-              <span class="m-0 mx-2" style="font-family: 'EAmbit SemiBold'">
+              <span class="m-0 mx-2" :style="{fontFamily: 'EAmbit SemiBold' }">
                 Queres brincar ?
               </span>
             </div>
@@ -202,7 +204,7 @@
               "
             >
               <b-link :style="{ fontSize: '15px', color: '#e87461' }">
-                <span class="material-icons-round" style="font-size: 32px"
+                <span class="material-icons-round" :style="{fontSize: '32px'}"
                   >arrow_outward</span
                 >
               </b-link>

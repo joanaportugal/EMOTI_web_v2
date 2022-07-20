@@ -20,10 +20,10 @@
         </picture>
 
         <div class="mt-3 text-center">
-          <h5 style="font-size: 25px; font-family: EAmbit SemiBold">
+          <h5 :style="{fontSize: '25px', fontFamily: 'EAmbit SemiBold'}">
             Olá queres brincar e aprender ao mesmo tempo ?
           </h5>
-          <p style="font-size: 20px">
+          <p :style="{fontSize:'20px'}">
             Não te preocupes! Estás no sítio certo,para além disso, os teus pais
             e professores podem juntarem-se a ti, nesta aventura!
           </p>
@@ -42,7 +42,7 @@
             id="white"
             @click="whatDo = 'register'"
             size="lg"
-            style="width: 40%; font-family: EAmbit SemiBold"
+            :style="{width: '40%',fontFamily: 'EAmbit SemiBold'}"
             v-b-modal.modal-center
             >Registar</b-button
           >
@@ -67,7 +67,7 @@
       >
         <div
           v-if="whatDo == 'login'"
-          style="font-family: EAmbit Regular; color: #2b4141"
+          :style="{fontFamily: 'EAmbit Regular',color: '#2b4141'}"
           class="text-center"
         >
           <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
@@ -84,7 +84,7 @@
               <b-form-input
                 v-model="formLogin.username"
                 placeholder="Username"
-                style="background-color: white"
+                :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -94,7 +94,7 @@
                 type="password"
                 v-model="formLogin.password"
                 placeholder="Password"
-                style="background-color: white"
+                :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -120,7 +120,7 @@
 
         <div
           v-else
-          style="font-family: EAmbit Regular; color: #2b4141"
+          :style="{fontFamily: 'EAmbit Regular',color: '#2b4141'}"
           class="text-center"
         >
           <h3 class="mt-3 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
@@ -137,7 +137,7 @@
               <b-form-input
                 v-model="formRegister.username"
                 placeholder="Username"
-                style="background-color: white"
+               :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -147,7 +147,7 @@
                 type="password"
                 v-model="formRegister.password"
                 placeholder="Password"
-                style="background-color: white"
+                :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -157,7 +157,7 @@
                 type="password"
                 v-model="c_password"
                 placeholder="Confirmar Password"
-                style="background-color: white"
+               :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -166,7 +166,7 @@
               <b-form-input
                 v-model="formRegister.name"
                 placeholder="Nome"
-                style="background-color: white"
+               :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -176,7 +176,7 @@
                 type="email"
                 v-model="formRegister.email"
                 placeholder="Email"
-                style="background-color: white"
+                :style="{backgroundColor: 'white'}"
                 required
               ></b-form-input>
             </b-input-group>
@@ -185,7 +185,7 @@
               <b-form-select
                 v-model="formRegister.typeUser"
                 required
-                style="background-color: white"
+               :style="{backgroundColor: 'white'}"
               >
                 <b-form-select-option :value="null" disabled
                   >Quem sou eu ?</b-form-select-option

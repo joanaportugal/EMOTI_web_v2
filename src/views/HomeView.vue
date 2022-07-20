@@ -13,9 +13,9 @@
             </h2>
             <div
               class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around pb-3"
-              style="border: 2px solid #e87461"
+              :style="{border: '2px solid #e87461'}"
             >
-              <div class="m-3 myCard" style="position: relative">
+              <div class="m-3 myCard" :style="{position: 'relative'}">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -26,7 +26,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight: '8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -34,16 +34,16 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
                       sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
                       dlashjdashdal djadhasdlasjdha ldhjadhaj
                     </p>
@@ -52,24 +52,24 @@
                     >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >school</span
                       >
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="m-3 myCard" style="position: relative">
+             <div class="m-3 myCard" :style="{position: 'relative'}">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -80,24 +80,24 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
-                      >crop_free</span
+                      :style="{paddingRight: '8px'}"
+                      >extension</span
                     >
                     Queres Brincar ?
                   </p>
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
                       sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
                       dlashjdashdal djadhasdlasjdha ldhjadhaj
                     </p>
@@ -106,24 +106,24 @@
                     >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >school</span
                       >
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="m-3 myCard" style="position: relative">
+             <div class="m-3 myCard" :style="{position: 'relative'}">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -134,7 +134,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight: '8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -142,16 +142,16 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 mb-1" style="color: #fdfdf3">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
                       sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
                       dlashjdashdal djadhasdlasjdha ldhjadhaj
                     </p>
@@ -160,24 +160,24 @@
                     >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
                         >check</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >people_alt</span
                       >
                       <span
                         class="material-icons-round"
-                        style="padding-right: 8px; color: #fdfdf3"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
                         >school</span
                       >
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="m-3 myCard" style="position: relative">
+              <div class="m-3 myCard" :style="{position: 'relative'}">
                 <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
                   class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
@@ -188,7 +188,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight:'8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -196,23 +196,23 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
                   <div class="col-12 p-0 text-wrap" id="moreInfo">
-                    <p class="col-12 p-0 m-0" style="color: #fdfdf3">
+                    <p class="col-12 p-0 m-0" :style="{color: '#fdfdf3'}">
                       sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
                       dlashjdashdal djadhasdlasjdha ldhjadhaj
                     </p>
                     <div class="col-12 p-0 d-flex flex-row justify-content-end">
                       <button
                         class="btn p-1 rounded-circle d-flex justify-content-center align-items-center mb-1"
-                        style="background: #bfbfbf; color: #fdfdf3"
+                        :style="{background: '#bfbfbf', color: '#fdfdf3'}"
                       >
                         <span class="material-icons-round">mode_edit</span>
                       </button>
@@ -227,7 +227,7 @@
               Estatísticas
             </h2>
             <div>
-              <div class="rounded" style="border: 2px solid #e87461">
+              <div class="rounded" :style="{border: '2px solid #e87461'}">
                 <p>aa</p>
               </div>
             </div>

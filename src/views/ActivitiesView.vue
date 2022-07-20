@@ -13,7 +13,7 @@
             </h2>
             <div
               class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around"
-              style="border: 2px solid #e87461"
+              :style="{border: '2px solid #e87461'}"
             >
               <div
                 class="col-12 mt-2 d-flex flex-row justify-content-end cardItem"
@@ -25,68 +25,16 @@
                   }"
                   id="orange"
                   v-b-toggle.sidebar-right
-                  ><span class="material-icons-round" style="padding-right: 5px"
+                  ><span class="material-icons-round" :style="{paddingRight:'5px'}"
                     >filter_list</span
                   >
                   Filtrar</b-button
                 >
               </div>
-              <div class="m-3 cardItem" style="position: relative">
-                <b-img src="../assets/Imagem 2.png" fluid></b-img>
+              <div class="m-3 myCard" :style="{position: 'relative'}">
+                <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
-                  class="cardContent p-2 d-flex flex-column justify-content-between"
-                >
-                  <div>
-                    <p class="d-flex align-content-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >smart_toy</span
-                      >
-                      <span style="font-size: 20px">Queres brincar?</span>
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <button class="btn p-0">
-                      <span
-                        class="material-icons-round p-0"
-                        style="font-size: 32px"
-                        >play_circle_fill</span
-                      >
-                    </button>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >check</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >people_alt</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >school</span
-                      >
-                      <button
-                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
-                        style="background: #bfbfbf"
-                      >
-                        <span class="material-icons-round">mode_edit</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
+                  class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -94,7 +42,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight: '8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -102,72 +50,45 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >school</span
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="m-3 cardItem" style="position: relative">
-                <b-img src="../assets/Imagem 2.png" fluid></b-img>
+             <div class="m-3 myCard" :style="{position: 'relative'}">
+                <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
-                  class="cardContent p-2 d-flex flex-column justify-content-between"
-                >
-                  <div>
-                    <p class="d-flex align-content-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >smart_toy</span
-                      >
-                      <span style="font-size: 20px">Queres brincar?</span>
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <button class="btn p-0">
-                      <span
-                        class="material-icons-round p-0"
-                        style="font-size: 32px"
-                        >play_circle_fill</span
-                      >
-                    </button>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >check</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >people_alt</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >school</span
-                      >
-                      <button
-                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
-                        style="background: #bfbfbf"
-                      >
-                        <span class="material-icons-round">mode_edit</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
+                  class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -175,7 +96,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight: '8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -183,72 +104,45 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >school</span
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="m-3 cardItem" style="position: relative">
-                <b-img src="../assets/Imagem 2.png" fluid></b-img>
+             <div class="m-3 myCard" :style="{position: 'relative'}">
+                <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
-                  class="cardContent p-2 d-flex flex-column justify-content-between"
-                >
-                  <div>
-                    <p class="d-flex align-content-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >smart_toy</span
-                      >
-                      <span style="font-size: 20px">Queres brincar?</span>
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <button class="btn p-0">
-                      <span
-                        class="material-icons-round p-0"
-                        style="font-size: 32px"
-                        >play_circle_fill</span
-                      >
-                    </button>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >check</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >people_alt</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >school</span
-                      >
-                      <button
-                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
-                        style="background: #bfbfbf"
-                      >
-                        <span class="material-icons-round">mode_edit</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
+                  class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -256,7 +150,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight: '8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -264,72 +158,45 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 mb-1" :style="{color: '#fdfdf3'}">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div
+                      class="col-12 mb-2 p-0 d-flex flex-row justify-content-end"
+                    >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px',color: '#fdfdf3'}"
+                        >check</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >people_alt</span
+                      >
+                      <span
+                        class="material-icons-round"
+                        :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                        >school</span
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="m-3 cardItem" style="position: relative">
-                <b-img src="../assets/Imagem 2.png" fluid></b-img>
+              <div class="m-3 myCard" :style="{position: 'relative'}">
+                <b-img src="../assets/Imagem 2.png"></b-img>
                 <div
-                  class="cardContent p-2 d-flex flex-column justify-content-between"
-                >
-                  <div>
-                    <p class="d-flex align-content-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >smart_toy</span
-                      >
-                      <span style="font-size: 20px">Queres brincar?</span>
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <button class="btn p-0">
-                      <span
-                        class="material-icons-round p-0"
-                        style="font-size: 32px"
-                        >play_circle_fill</span
-                      >
-                    </button>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >check</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >people_alt</span
-                      >
-                      <span
-                        class="material-icons-round"
-                        style="padding-right: 8px"
-                        >school</span
-                      >
-                      <button
-                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center"
-                        style="background: #bfbfbf"
-                      >
-                        <span class="material-icons-round">mode_edit</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="col-12 d-flex flex-row justify-content-between align-items-center activityTitle"
+                  class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle"
                 >
                   <p
                     :style="{ fontFamily: 'EAmbit SemiBold', color: '#FDFDF3' }"
@@ -337,7 +204,7 @@
                   >
                     <span
                       class="material-icons-round"
-                      style="padding-right: 8px"
+                      :style="{paddingRight:'8px'}"
                       >extension</span
                     >
                     Queres Brincar ?
@@ -345,14 +212,28 @@
                   <router-link
                     to="#"
                     class="d-flex flex-row justify-content-center align-items-center"
-                    style="color: #fdfdf3"
+                    :style="{color: '#fdfdf3'}"
                     ><span
                       class="material-icons-round"
                       shadow-lg
-                      style="font-size: 35px"
+                      :style="{fontSize: '35px'}"
                       >play_circle</span
                     ></router-link
                   >
+                  <div class="col-12 p-0 text-wrap" id="moreInfo">
+                    <p class="col-12 p-0 m-0" :style="{color: '#fdfdf3'}">
+                      sdshdjsdhsdjsdsjds hksdhsdjsd skdhsdajdlasdash
+                      dlashjdashdal djadhasdlasjdha ldhjadhaj
+                    </p>
+                    <div class="col-12 p-0 d-flex flex-row justify-content-end">
+                      <button
+                        class="btn p-1 rounded-circle d-flex justify-content-center align-items-center mb-1"
+                        :style="{background: '#bfbfbf', color: '#fdfdf3'}"
+                      >
+                        <span class="material-icons-round">mode_edit</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="text-center mb-1">
@@ -620,5 +501,31 @@ main > div {
 #white:hover {
   background-color: #e87461;
   color: #fdfdf3;
+}
+
+.activityTitle {
+  background-color: #e87361cf;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  min-height: 15%;
+  transition: min-height 1s;
+}
+.myCard:hover .activityTitle {
+  min-height: 75%;
+}
+
+#moreInfo {
+  visibility: hidden;
+  height: 0vh;
+  transition: visibility 1s ease-out;
+  transition: height 1s ease-out;
+}
+
+.myCard:hover #moreInfo {
+  visibility: visible;
+  height: auto;
 }
 </style>

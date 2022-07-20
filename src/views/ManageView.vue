@@ -105,7 +105,7 @@
                 <td>tipo</td>
                 <td>
                   <b-button
-                    style="border: none"
+                    :style="{border: 'none'}"
                     variant="secondary"
                     class="ml-2 mr-1"
                     v-b-modal.modalManage
@@ -113,19 +113,19 @@
                     ><b-icon icon="info-circle-fill"></b-icon
                   ></b-button>
                   <b-button
-                    style="border: none"
+                    :style="{border: 'none'}"
                     variant="primary"
                     class="ml-2 mr-1"
                     ><b-icon icon="lock-fill"></b-icon
                   ></b-button>
                   <b-button
-                    style="border: none"
+                    :style="{border: 'none'}"
                     variant="primary"
                     class="ml-2 mr-1"
                     ><b-icon icon="unlock-fill"></b-icon
                   ></b-button>
                   <b-button
-                    style="border: none"
+                   :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
                     ><b-icon icon="trash-fill"></b-icon
@@ -204,7 +204,7 @@
                 <td>quiz</td>
                 <td>
                   <b-button
-                    style="border: none"
+                   :style="{border: 'none'}"
                     variant="secondary"
                     class="ml-2 mr-1"
                     v-b-modal.modalManage
@@ -212,7 +212,7 @@
                     ><b-icon icon="pencil-fill"></b-icon
                   ></b-button>
                   <b-button
-                    style="border: none"
+                    :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
                     ><b-icon icon="trash-fill"></b-icon
@@ -271,7 +271,7 @@
             </div>
           </div>
 
-          <div class="mt-4" style="min-height: 50vh">
+          <div class="mt-4" :style="{minHeight: '50vh'}">
             <table class="col-12 text-center">
               <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
                 <th class="p-1">Descrição</th>
@@ -285,7 +285,7 @@
                 <td>20</td>
                 <td>
                   <b-button
-                    style="border: none"
+                   :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
                     ><b-icon icon="trash-fill"></b-icon
@@ -310,7 +310,7 @@
     >
       <div
         v-if="whatModalDo == 'addUser'"
-        style="font-family: EAmbit Regular; color: #2b4141"
+        :style="{fontFamily: 'EAmbit Regular',color: '#2b4141'}"
         class="text-center"
       >
         <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
@@ -323,7 +323,7 @@
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Username"
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               v-model="newUser.username"
               required
             ></b-form-input>
@@ -333,7 +333,7 @@
             <b-form-input
               type="password"
               placeholder="Password"
-              style="background-color: white"
+             :style="{backgroundColor: 'white'}"
               v-model="newUser.password"
               required
             ></b-form-input>
@@ -343,7 +343,7 @@
             <b-form-input
               type="password"
               placeholder="Confirmar Password"
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               v-model="conf_password"
               required
             ></b-form-input>
@@ -352,7 +352,7 @@
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Nome"
-              style="background-color: white"
+             :style="{backgroundColor: 'white'}"
               v-model="newUser.name"
               required
             ></b-form-input>
@@ -362,7 +362,7 @@
             <b-form-input
               type="email"
               placeholder="Email"
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               v-model="newUser.email"
               required
             ></b-form-input>
@@ -370,7 +370,7 @@
 
           <b-input-group class="mb-3">
             <b-form-select
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               v-model="newUser.typeUser"
               required
             >
@@ -400,7 +400,7 @@
 
       <div
         v-if="whatModalDo == 'seeUser'"
-        style="font-family: EAmbit Regular; color: #2b4141"
+        :style="{fontFamily: 'EAmbit Regular',color: '#2b4141'}"
         class="text-center"
       >
         <h3 class="mt-2 mb-4" :style="{ fontFamily: 'EAmbit SemiBold' }">
@@ -413,7 +413,7 @@
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Username"
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               required
             ></b-form-input>
           </b-input-group>
@@ -422,7 +422,7 @@
             <b-form-input
               type="password"
               placeholder="Password"
-              style="background-color: white"
+               :style="{backgroundColor: 'white'}"
               required
             ></b-form-input>
           </b-input-group>
@@ -431,7 +431,7 @@
             <b-form-input
               type="password"
               placeholder="Confirmar Password"
-              style="background-color: white"
+              :style="{backgroundColor: 'white'}"
               required
             ></b-form-input>
           </b-input-group>
@@ -439,7 +439,7 @@
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Nome"
-              style="background-color: white"
+               :style="{backgroundColor: 'white'}"
               required
             ></b-form-input>
           </b-input-group>
@@ -448,13 +448,13 @@
             <b-form-input
               type="email"
               placeholder="Email"
-              style="background-color: white"
+               :style="{backgroundColor: 'white'}"
               required
             ></b-form-input>
           </b-input-group>
 
           <b-input-group class="mb-3">
-            <b-form-select required style="background-color: white">
+            <b-form-select required  :style="{backgroundColor: 'white'}">
               <b-form-select-option :value="null" disabled
                 >Quem sou eu ?</b-form-select-option
               >
@@ -766,7 +766,7 @@
 
           <hr />
 
-          <div style="min-height: 40vh">
+          <div :style="{minHeight: '40vh'}">
             <table class="col-12 text-center">
               <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
                 <th class="p-1">Nome</th>
@@ -776,7 +776,7 @@
                 <td class="p-4">Nome</td>
                 <td>
                   <b-button
-                    style="border: none"
+                    :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
                     ><b-icon icon="trash-fill"></b-icon
@@ -847,6 +847,40 @@
             <b-form-input
               id="input-sm"
               type="url"
+              v-model="newBadge.badgeIMG"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Cor de Fundo:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              type="color"
+              v-model="newBadge.badgeIMG"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label-cols="3"
+            label-cols-lg="3"
+            label-size="sm"
+            label-align-sm="left"
+            label="Cor do Limite:"
+            label-for="input-sm"
+            class="mt-4 mb-4"
+          >
+            <b-form-input
+              id="input-sm"
+              type="color"
               v-model="newBadge.badgeIMG"
               required
             ></b-form-input>

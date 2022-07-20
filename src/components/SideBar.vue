@@ -2,18 +2,18 @@
   <nav
     id="sideBar"
     class="d-flex flex-column align-items-center justify-content-between px-2"
-    style="background-color: #fdfdf3"
+    :style="{backgroundColor: '#fdfdf3'}"
   >
     <div id="items" class="rounded d-flex flex-column m-0">
       <b-img
         src="../assets/Grupo 440.png"
         fluid
         alt="Fluid image"
-        style="width: 95%"
+        :style="{width: '95%'}"
         class="mt-2"
       ></b-img>
       <div
-        style="margin-top: 20px; margin-bottom: 20px; background-color: #f5f5eb"
+        :style="{marginTop: '20px', marginBottom: '20px', backgroundColor: '#f5f5eb'}"
         id="items"
         class="rounded"
       >
@@ -21,27 +21,28 @@
           src="../assets/Imagem 1.png"
           fluid
           alt="Fluid image"
-          style="
-            width: 27%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 8px;
-            border-radius: 10px;
+          :style="{
+            width: '27%',
+            marginTop: '10px',
+            marginBottom: '10px',
+            marginLeft: '8px',
+            borderRadius: '10px',
+          }
           "
         ></b-img>
         <div class="px-2">
-          <p style="font-weight: bold">Joana Portugal</p>
+          <p :style="{fontWeight: 'bold'}">Joana Portugal</p>
           <p>Criança</p>
         </div>
         <b-img
           src="../assets/1f44b.png"
           fluid
           alt="Fluid image"
-          style="width: 15%"
+          :style="{width: '15%'}"
           class="m-2"
         ></b-img>
       </div>
-      <div style="width: 100%">
+      <div :style="{width: '100%'}">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
           <li
             :class="{
@@ -113,13 +114,13 @@
       </div>
     </div>
 
-    <div style="width: 100%" class="d-flex justify-content-center">
+    <div :style="{width: '100%'}" class="d-flex justify-content-center">
       <button
         id="logout"
         class="mb-4 p-2 col-10"
         :style="{ fontFamily: 'EAmbit SemiBold' }"
       >
-        <span class="material-icons-round" style="padding-right: 5px"
+        <span class="material-icons-round" :style="{paddingRight: '5px'}"
           >logout</span
         >
         Terminar Sessão

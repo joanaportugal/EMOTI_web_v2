@@ -8,7 +8,7 @@
       <b-container class="bv-example-row mb-5">
         <!-- Reconhecimento
         <b-row class="mx-4">
-           <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-12">
+           <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 p-0 col-12">
             Queres brincar ?
           </h2>
           <div class="col-12 p-0 d-flex flex-row flex-wrap" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
@@ -16,7 +16,7 @@
               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2"><span class="material-icons-round" :style="{fontSize:'35px'}">keyboard_arrow_left</span></b-button>
             </div>
             <div class="col-8 d-flex flex-row align-items-end justify-content-center mt-2 mb-2 px-3" >
-              <p style="font-size:20px">Pergunta <span style="font-weight:bolder;color:#e87461">1</span> de <span style="font-weight:bolder">10</span>
+              <p :style="{fontSize:'20px'}">Pergunta <span :style="{fontWeight:'bolder',color:'#e87461'}">1</span> de <span :style="{fontWeight:bolder}">10</span>
               </p>
             </div>
             <div class="col-2 d-flex flex-row justify-content-start p-0  mt-3 mb-2 px-3" >
@@ -36,7 +36,7 @@
 
         <!--Quiz-->
         <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center">
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-5 p-0 col-8">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 p-0 col-8">
             Queres brincar ?
           </h2>
           <div
@@ -55,10 +55,10 @@
                   >keyboard_arrow_left</span
                 ></b-button
               >
-              <p style="font-size: 20px">
+              <p :style="{fontSize: '20px'}">
                 Pergunta
-                <span style="font-weight: bolder; color: #e87461">1</span> de
-                <span style="font-weight: bolder">10</span>
+                <span :style="{fontWeight: 'bolder',color: '#e87461'}">1</span> de
+                <span :style="{fontWeight: 'bolder'}">10</span>
               </p>
               <b-button
                 id="orange"

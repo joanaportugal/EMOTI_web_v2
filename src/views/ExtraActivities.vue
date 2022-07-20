@@ -8,17 +8,17 @@
 
       <b-container class="bv-example-row mb-5">
         <b-row class="mx-4">
-          <h2 style="font-family: 'EAmbit SemiBold'" class="mt-3 p-0 col-12">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-3 p-0 col-12">
             Gerir Atividades Extras
           </h2>
           <div
             class="d-flex col-12 p-0 profileCard"
-            style="height: 510px; border: 2px solid #e87461; border-radius: 5px"
+            :style="{height: '510px' ,border: '2px solid #e87461', borderRadius: '5px'}"
           >
-            <div class="p-0 col-4" style="border-right: 2px solid #e87461">
+            <div class="p-0 col-4" :style="{borderRight:'2px solid #e87461'}">
               <div class="border-bottom pt-3 px-2">
                 <div class="d-flex justify-content-between">
-                  <h3 style="font-family: 'EAmbit SemiBold'" class="m-0">
+                  <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="m-0">
                     Lista
                   </h3>
                   <b-link
@@ -39,12 +39,12 @@
                   ></b-form-input>
                 </b-form>
               </div>
-              <div class="p-2" style="height: 397.5px; overflow-y: scroll">
-                <h5 style="font-family: 'EAmbit SemiBold'">Resultados (1)</h5>
+              <div class="p-2" :style="{height: '397.5px', overflowY: 'scroll'}">
+                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados (1)</h5>
                 <article>
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    style="border-bottom: 1px solid #707070"
+                    :style="{borderBottom: '1px solid #707070'}"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
@@ -57,7 +57,7 @@
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
-                        style="font-family: 'EAmbit SemiBold'"
+                        :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
                           activeItem: ativitySelected === 'AtividadeA',
                         }"
@@ -66,7 +66,7 @@
                       </span>
                     </button>
                     <button class="btn">
-                      <span class="material-icons-round" style="color: #e87461"
+                      <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
                     </button>
@@ -74,7 +74,7 @@
 
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    style="border-bottom: 1px solid #707070"
+                    :style="{borderBottom: '1px solid #707070'}"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
@@ -87,7 +87,7 @@
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
-                        style="font-family: 'EAmbit SemiBold'"
+                        :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
                           activeItem: ativitySelected === 'AtividadeB',
                         }"
@@ -96,7 +96,7 @@
                       </span>
                     </button>
                     <button class="btn">
-                      <span class="material-icons-round" style="color: #e87461"
+                      <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
                     </button>
@@ -106,7 +106,7 @@
             </div>
             <div class="col-8 py-3" style="overflow-y: scroll">
               <div class="d-flex justify-content-between">
-                <h3 style="font-family: 'EAmbit SemiBold'" class="p-0 m-0">
+                <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 m-0">
                   Detalhes
                 </h3>
                 <div class="row">
@@ -124,17 +124,17 @@
                     v-b-modal.modal-extra
                     @click="whatModalDo = 'editActivityExtra'"
                   >
-                    <span class="material-icons-round" style="font-size: 24px"
+                    <span class="material-icons-round" :style="{fontSize: '24px'}"
                       >edit</span
                     >
                   </button>
                 </div>
               </div>
               <h5 class="d-flex align-items-center my-4">
-                <span class="material-icons-round" style="color: #e87461"
+                <span class="material-icons-round" :style="{color: '#e87461'}"
                   >info</span
                 >
-                <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                   Informações
                 </span>
               </h5>
@@ -221,21 +221,21 @@
               </b-form>
 
               <h5 class="d-flex align-items-center my-4">
-                <span class="material-icons-round" style="color: #e87461"
+                <span class="material-icons-round" :style="{color: '#e87461'}"
                   >visibility</span
                 >
-                <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                   Visibilidade
                 </span>
               </h5>
 
               <table class="col-12 mb-3">
-                <tr style="background: #e87461; color: #fbfbf3">
+                <tr :style="{background: '#e87461',color: '#fbfbf3'}">
                   <th class="px-4">Nome do Aluno</th>
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr style="border-bottom: 2px solid #707070">
+                  <tr :style="{borderBottom: '2px solid #707070'}">
                     <td class="px-4 py-3">João Soares Pereira de Amorim</td>
                     <td class="d-flex py-2">
                       <button
@@ -245,7 +245,7 @@
                       >
                         <span
                           class="material-icons-round"
-                          style="font-size: 26px"
+                          :style="{fontSize: '26px'}"
                           >delete_forever</span
                         >
                       </button>
@@ -255,10 +255,10 @@
               </table>
 
               <h5 class="d-flex align-items-center my-4">
-                <span class="material-icons-round" style="color: #e87461"
+                <span class="material-icons-round" :style="{color: '#e87461'}"
                   >equalizer</span
                 >
-                <span class="mx-2" style="font-family: 'EAmbit SemiBold'">
+                <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
                   Estatísticas
                 </span>
               </h5>
