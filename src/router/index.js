@@ -9,6 +9,8 @@ import VirtualSchool from '../views/VirtualSchool.vue'
 import ExtraActivities from '../views/ExtraActivities.vue'
 import ManageView from '../views/ManageView.vue'
 
+import store from "../store/index.js";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,7 +27,7 @@ const routes = [
     name: "home",
     component: HomeView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {
@@ -33,7 +35,7 @@ const routes = [
     name: "activities",
     component: ActivitiesView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {
@@ -41,7 +43,7 @@ const routes = [
     name: "activity",
     component: ActivityView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {
@@ -49,7 +51,7 @@ const routes = [
     name: "profile",
     component: ProfileView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {
@@ -57,7 +59,8 @@ const routes = [
     name: "virtualSchool",
     component: VirtualSchool,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
+      requiresBeTeacher:true
     },
   },
   {
@@ -65,7 +68,8 @@ const routes = [
     name: "extraActivities",
     component: ExtraActivities,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
+      RequiresBeTutorOrTeacher:true
     },
   },
   {
@@ -73,7 +77,8 @@ const routes = [
     name: "manage",
     component: ManageView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
+      RequiresBeAdmin:true
     },
   },
 ]
@@ -83,5 +88,25 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters.getLoggedUser.token) {
+    next({ name: "landing" });}
+  else if(to.meta.notRequiresAuth && store.getters.getLoggedUser.token){
+    next({ name: "home" });
+  }
+  else if(to.meta.RequiresBeAdmin && store.getters.getLoggedUser.typeUser!="Administrador"){
+    next({ name: "home" });
+  }
+  else if(to.meta.RequiresBeTutorOrTeacher && store.getters.getLoggedUser.typeUser!="Tutor" && store.getters.getLoggedUser.typeUser!="Professor"){
+    next({ name: "home" });
+  }
+  else if(to.meta.requiresBeTeacher && store.getters.getLoggedUser.typeUser!="Professor"){
+    next({ name: "home" });
+  }
+  else {
+    next();
+  }
+});
 
 export default router

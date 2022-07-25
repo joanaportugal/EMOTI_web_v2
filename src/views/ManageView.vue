@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar activeTab="Gerir" />
+      <SideBar activeTab="Gerir" v-if="this.getUser!=null" :user="this.getUser"/>
     </aside>
     <main>
       <AppSearch />
@@ -99,35 +99,41 @@
                 <th>Tipo de Utilizador</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }">
-                <td class="p-4">username</td>
-                <td>nome</td>
-                <td>tipo</td>
+              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(user,index) in getUsers" :key='index'>
+                <td class="p-4">{{user.username}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.typeUser}}</td>
                 <td>
                   <b-button
                     :style="{border: 'none'}"
                     variant="secondary"
                     class="ml-2 mr-1"
                     v-b-modal.modalManage
-                    @click="giveInfo('user')"
+                    @click="giveInfo(user)"
                     ><b-icon icon="info-circle-fill"></b-icon
                   ></b-button>
                   <b-button
                     :style="{border: 'none'}"
                     variant="primary"
                     class="ml-2 mr-1"
+                    v-if="user.blocked==false && user.typeUser!='Administrador'"
+                    @click="changeBlocked(user._id)"
                     ><b-icon icon="lock-fill"></b-icon
                   ></b-button>
                   <b-button
                     :style="{border: 'none'}"
                     variant="primary"
                     class="ml-2 mr-1"
+                    @click="changeBlocked(user._id)"
+                    v-if="user.blocked==true && user.typeUser!='Administrador'"
                     ><b-icon icon="unlock-fill"></b-icon
                   ></b-button>
                   <b-button
                    :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
+                    v-if="user.username!=getUser.username"
+                    @click="removeUser(user._id)"
                     ><b-icon icon="trash-fill"></b-icon
                   ></b-button>
                 </td>
@@ -319,6 +325,7 @@
         <b-form
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
           class="px-3 pt-4"
+          @submit.prevent="addNewAdmin"
         >
           <b-input-group class="mb-4">
             <b-form-input
@@ -368,18 +375,7 @@
             ></b-form-input>
           </b-input-group>
 
-          <b-input-group class="mb-3">
-            <b-form-select
-              :style="{backgroundColor: 'white'}"
-              v-model="newUser.typeUser"
-              required
-            >
-              <b-form-select-option value="Administrador"
-                >Administrador</b-form-select-option
-              >
-            </b-form-select>
-          </b-input-group>
-          <div class="d-flex flex-row justify-content-end">
+          <div class="d-flex flex-row justify-content-end mb-3">
             <b-button type="submit" class="w-25" id="orange"
               >Adicionar</b-button
             >
@@ -413,59 +409,45 @@
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Username"
+              v-model="formDetail.username"
               :style="{backgroundColor: 'white'}"
               required
-            ></b-form-input>
-          </b-input-group>
-
-          <b-input-group class="mb-4">
-            <b-form-input
-              type="password"
-              placeholder="Password"
-               :style="{backgroundColor: 'white'}"
-              required
-            ></b-form-input>
-          </b-input-group>
-
-          <b-input-group class="mb-4">
-            <b-form-input
-              type="password"
-              placeholder="Confirmar Password"
-              :style="{backgroundColor: 'white'}"
-              required
+              disabled
             ></b-form-input>
           </b-input-group>
 
           <b-input-group class="mb-4">
             <b-form-input
               placeholder="Nome"
+              v-model="formDetail.name"
                :style="{backgroundColor: 'white'}"
               required
+              disabled
             ></b-form-input>
           </b-input-group>
 
           <b-input-group class="mb-4">
             <b-form-input
               type="email"
+              v-model="formDetail.email"
               placeholder="Email"
                :style="{backgroundColor: 'white'}"
               required
+              disabled
             ></b-form-input>
           </b-input-group>
 
-          <b-input-group class="mb-3">
-            <b-form-select required  :style="{backgroundColor: 'white'}">
-              <b-form-select-option :value="null" disabled
-                >Quem sou eu ?</b-form-select-option
-              >
-              <b-form-select-option
-                v-for="(option, index) in options"
-                :key="index"
-                :value="option"
-                >{{ option }}</b-form-select-option
-              >
-            </b-form-select>
+            <b-input-group class="mb-4">
+            <b-form-input
+              type="text"
+              v-model="formDetail.typeUser"
+              placeholder="Quem sou eu?"
+               :style="{backgroundColor: 'white'}"
+              required
+              disabled
+            ></b-form-input>
           </b-input-group>
+
         </b-form>
       </div>
 
@@ -929,6 +911,8 @@ import SideBar from "@/components/SideBar.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import AppFooter from "@/components/AppFooter.vue";
 
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: "HomeView",
   components: {
@@ -941,7 +925,8 @@ export default {
       optSelected: "Utilizadores",
       typeUsers: ["Criança", "Tutor", "Administrador"],
       whatModalDo: "",
-      selectedUser: "",
+      formDetail:{},
+      warning:"",
       formFilterActivity: {
         title: "",
         category: "",
@@ -960,8 +945,7 @@ export default {
         username: "",
         password: "",
         name: "",
-        email: "",
-        typeUser: "Administrador",
+        email: ""
       },
       newBadge: {
         badgeName: "",
@@ -996,18 +980,86 @@ export default {
       newEmotion: "",
     };
   },
+
   methods: {
+    ...mapActions(['findUser','findAllUsers','addAdmin','unlockLock','deleteUser']),
+
     calculateModalSize(type) {
       return type === "addActivity" || type === "editActivity" ? "lg" : "";
     },
     giveInfo(user) {
       this.whatModalDo = "seeUser";
-      this.selectedUser = user;
+      this.formDetail = user;
     },
     updateActivity(activity) {
       this.whatModalDo = "editActivity";
       this.selectedActivity = activity;
     },
+
+    addNewAdmin(){
+      if(this.newUser.password!=this.conf_password){
+        this.warning='As passwords não coincidem'
+        setTimeout(()=>{this.warning=""},5000)
+      }
+      else{
+        this.addAdmin(this.newUser)
+          .then(()=>{location.reload();})
+          .catch((err) => {
+            this.warning = `${err}`;
+            setTimeout(() => {
+              this.warning = "";
+            }, 5000)
+          });
+      }
+    },
+
+    changeBlocked(id){
+      this.unlockLock(id)
+      .then(()=>{this.findAllUsers("")})
+      .catch((err)=>{
+        console.log(err);
+      })
+    },
+
+    removeUser(id){
+      if(confirm('Deseja remover o utilizador?')){
+        this.deleteUser(id)
+          .then(()=>{this.findAllUsers("")})
+          .catch((err)=>{
+            console.log(err);
+          })
+      }
+    }
+    
+  },
+
+  computed: {
+   ...mapGetters(['getUser','getUsers'])
+  },
+
+  mounted () {
+    this.findUser();
+    this.findAllUsers("");
+  },
+
+  watch: {
+    'formFilterUser.typeUser'(newValue) {
+      if(this.formFilterUser.name==''){
+        this.findAllUsers(`?typeUser=${newValue}`)
+      }
+      else{
+        this.findAllUsers(`?typeUser=${newValue}&name=${this.formFilterUser.name}`)
+      }
+    },
+
+    'formFilterUser.name'(newValue) {
+      if(this.formFilterUser.typeUser==''){
+        this.findAllUsers(`?name=${newValue}`)
+      }
+      else{
+        this.findAllUsers(`?typeUser=${this.formFilterUser.typeUser}&name=${newValue}`)
+      }
+    }
   },
 };
 </script>

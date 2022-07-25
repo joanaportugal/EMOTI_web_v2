@@ -2,23 +2,27 @@
   <nav
     id="sideBar"
     class="d-flex flex-column align-items-center justify-content-between px-2"
-    :style="{backgroundColor: '#fdfdf3'}"
+    :style="{ backgroundColor: '#fdfdf3' }"
   >
     <div id="items" class="rounded d-flex flex-column m-0">
       <b-img
         src="../assets/Grupo 440.png"
         fluid
         alt="Fluid image"
-        :style="{width: '95%'}"
+        :style="{ width: '95%' }"
         class="mt-2"
       ></b-img>
       <div
-        :style="{marginTop: '20px', marginBottom: '20px', backgroundColor: '#f5f5eb'}"
+        :style="{
+          marginTop: '20px',
+          marginBottom: '20px',
+          backgroundColor: '#f5f5eb',
+        }"
         id="items"
         class="rounded"
       >
         <b-img
-          src="../assets/Imagem 1.png"
+          :src="user.imgProfile"
           fluid
           alt="Fluid image"
           :style="{
@@ -27,22 +31,38 @@
             marginBottom: '10px',
             marginLeft: '8px',
             borderRadius: '10px',
-          }
-          "
+          }"
+          v-if="user.imgProfile != ''"
         ></b-img>
-        <div class="px-2">
-          <p :style="{fontWeight: 'bold'}">Joana Portugal</p>
-          <p>Criança</p>
+        <b-avatar
+          rounded
+          v-else
+          :text="user.name.charAt(0)"
+          :style="{
+            width: '5vw',
+            height: '9vh',
+            marginTop: '10px',
+            marginBottom: '10px',
+            marginLeft: '8px',
+            borderRadius: '10px',
+            backgroundColor: '#bfbfbf',
+            fontFamily: 'EAmbit SemiBold',
+            fontSize: '40px',
+          }"
+        ></b-avatar>
+        <div class="px-2 col-5">
+          <p :style="{ fontWeight: 'bold' }">{{ user.name }}</p>
+          <p>{{ user.typeUser }}</p>
         </div>
         <b-img
           src="../assets/1f44b.png"
           fluid
           alt="Fluid image"
-          :style="{width: '15%'}"
+          :style="{ width: '15%' }"
           class="m-2"
         ></b-img>
       </div>
-      <div :style="{width: '100%'}">
+      <div :style="{ width: '100%' }">
         <ul class="d-flex flex-column justify-content-start m-0 p-0 col-12">
           <li
             :class="{
@@ -82,6 +102,7 @@
               'mb-4': true,
               selected: activeTab === 'Escola Virtual',
             }"
+            v-if="getLoggedUser.typeUser == 'Professor'"
           >
             <router-link :to="{ name: 'virtualSchool' }"
               ><span class="material-icons-round">school</span> Escola
@@ -93,6 +114,10 @@
               'mb-4': true,
               selected: activeTab === 'Atividades Extras',
             }"
+            v-if="
+              getLoggedUser.typeUser == 'Professor' ||
+              getLoggedUser.typeUser == 'Tutor'
+            "
           >
             <router-link :to="{ name: 'extraActivities' }"
               ><span class="material-icons-round">square_foot</span> Atividades
@@ -104,6 +129,7 @@
               'mb-4': true,
               selected: activeTab === 'Gerir',
             }"
+            v-if="getLoggedUser.typeUser == 'Administrador'"
           >
             <router-link :to="{ name: 'manage' }"
               ><span class="material-icons-round">construction</span>
@@ -114,13 +140,14 @@
       </div>
     </div>
 
-    <div :style="{width: '100%'}" class="d-flex justify-content-center">
+    <div :style="{ width: '100%' }" class="d-flex justify-content-center">
       <button
         id="logout"
         class="mb-4 p-2 col-10"
         :style="{ fontFamily: 'EAmbit SemiBold' }"
+        @click="SET_LOGOUT"
       >
-        <span class="material-icons-round" :style="{paddingRight: '5px'}"
+        <span class="material-icons-round" :style="{ paddingRight: '5px' }"
           >logout</span
         >
         Terminar Sessão
@@ -130,10 +157,20 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "SideBar",
   props: {
     activeTab: String,
+    user: Object,
+  },
+
+  methods: {
+    ...mapMutations(["SET_LOGOUT"]),
+    ...mapActions(["findUser"]),
+  },
+  computed: {
+    ...mapGetters(["getLoggedUser"]),
   },
 };
 </script>
@@ -203,9 +240,8 @@ p {
   font-size: 14px;
 }
 
-#logout:hover{
+#logout:hover {
   color: #f5f5eb;
   background-color: #e95353;
-
 }
 </style>

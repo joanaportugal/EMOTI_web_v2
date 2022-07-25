@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar activeTab="Perfil" />
+      <SideBar activeTab="Perfil" v-if="this.getUser!=null" :user="this.getUser"/>
     </aside>
-    <main>
+    <main v-if="this.getUser!=null">
       <AppSearch />
       <b-container class="bv-example-row">
         <b-row class="mx-4">
@@ -16,10 +16,17 @@
               class="col-4 d-flex flex-row justify-content-center align-items-center"
             >
               <img
-                src="../assets/Imagem 1.png"
-                :style="{ width: '220px' }"
+                :src="getUser.imgProfile"
+                :style="{ width: '220px',height:'220px' }"
                 class="rounded-circle"
+                v-if="getUser.imgProfile!=''"
               />
+              <b-avatar 
+                :text="getUser.name.charAt(0)" 
+                :style="{ width: '220px',height:'220px',fontSize:'90px',fontFamily:'EAmbit SemiBold',backgroundColor:'#bfbfbf' }"
+                class="text-center"
+                v-else>
+              </b-avatar>
               <b-button
                 :style="{position: 'absolute', zIndex: '1', right: '6%', bottom: '40px'}"
                 pill
@@ -47,7 +54,7 @@
                 >
                   <b-form-input
                     id="profileName"
-                    value="Joana Portugal"
+                    :value="getUser.name"
                     disabled
                   ></b-form-input>
                 </b-form-group>
@@ -60,7 +67,7 @@
                 >
                   <b-form-input
                     id="profileUsername"
-                    value="user123"
+                    :value="getUser.username"
                     disabled
                   ></b-form-input>
                 </b-form-group>
@@ -73,7 +80,7 @@
                 >
                   <b-form-input
                     id="profileEmail"
-                    value="user123@gmail.com"
+                    :value="getUser.email"
                     disabled
                   ></b-form-input>
                 </b-form-group>
@@ -86,7 +93,7 @@
                 >
                   <b-form-input
                     id="profileType"
-                    value="Criança"
+                    :value="getUser.typeUser"
                     disabled
                   ></b-form-input>
                 </b-form-group>
@@ -101,8 +108,9 @@
               >
             </div>
           </div>
-
-          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 p-0 col-12">
+          
+          <div class="col-12 p-0 mt-5 mb-5" v-if="getUser.typeUser=='Tutor'">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 col-12" >
             Crianças
           </h2>
           <div class="d-flex col-12 p-0 profileCard" :style="{height: '510px'}">
@@ -131,62 +139,33 @@
                 </b-form>
               </div>
               <div class="p-2" :style="{height: '397.5px', overflowY: 'scroll'}">
-                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados (1)</h5>
+                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados ({{getChilds.length}})</h5>
                 <article>
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     :style="{borderBottom: '1px solid #707070'}"
+                    v-for="(child,index) in getChilds" :key='index'
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected = 'Joana Portugal'"
+                      @click="childSelected =child.name"
                     >
                       <b-avatar
                         variant="light"
-                        text="JP"
+                        :text="child.initials"
                         size="2.5rem"
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
                         :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
-                          activeChild: childSelected === 'Joana Portugal',
+                          activeChild: childSelected === child.name,
                         }"
                       >
-                        Joana Portugal
+                        {{child.name}}
                       </span>
                     </button>
-                    <button class="btn">
-                      <span class="material-icons-round" :style="{color: '#e87461'}"
-                        >delete_forever</span
-                      >
-                    </button>
-                  </div>
-
-                  <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    :style="{borderBottom: '1px solid #707070'}"
-                  >
-                    <button
-                      class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected = 'Pedro Silva'"
-                    >
-                      <b-avatar
-                        variant="light"
-                        text="PS"
-                        size="2.5rem"
-                      ></b-avatar>
-                      <span
-                        class="m-0 mx-2"
-                        :style="{fontFamily: 'EAmbit SemiBold'}"
-                        :class="{
-                          activeChild: childSelected === 'Pedro Silva',
-                        }"
-                      >
-                        Pedro Silva
-                      </span>
-                    </button>
-                    <button class="btn">
+                    <button class="btn" @click="removeChild(child._id)">
                       <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
@@ -203,124 +182,129 @@
                 <button
                   class="btn"
                   id="orange"
+                  :disabled="childSelected==''"
                   @click="whatModalDo = 'intoclass'"
                   v-b-modal.modal-profile
                 >
                   Pedidos de Inscrição
                 </button>
               </div>
-              <div class="mb-4">
-                <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" :style="{color: '#e87461'}"
-                    >info</span
-                  >
-                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                    Informações Gerais
-                  </span>
-                </h5>
+              <div class="p-0 m-0" v-if="childSelected!=''">
+                <div class="mb-4">
+                  <h5 class="d-flex align-items-center my-4">
+                    <span class="material-icons-round" :style="{color: '#e87461'}"
+                      >info</span
+                    >
+                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
+                      Informações Gerais
+                    </span>
+                  </h5>
 
-                <div class="d-flex align-items-center mb-5">
-                  <div
-                    class="col-4 d-flex flex-row justify-content-end align-items-center"
-                  >
-                    <img
-                      src="../assets/Imagem 1.png"
-                      :style="{ width: '200px', height: '200px' }"
-                      class="rounded-circle"
-                    />
+                  <div class="d-flex align-items-center mb-5">
+                    <div
+                      class="col-4 d-flex flex-row justify-content-end align-items-center"
+                    >
+                      <img
+                        src="../assets/Imagem 1.png"
+                        :style="{ width: '200px', height: '200px' }"
+                        class="rounded-circle"
+                      />
+                    </div>
+                    <b-form class="col-8 p-0">
+                      <b-form-group
+                        label="Nome:"
+                        label-for="profileName"
+                        label-cols-sm="4"
+                        label-align-sm="left"
+                      >
+                        <b-form-input
+                          id="profileName"
+                          value="Joana Portugal"
+                          disabled
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group
+                        label="Username:"
+                        label-for="profileUsername"
+                        label-cols-sm="4"
+                        label-align-sm="left"
+                      >
+                        <b-form-input
+                          id="profileUsername"
+                          value="user123"
+                          disabled
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group
+                        label="Email:"
+                        label-for="profileEmail"
+                        label-cols-sm="4"
+                        label-align-sm="left"
+                      >
+                        <b-form-input
+                          id="profileEmail"
+                          value="user123@gmail.com"
+                          disabled
+                        ></b-form-input>
+                      </b-form-group>
+                    </b-form>
                   </div>
-                  <b-form class="col-8 p-0">
-                    <b-form-group
-                      label="Nome:"
-                      label-for="profileName"
-                      label-cols-sm="4"
-                      label-align-sm="left"
-                    >
-                      <b-form-input
-                        id="profileName"
-                        value="Joana Portugal"
-                        disabled
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group
-                      label="Username:"
-                      label-for="profileUsername"
-                      label-cols-sm="4"
-                      label-align-sm="left"
-                    >
-                      <b-form-input
-                        id="profileUsername"
-                        value="user123"
-                        disabled
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group
-                      label="Email:"
-                      label-for="profileEmail"
-                      label-cols-sm="4"
-                      label-align-sm="left"
-                    >
-                      <b-form-input
-                        id="profileEmail"
-                        value="user123@gmail.com"
-                        disabled
-                      ></b-form-input>
-                    </b-form-group>
-                  </b-form>
                 </div>
-              </div>
-              <div class="mb-5">
-                <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" :style="{color: '#e87461'}"
-                    >school</span
-                  >
-                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                    Turmas
-                  </span>
-                </h5>
+                <div class="mb-5">
+                  <h5 class="d-flex align-items-center my-4">
+                    <span class="material-icons-round" :style="{color: '#e87461'}"
+                      >school</span
+                    >
+                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
+                      Turmas
+                    </span>
+                  </h5>
 
-                <table class="col-12">
-                  <thead>
-                    <tr :style="{background: '#e87461', color: '#fbfbf3'}">
-                      <th class="px-4">Turma</th>
-                      <th>Professor</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr :style="{borderBottom: '2px solid #707070'}">
-                      <td class="px-4 py-3">AA</td>
-                      <td>Maria das Dores Soares</td>
-                      <td>
-                        <button
-                          class="btn btn-danger d-flex flex-row align-items-center"
-                          id="red"
-                          size="sm"
-                        >
-                          Anular
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  <table class="col-12">
+                    <thead>
+                      <tr :style="{background: '#e87461', color: '#fbfbf3'}">
+                        <th class="px-4">Turma</th>
+                        <th>Professor</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr :style="{borderBottom: '2px solid #707070'}">
+                        <td class="px-4 py-3">AA</td>
+                        <td>Maria das Dores Soares</td>
+                        <td>
+                          <button
+                            class="btn btn-danger d-flex flex-row align-items-center"
+                            id="red"
+                            size="sm"
+                          >
+                            Anular
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-              <div class="mb-4">
-                <h5 class="d-flex align-items-center my-4">
-                  <span class="material-icons-round" :style="{color: '#e87461'}"
-                    >equalizer</span
-                  >
-                  <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                    Estatísticas
-                  </span>
-                </h5>
+                <div class="mb-4">
+                  <h5 class="d-flex align-items-center my-4">
+                    <span class="material-icons-round" :style="{color: '#e87461'}"
+                      >equalizer</span
+                    >
+                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
+                      Estatísticas
+                    </span>
+                  </h5>
+                </div>
               </div>
             </div>
           </div>
+          </div>
 
-          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5">
+          <div class="p-0 col-12 mb-3" v-if="getUser.typeUser=='Criança'">
+          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 col-12 p-0">
             Conquistas
           </h2>
           <div class="py-4 d-flex col-12 profileCard">
@@ -373,6 +357,7 @@
               >
               </b-card-footer>
             </b-card>
+          </div>
           </div>
         </b-row>
       </b-container>
@@ -501,7 +486,7 @@
           >
             <b-form-input
               id="input-sm"
-              v-model="formAdd.childName"
+              v-model="formAdd.username"
               required
             ></b-form-input>
           </b-form-group>
@@ -518,7 +503,7 @@
             <b-form-input
               type="password"
               id="input-sm"
-              v-model="formAdd.childPass"
+              v-model="formAdd.password"
               required
             ></b-form-input>
           </b-form-group>
@@ -642,6 +627,16 @@
               >Alterar</b-button
             >
           </div>
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
         </b-form>
       </div>
     </b-modal>
@@ -652,6 +647,8 @@
 import SideBar from "@/components/SideBar.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import AppFooter from "@/components/AppFooter.vue";
+
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "HomeView",
@@ -664,18 +661,82 @@ export default {
     return {
       warning: "",
       whatModalDo: "",
-      childSelected: "Joana Portugal",
+      childSelected: "",
       passForm: {
-        oldPass: "",
         newPass: "",
         confPass: "",
+        oldPass:""
       },
       formAdd: {
-        childName: "",
-        childPass: "",
+        username: "",
+        password: "",
       },
       newImg: "",
     };
+  },
+  
+  computed: {
+    ...mapGetters(['getUser','getChilds'])
+  },
+
+  methods: {
+    ...mapActions(['findUser','updateProfile','findRelations','createRelation','removeRelation']),
+
+    changePassword(){
+      if(this.passForm.newPass!=this.passForm.confPass){
+        this.warning='As passwords não coincidem!'
+        setTimeout(()=>{this.warning=""},5000)
+      }
+      else{
+       this.updateProfile({oldPass:this.passForm.oldPass,newPass:this.passForm.newPass})
+       .then(()=>{location.reload()})
+       .catch((err)=>{
+        this.warning=`${err}`
+        setTimeout(()=>{this.warning=""},5000)
+       })
+      }
+    },
+
+    alterImg(){
+      this.updateProfile({imgProfile:this.newImg})
+       .then(()=>{location.reload()})
+       .catch((err)=>{
+        this.warning=`${err}`
+        setTimeout(()=>{this.warning=""},5000)
+       })
+    },
+
+    addChild(){
+       this.createRelation(this.formAdd)
+        .then(()=>{location.reload()})
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        });
+    },
+
+    removeChild(id){
+      if(confirm('Confirma a alteração?')){
+        this.removeRelation(id)
+        .then(()=>{location.reload();})
+        .catch((err)=>console.log(err))
+      }
+    }
+      
+
+  },
+
+  mounted () {
+    this.findUser().then(()=>{
+      if(this.getUser.typeUser=='Tutor'){
+        this.findRelations()
+        .then(()=>{
+          if(this.getChilds.length!=0){
+            this.childSelected=this.getChilds[0].name
+          }
+        })
+      }
+    });
   },
 };
 </script>
@@ -755,5 +816,11 @@ table {
 #green:hover {
   background-color: #fdfdf3;
   color: #4da1a9;
+}
+
+.btn:focus{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
 }
 </style>
