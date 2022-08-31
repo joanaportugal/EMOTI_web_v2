@@ -1,14 +1,14 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar activeTab="Escola Virtual" />
+      <SideBar activeTab="Escola Virtual" v-if="this.getUser!=null" :user="this.getUser"/>
     </aside>
-    <main>
+    <main v-if="this.getUser!=null">
       <AppSearch />
       <b-container class="bv-example-row">
         <b-row class="mx-4">
           <b-link
-            @click="optSelected = 'Turmas'"
+            @click="selectTeams()"
             :style="{
               color: '#2B4141',
               textDecoration: 'none',
@@ -20,7 +20,7 @@
           </b-link>
 
           <b-link
-            @click="optSelected = 'Alunos'"
+            @click="selectStudents(null)"
             class="mx-4"
             :style="{
               color: '#2B4141',
@@ -63,60 +63,33 @@
                 </b-form>
               </div>
               <div class="p-2" :style="{height: '388px', overflowY: 'scroll'}">
-                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados (1)</h5>
+                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados ({{getTeams.length}})</h5>
                 <article>
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     :style="{borderBottom: '1px solid #707070'}"
+                    v-for="(team,index) in getTeams" :key="index"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
-                      @click="classSelected = 'Turma'"
+                      @click="classSelected = team"
                     >
                       <b-avatar
                         variant="light"
-                        text="T"
+                        :text="team.name.charAt(0)"
                         size="2.5rem"
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
                         :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
-                          activeItem: classSelected === 'Turma',
+                          activeItem: classSelected.name === team.name,
                         }"
                       >
-                        Turma
+                        {{team.name}}
                       </span>
                     </button>
-                    <button class="btn">
-                      <span class="material-icons-round" :style="{color: '#e87461'}"
-                        >delete_forever</span
-                      >
-                    </button>
-                  </div>
-
-                  <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    :style="{borderBottom: '1px solid #707070'}"
-                  >
-                    <button
-                      class="btn d-flex align-items-center col-10 p-0"
-                      @click="classSelected = 'Aula'"
-                    >
-                      <b-avatar
-                        variant="light"
-                        text="A"
-                        size="2.5rem"
-                      ></b-avatar>
-                      <span
-                        class="m-0 mx-2"
-                        :style="{fontFamily: 'EAmbit SemiBold'}"
-                        :class="{ activeItem: classSelected === 'Aula' }"
-                      >
-                        Aula
-                      </span>
-                    </button>
-                    <button class="btn">
+                    <button class="btn"  @click="deleteClass(team._id)">
                       <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
@@ -155,14 +128,15 @@
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr :style="{borderBottom: '2px solid #707070'}">
-                    <td class="px-4 py-3">João Soares Pereira de Amorim</td>
-                    <td>João Soares Pereira de Amorim</td>
+                  <tr :style="{borderBottom: '2px solid #707070'}" v-for="(student,index) in classSelected.students" :key="index">
+                    <td class="px-4 py-3">{{student.name}}</td>
+                    <td>{{student.tutor}}</td>
                     <td class="d-flex py-2">
                       <button
                         class="btn d-flex flex-row align-items-center justify-content-center p-1"
                         size="sm"
                         id="grey"
+                        @click="seeMore(student.name)"
                       >
                         <span
                           class="material-icons-round"
@@ -174,6 +148,7 @@
                         class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
                         id="red"
+                        @click="deleteStudent([classSelected._id,student._id],'team')"
                       >
                         <span
                           class="material-icons-round"
@@ -202,14 +177,15 @@
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr :style="{borderBottom: '2px solid #707070'}">
-                    <td class="px-4 py-3">João Soares Pereira de Amorim</td>
-                    <td>João Soares Pereira de Amorim</td>
+                  <tr :style="{borderBottom: '2px solid #707070'}"  v-for="(request,index) in classSelected.requests" :key="index">
+                    <td class="px-4 py-3">{{request.name}}</td>
+                    <td>{{request.tutor}}</td>
                     <td>
                       <button
                         class="btn btn-danger d-flex flex-row align-items-center p-1 mx-2"
                         size="sm"
                         id="red"
+                        @click="removeRequest([request._id,{className:classSelected.name}])"
                       >
                         <span
                           class="material-icons-round"
@@ -254,60 +230,33 @@
                 </b-form>
               </div>
               <div class="p-2" :style="{height: '388px', overflowY: 'scroll'}">
-                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados (1)</h5>
-                <article>
+                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados ({{getStudents.length}})</h5>
+                <article v-if="childSelected!=''">
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     :style="{borderBottom: '1px solid #707070'}"
+                    v-for="(student,index) in getStudents" :key="index"
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected = 'Joana Portugal'"
+                      @click="childSelected = student"
                     >
                       <b-avatar
                         variant="light"
-                        text="JP"
+                        :text="childSelected.name.charAt(0)"
                         size="2.5rem"
                       ></b-avatar>
                       <span
                         class="m-0 mx-2"
                         :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
-                          activeItem: childSelected === 'Joana Portugal',
+                          activeItem: childSelected.name === student.name,
                         }"
                       >
-                        Joana Portugal
+                        {{student.name}}
                       </span>
                     </button>
-                    <button class="btn">
-                      <span class="material-icons-round" :style="{color: '#e87461'}"
-                        >delete_forever</span
-                      >
-                    </button>
-                  </div>
-
-                  <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    :style="{borderBottom: '1px solid #707070'}"
-                  >
-                    <button
-                      class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected = 'Pedro Silva'"
-                    >
-                      <b-avatar
-                        variant="light"
-                        text="PS"
-                        size="2.5rem"
-                      ></b-avatar>
-                      <span
-                        class="m-0 mx-2"
-                        :style="{fontFamily: 'EAmbit SemiBold'}"
-                        :class="{ activeItem: childSelected === 'Pedro Silva' }"
-                      >
-                        Pedro Silva
-                      </span>
-                    </button>
-                    <button class="btn">
+                    <button class="btn" @click="deleteStudent(['',student._id],'student')">
                       <span class="material-icons-round" :style="{color: '#e87461'}"
                         >delete_forever</span
                       >
@@ -327,10 +276,12 @@
                   id="grey"
                   v-b-modal.modal-virtual-school
                   @click="whatModalDo = 'editStudent'"
+                  :disabled="getStudents.length==0"
                 >
                   Alterar Turma
                 </button>
               </div>
+              <div class="p-0" v-if="childSelected!=''">
               <h5 class="d-flex align-items-center my-4">
                 <span class="material-icons-round" :style="{color: '#e87461'}"
                   >info</span
@@ -357,7 +308,7 @@
                   >
                     <b-form-input
                       id="profileName"
-                      value="Joana Portugal"
+                      :value="childSelected.name"
                       disabled
                     ></b-form-input>
                   </b-form-group>
@@ -370,7 +321,7 @@
                   >
                     <b-form-input
                       id="profileEmail"
-                      value="user123@gmail.com"
+                      :value="childSelected.email"
                       disabled
                     ></b-form-input>
                   </b-form-group>
@@ -383,7 +334,7 @@
                   >
                     <b-form-input
                       id="profileTutor"
-                      value="Joana Portugal"
+                      :value="childSelected.tutor"
                       disabled
                     ></b-form-input>
                   </b-form-group>
@@ -396,7 +347,7 @@
                   >
                     <b-form-input
                       id="profileClass"
-                      value="Turma"
+                      :value="childSelected.class"
                       disabled
                     ></b-form-input>
                   </b-form-group>
@@ -411,6 +362,7 @@
                   Estatísticas
                 </span>
               </h5>
+              </div>
             </div>
           </div>
         </b-row>
@@ -440,6 +392,7 @@
         <b-form
           class="px-2 pb-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="addClass()"
         >
           <b-form-group
             label-cols="2"
@@ -452,7 +405,7 @@
           >
             <b-form-input
               id="input-sm"
-              v-model="newImg"
+              v-model="teamName"
               required
             ></b-form-input>
           </b-form-group>
@@ -461,6 +414,16 @@
             <b-button type="submit" class="text-end" id="orange"
               >Adicionar</b-button
             >
+          </div>
+           <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
           </div>
         </b-form>
       </div>
@@ -493,7 +456,7 @@
           >
             <b-form-input
               id="input-sm"
-              v-model="studentUsername"
+              v-model="formNewStudent.username"
               required
               @change="getStudentInfo()"
             ></b-form-input>
@@ -512,7 +475,7 @@
               id="input-sm"
               required
               disabled
-              v-model="studentName"
+              v-model="formNewStudent.name"
             ></b-form-input>
           </b-form-group>
 
@@ -528,7 +491,7 @@
             <b-form-input
               id="input-sm"
               disabled
-              v-model="studentTutor"
+              v-model="formNewStudent.tutor"
             ></b-form-input>
           </b-form-group>
 
@@ -541,9 +504,9 @@
             label-for="input-sm"
             class="mt-4 mb-4"
           >
-            <b-form-select id="input-sm" required v-model="teamToAdd">
+            <b-form-select id="input-sm" required v-model="formNewStudent.className">
               <b-form-select-option
-                v-for="(team, index) in getTeacherClasses"
+                v-for="(team, index) in getTeams"
                 :key="index"
                 :value="team.name"
               >
@@ -581,6 +544,7 @@
         <b-form
           class="px-2 pb-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="updateKidClass()"
         >
           <b-form-group
             label-cols="3"
@@ -591,11 +555,12 @@
             label-for="input-sm"
             class="mt-4 mb-4"
           >
-            <b-form-select id="input-sm" required v-model="teamToAdd">
+            <b-form-select id="input-sm" required v-model="updateKidTeam">
               <b-form-select-option
-                v-for="(team, index) in getTeacherClasses"
+                v-for="(team, index) in getTeams"
                 :key="index"
                 :value="team.name"
+                :disabled="team.name==childSelected.class"
               >
                 {{ team.name }}
               </b-form-select-option>
@@ -640,6 +605,7 @@
         <b-form
           class="px-2 pb-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="changeNameClass()"
         >
           <b-form-group
             label-cols="2"
@@ -652,22 +618,29 @@
           >
             <b-form-input
               id="input-sm"
-              v-model="newImg"
+              v-model="updatedName"
               required
             ></b-form-input>
           </b-form-group>
 
           <div class="d-flex flex-row justify-content-end">
             <b-button
+              id="orange"
               type="submit"
               class="text-end"
-              :style="{
-                color: '#fdfdf3',
-                'background-color': '#e87461',
-                border: 'none',
-              }"
               >Alterar</b-button
             >
+          </div>
+
+          <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
           </div>
         </b-form>
       </div>
@@ -679,6 +652,8 @@
 import SideBar from "@/components/SideBar.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import AppFooter from "@/components/AppFooter.vue";
+
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "BaseView",
@@ -693,9 +668,216 @@ export default {
       whatModalDo: "",
       warning: "",
       optSelected: "Turmas",
-      classSelected: "Turma",
-      childSelected: "Joana Portugal",
+      classSelected: "",
+      childSelected: "",
+      teamName:"",
+      updatedName:"",
+      formNewStudent:{
+        username:"",
+        name:"",
+        tutor:"",
+        className:""
+      },
+      updateKidTeam:""
     };
+  },
+
+  computed: {
+    ...mapGetters(['getUser','getTeams','getStudents','getKid'])
+  },
+
+  methods: {
+    ...mapActions(['findUser','findTeams','createTeam','removeTeam','updateNameTeam','findAllStudents','findChild','createRequest','deleteRequest','updateChildClass','removeStudent']),
+
+    //Teams
+
+    addClass(){
+      this.createTeam({className:this.teamName})
+        .then(()=>{
+          this.$bvModal.hide("modal-virtual-school")
+          this.findTeams().then(()=>{
+             this.classSelected=this.getTeams.find(team=>team.name==this.teamName)
+             setTimeout(() => {
+              this.teamName=''
+             }, 1000);
+
+          });
+        })
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        })
+    },
+
+    deleteClass(id){
+      if(confirm('Deseja remover a turma ?')){
+        this.removeTeam(id)
+          .then(()=>{
+            this.findTeams().then(()=>{
+              if(this.getTeams.length!=0){
+                 this.classSelected=this.getTeams[0]
+              }
+            });
+          })
+      }
+      
+    },
+
+    changeNameClass(){
+      this.updateNameTeam([this.classSelected._id,{newName:this.updatedName}])
+        .then(()=>{
+          this.$bvModal.hide("modal-virtual-school")
+          this.findTeams().then(()=>{
+            this.classSelected=this.getTeams.find(team=>team.name==this.updatedName)
+             setTimeout(() => {
+              this.updatedName=''
+            }, 1000);
+          });
+        })
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        })
+    },
+
+    selectTeams(){
+      this.optSelected="Turmas";
+      this.findTeams()
+        .then(()=>{
+          if(this.getTeams.length!=0){
+            this.classSelected=this.getTeams[0]
+          }
+        });
+    },
+
+    //Students
+    selectStudents(name){
+      this.optSelected="Alunos"
+      this.findAllStudents()
+        .then(()=>{
+          if(this.getStudents.length!=0){
+            if(name==null){
+              this.childSelected=this.getStudents[0];
+            }
+            else{
+              this.childSelected=this.getStudents.find((student)=>student.name==name);
+            }
+              
+
+          }
+          
+        });
+    },
+
+    seeMore(name){
+      this.selectStudents(name)
+      
+    },
+
+    getStudentInfo(){
+      this.formNewStudent.name=''
+      this.formNewStudent.tutor=''
+
+      this.findChild(this.formNewStudent.username)
+        .then(()=>{
+          this.formNewStudent.name=this.getKid.name
+          this.formNewStudent.tutor=this.getKid.tutor
+        })
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        })
+    },
+
+    addStudent(){
+      this.createRequest({username:this.formNewStudent.username,className:this.formNewStudent.className})
+        .then(()=>{
+          this.formNewStudent={
+            username:"",
+            name:"",
+            tutor:"",
+            className:""
+          }
+          this.$bvModal.hide("modal-virtual-school")
+        })
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        })
+    },
+
+    removeRequest(data){
+      if(confirm('Deseja cancelar o pedido ?')){
+        this.deleteRequest(data)
+          .then(()=>{
+            this.findTeams().then(()=>{
+              this.classSelected=this.getTeams.find(team=>team.name==data[1].className)
+            })
+          })
+      }
+    },
+
+    updateKidClass(){
+      let idClass=this.getTeams.find((team)=>team.name==this.childSelected.class)._id
+      this.updateChildClass([idClass,this.childSelected._id,{newClass:this.updateKidTeam}])
+        .then(()=>{
+          this.findAllStudents().then(()=>{
+            this.childSelected=this.getStudents.find(student=>student._id==this.childSelected._id)
+          })
+          this.$bvModal.hide("modal-virtual-school")
+          setTimeout(() => {
+              this.updateKidTeam=''
+          }, 1000);
+
+
+        })
+        .catch((err)=>{
+          this.warning=`${err}`
+          setTimeout(()=>{this.warning=""},5000)
+        });
+       
+    },
+
+    deleteStudent(data,where){
+      if(confirm('Deseja remover a criança ?')){
+        if(data[0]==''){
+          data[0]=this.getTeams.find((team)=>team.name==this.childSelected.class)._id
+        }
+        this.removeStudent(data)
+          .then(()=>{
+            if(where=='team'){
+              this.findTeams().then(()=>{
+                this.classSelected=this.getTeams.find(team=>team._id==data[0])
+              })
+            }
+            else{
+              this.findAllStudents().then(()=>{
+                if(this.getStudents.length!=0){
+                  this.childSelected=this.getStudents[0]
+                }
+                else{
+                  this.childSelected=""
+                }
+              })
+              
+            }
+          })
+      }
+      
+    }
+
+  },
+
+  mounted () {
+     this.findUser()
+     .then(()=>{
+      this.findTeams()
+        .then(()=>{
+          if(this.getTeams.length!=0){
+            this.classSelected=this.getTeams[0]
+          }
+        });
+     });
   },
 };
 </script>
@@ -775,5 +957,11 @@ table {
   background: #fdfdf3;
   color: #e87461;
   border: 1px solid #e87461;
+}
+
+.btn:focus{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
 }
 </style>

@@ -318,4 +318,9 @@ export default {
   background-color: #e87461;
   color: #fdfdf3;
 }
+
+#orange:hover ~ #white{
+  color:#fdfdf3;
+  background-color: #e87461;
+}
 </style>

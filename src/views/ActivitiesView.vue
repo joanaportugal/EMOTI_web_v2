@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar activeTab="Atividades" />
+      <SideBar activeTab="Atividades" v-if="this.getUser != null" :user="this.getUser"/>
     </aside>
     <main>
       <AppSearch />
@@ -390,6 +390,7 @@
 import SideBar from "@/components/SideBar.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import AppFooter from "@/components/AppFooter.vue";
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "HomeView",
@@ -415,6 +416,18 @@ export default {
       ],
       suggestions: ["Tutor", "Professor", "Ambos"],
     };
+  },
+
+  methods: {
+    ...mapActions(["findUser"])
+  },
+
+  computed: {
+    ...mapGetters(["getUser"])
+  },
+
+  mounted() {
+    this.findUser();
   },
 };
 </script>

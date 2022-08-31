@@ -20,7 +20,7 @@
           </b-link>
 
           <b-link
-            @click="optSelected = 'Atividades'"
+            @click="selectActivities()"
             class="mx-4"
             :style="{
               color: '#2B4141',
@@ -33,7 +33,7 @@
             Gerir Atividades
           </b-link>
           <b-link
-            @click="optSelected = 'Badges'"
+            @click="selectedBadges()"
             :style="{
               color: '#2B4141',
               textDecoration: 'none',
@@ -188,7 +188,7 @@
                   border: 'none',
                 }"
                 v-b-modal.modalManage
-                @click="whatModalDo = 'addActivity'"
+                @click="openModalForActivity"
                 >Adicionar</b-button
               >
             </div>
@@ -199,15 +199,13 @@
               <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
                 <th class="p-1">Título</th>
                 <th>Grau de Dificuldade</th>
-                <th>Imagem (Capa do Quiz)</th>
                 <th>Categoria</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }">
-                <td class="p-4">nome</td>
-                <td>fácil</td>
-                <td>imagem</td>
-                <td>quiz</td>
+              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(activity,index) in getActivities" :key="index">
+                <td class="p-4">{{activity.title}}</td>
+                <td>{{activity.level}}</td>
+                <td>{{activity.category}}</td>
                 <td>
                   <b-button
                    :style="{border: 'none'}"
@@ -215,9 +213,11 @@
                     class="ml-2 mr-1"
                     v-b-modal.modalManage
                     @click="updateActivity('activity')"
+                    v-if="activity.category=='Quiz' || activity.category=='Reconhecimento'"
                     ><b-icon icon="pencil-fill"></b-icon
                   ></b-button>
                   <b-button
+                    @click="removeActivity(activity._id)"
                     :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
@@ -249,6 +249,7 @@
                 v-model="formFilterBadge.emotion"
               >
                 <b-form-select-option value="">Qualquer</b-form-select-option>
+                <b-form-select-option v-for="(emotion,index) in getEmotions" :key="index" :value="emotion.name">{{emotion.name}}</b-form-select-option>
               </b-form-select>
             </b-form>
 
@@ -261,7 +262,7 @@
                 }"
                 class="mr-3"
                 v-b-modal.modalManage
-                @click="whatModalDo = 'seeEmotions'"
+                @click="seeEmotions()"
                 >Gerir Emoções</b-button
               >
               <b-button
@@ -285,15 +286,16 @@
                 <th>Pontos Necessários</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }">
-                <td class="p-4">nome</td>
-                <td>feliz</td>
-                <td>20</td>
+              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(badge,index) in getBadges" :key="index">
+                <td class="p-4">{{badge.name}}</td>
+                <td>{{badge.emotion}}</td>
+                <td>{{badge.pointsNeeded}}</td>
                 <td>
                   <b-button
                    :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
+                    @click="deleteBadge(badge._id)"
                     ><b-icon icon="trash-fill"></b-icon
                   ></b-button>
                 </td>
@@ -466,6 +468,7 @@
         <b-form
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="addActivity()"
         >
           <b-form-group
             label="Título:"
@@ -475,9 +478,26 @@
           >
             <b-form-input
               id="activityTitle"
-              value="Atividade"
-              disabled
+              placeholder="Atividade"
+              v-model="newActivity.title"
+              required
             ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            label="Categoria:"
+            label-cols-sm="2"
+            label-align-sm="left"
+          >
+            <b-form-select
+              id="activityDifficulty"
+              v-model="newActivity.category"
+              required
+            >
+              <b-form-select-option value="">Qualquer</b-form-select-option>
+              <b-form-select-option value="Quiz">Quiz</b-form-select-option>
+              <b-form-select-option value="Reconhecimento">Reconhecimento</b-form-select-option>
+            </b-form-select>
           </b-form-group>
 
           <b-form-group
@@ -486,48 +506,88 @@
             label-cols-sm="2"
             label-align-sm="left"
           >
-            <b-form-input
+            <b-form-select
               id="activityDifficulty"
-              value="Atividade"
-              disabled
-            ></b-form-input>
+              v-model="newActivity.level"
+              required
+            >
+              <b-form-select-option value="">Qualquer</b-form-select-option>
+              <b-form-select-option value="Fácil">Fácil</b-form-select-option>
+              <b-form-select-option value="Médio">Médio</b-form-select-option>
+              <b-form-select-option value="Dificil"
+              >Dificil</b-form-select-option
+              >
+            </b-form-select>
           </b-form-group>
 
           <b-form-group
-            label="Perguntas:"
+            label='Perguntas:'
             label-for="activityQuestions"
             label-cols-sm="2"
-            label-align-sm="left"
+            label-align-sm="left" v-for="(question,index) in newActivity.questions" :key="index"
+            required
           >
             <div class="d-flex flex-row flex-wrap">
-              <b-form-input
+                <b-form-input
                 id="activityQuestions"
-                class="col-5"
-                value="Imagem(URL)"
-                disabled
-              ></b-form-input>
-              <b-form-input
-                id="activityQuestions"
-                class="col-5 mx-2"
-                value="Categoria"
-                disabled
+                class="col-10"
+                placeholder="Pergunta"
+                v-model="question.text"
+                required
               ></b-form-input>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2"
-                value="Emoção"
-                disabled
+                placeholder="Imagem(URL)"
+                v-model="question.img"
+                required
               ></b-form-input>
+              <b-form-select
+                class="col-5 mt-2 mx-2"
+                v-model="question.categoryImg"
+                required
+              >
+                <b-form-select-option value="" disabled>Categoria (IMG)</b-form-select-option>
+                <b-form-select-option value="Ilustração">Ilustração</b-form-select-option>
+                <b-form-select-option value="Realidade">Realidade</b-form-select-option>
+                <b-form-select-option value="Realidade/Familiar">Realidade/Familiar</b-form-select-option>
+              </b-form-select>
+              <b-form-select
+                class="col-5 mt-2"
+                v-model="question.correctAnswer"
+                required
+              >
+                <b-form-select-option value="" disabled>Emoção</b-form-select-option>
+                <b-form-select-option :value="emotion.name" v-for="(emotion,index) in getEmotions" :key="index">{{emotion.name}}</b-form-select-option>
+              </b-form-select>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2 mx-2"
-                value="Pontos"
-                disabled
+                type="number"
+                placeholder="Pontos"
+                min="0"
+                v-model="question.points"
+                required
               ></b-form-input>
+            
 
               <b-link
+                v-if="newActivity.questions.length!=1"
+                :style="{ color: '#2b4141',textDecoration:'none' }"
+                class="d-flex flex-row align-items-center mt-2"
+                @click="newActivity.questions.splice(index,1);"
+                ><span
+                  class="material-icons-round"
+                  :style="{ fontSize: '30px',textDecoration:'none' }"
+                  >cancel</span
+                ></b-link
+              >
+
+              <b-link
+                v-if="newActivity.questions.length-1==index"
                 :style="{ color: '#2b4141' }"
                 class="d-flex flex-row align-items-center mt-2"
+                @click="newActivity.questions.push({img:'',correctAnswer:'',options: [],points: 0,categoryImg:'',text:''})"
                 ><span
                   class="material-icons-round"
                   :style="{ fontSize: '30px' }"
@@ -543,7 +603,12 @@
             label-cols-sm="2"
             label-align-sm="left"
           >
-            <b-form-input id="activityIMG" value="Capa" disabled></b-form-input>
+            <b-form-input 
+              id="activityIMG" 
+              type="url" 
+              v-model="newActivity.coverIMG"
+              >
+            </b-form-input>
           </b-form-group>
 
           <b-form-group
@@ -555,7 +620,7 @@
             <b-form-textarea
               id="activityDescription"
               value="Descrição"
-              disabled
+              v-model="newActivity.description"
             ></b-form-textarea>
           </b-form-group>
 
@@ -601,7 +666,7 @@
           >
             <b-form-input
               id="activityTitle"
-              value="Atividade"
+              placeholder="Atividade"
               disabled
             ></b-form-input>
           </b-form-group>
@@ -614,7 +679,7 @@
           >
             <b-form-input
               id="activityDifficulty"
-              value="Atividade"
+              placeholder="Atividade"
               disabled
             ></b-form-input>
           </b-form-group>
@@ -628,26 +693,34 @@
             <div class="d-flex flex-row flex-wrap">
               <b-form-input
                 id="activityQuestions"
-                class="col-5"
-                value="Imagem(URL)"
-                disabled
-              ></b-form-input>
-              <b-form-input
-                id="activityQuestions"
-                class="col-5 mx-2"
-                value="Categoria"
+                class="col-10"
+                placeholder="Pergunta"
+                required
                 disabled
               ></b-form-input>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2"
-                value="Emoção"
+                placeholder="Imagem(URL)"
                 disabled
               ></b-form-input>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2 mx-2"
-                value="Pontos"
+                placeholder="Categoria"
+                disabled
+              ></b-form-input>
+              <b-form-input
+                id="activityQuestions"
+                class="col-5 mt-2 mt-2"
+                placeholder="Emoção"
+                disabled
+              ></b-form-input>
+              <b-form-input
+                id="activityQuestions"
+                class="col-5 mt-2 mx-2"
+                min="0"
+                placeholder="Pontos"
                 disabled
               ></b-form-input>
 
@@ -669,7 +742,7 @@
             label-cols-sm="2"
             label-align-sm="left"
           >
-            <b-form-input id="activityIMG" value="Capa" disabled></b-form-input>
+            <b-form-input id="activityIMG" placeholder="Capa" disabled></b-form-input>
           </b-form-group>
 
           <b-form-group
@@ -680,7 +753,7 @@
           >
             <b-form-textarea
               id="activityDescription"
-              value="Descrição"
+              placeholder="Descrição"
               disabled
             ></b-form-textarea>
           </b-form-group>
@@ -718,7 +791,7 @@
           class="px-3 py-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
         >
-          <b-form class="col-12 p-0">
+          <b-form class="col-12 p-0" @submit.prevent="addNewEmotion()">
             <b-form-group
               label-cols="2"
               label-cols-lg="2"
@@ -733,7 +806,7 @@
                 required
               ></b-form-input>
             </b-form-group>
-          </b-form>
+         
 
           <div class="col-12 p-0 d-flex flex-row justify-content-end">
             <b-button
@@ -742,9 +815,22 @@
                 'background-color': '#e87461',
                 border: 'none',
               }"
+              type="submit"
               >Adicionar</b-button
             >
           </div>
+
+           <div
+            v-if="warning != ''"
+            :style="{
+              'background-color': '#C82333',
+              color: '#fdfdf3',
+              'border-radius': '4px',
+            }"
+          >
+            <p>{{ warning }}</p>
+          </div>
+           </b-form>
 
           <hr />
 
@@ -754,13 +840,14 @@
                 <th class="p-1">Nome</th>
                 <th>Ação</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }">
-                <td class="p-4">Nome</td>
+              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(emotion,index) in getEmotions" :key="index">
+                <td class="p-4">{{emotion.name}}</td>
                 <td>
                   <b-button
                     :style="{border: 'none'}"
                     variant="danger"
                     class="ml-2 mr-1"
+                    @click="deleteEmotion(emotion._id)"
                     ><b-icon icon="trash-fill"></b-icon
                   ></b-button>
                 </td>
@@ -784,6 +871,7 @@
         <b-form
           class="px-3 py-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="addBadge()"
         >
           <b-form-group
             label-cols="3"
@@ -796,7 +884,7 @@
           >
             <b-form-input
               id="input-sm"
-              v-model="newBadge.badgeName"
+              v-model="newBadge.name"
               required
             ></b-form-input>
           </b-form-group>
@@ -846,7 +934,7 @@
             <b-form-input
               id="input-sm"
               type="color"
-              v-model="newBadge.badgeIMG"
+              v-model="newBadge.mainColor"
               required
             ></b-form-input>
           </b-form-group>
@@ -863,7 +951,7 @@
             <b-form-input
               id="input-sm"
               type="color"
-              v-model="newBadge.badgeIMG"
+              v-model="newBadge.footerColor"
               required
             ></b-form-input>
           </b-form-group>
@@ -879,10 +967,11 @@
           >
             <b-form-select
               id="input-sm"
-              v-model="newBadge.badgeEmotion"
+              v-model="newBadge.emotion"
               required
             >
               <b-form-select-option value="">--Emoção--</b-form-select-option>
+              <b-form-select-option v-for="(emotion,index) in getEmotions" :key="index" :value="emotion.name">{{emotion.name}}</b-form-select-option>
             </b-form-select>
           </b-form-group>
           <div class="d-flex flex-row justify-content-end">
@@ -948,10 +1037,13 @@ export default {
         email: ""
       },
       newBadge: {
-        badgeName: "",
-        pointsNeeded: "",
+        name: "",
         badgeIMG: "",
-        badgeEmotion: "",
+        emotion: "",
+        pointsNeeded: "",
+        mainColor:"",
+        footerColor:""
+
       },
       newActivity: {
         title: "",
@@ -961,11 +1053,13 @@ export default {
           {
             img: "",
             correctAnswer: "",
-            answers: [],
+            options: [],
             points: 0,
+            categoryImg:"",
+            text:""
           },
         ],
-        caseIMG: "",
+        coverIMG: "",
         description: "",
       },
       editActivity: {
@@ -982,7 +1076,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['findUser','findAllUsers','addAdmin','unlockLock','deleteUser']),
+    ...mapActions(['findUser','findAllUsers','addAdmin','unlockLock','deleteUser','getAllEmotions','addEmotion','removeEmotion','createBadge','getAllBadges','removeBadge','findActivities','createActivity','deleteActivity']),
 
     calculateModalSize(type) {
       return type === "addActivity" || type === "editActivity" ? "lg" : "";
@@ -1003,7 +1097,17 @@ export default {
       }
       else{
         this.addAdmin(this.newUser)
-          .then(()=>{location.reload();})
+          .then(()=>{//location.reload();
+            this.findAllUsers("")
+            this.newUser={
+              username: "",
+              password: "",
+              name: "",
+              email: ""
+            }
+            this.conf_password=""
+            this.$bvModal.hide("modalManage")
+          })
           .catch((err) => {
             this.warning = `${err}`;
             setTimeout(() => {
@@ -1029,12 +1133,120 @@ export default {
             console.log(err);
           })
       }
+    },
+
+    //Emotions
+    seeEmotions(){
+      this.whatModalDo = 'seeEmotions'
+      this.getAllEmotions();
+      this.getAllBadges("");
+    },
+
+    addNewEmotion(){
+      this.addEmotion({name:this.newEmotion})
+        .then(()=>{
+          this.getAllEmotions()
+          this.newEmotion='';
+        })
+        .catch((err)=>{
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000)
+        });
+    },
+
+    deleteEmotion(id){
+      if(confirm('Deseja eliminar a emoção?')){
+        this.removeEmotion(id)
+          .then(()=>{
+            this.getAllEmotions()
+          })
+      }
+    },
+
+    //Badges
+
+    selectedBadges(){
+      this.optSelected = 'Badges';
+      this.getAllEmotions();
+      this.getAllBadges("");
+      
+    },
+
+    addBadge(){
+      this.createBadge(this.newBadge)
+      .then(()=>{
+        this.getAllBadges("");
+        this.$bvModal.hide("modalManage");
+        this.newBadge= {
+          name: "",
+          badgeIMG: "",
+          emotion: "",
+          pointsNeeded: "",
+          mainColor:"",
+          footerColor:""
+        }
+      })
+      .catch((err)=>{
+        this.warning = `${err}`;
+        setTimeout(() => {
+          this.warning = "";
+        }, 5000);
+      })
+    },
+
+    deleteBadge(id){
+      if(confirm('Deseja remover o badge ?')){
+        this.removeBadge(id)
+        .then(()=>{this.getAllBadges("")});
+      }
+      
+    },
+
+    //Activities
+
+    selectActivities(){
+      this.optSelected = 'Atividades'
+      this.findActivities("");
+    },
+
+    openModalForActivity(){
+      this.whatModalDo = 'addActivity'
+      this.getAllEmotions();
+    },
+
+    addActivity(){
+      this.createActivity(this.newActivity)
+        .then(()=>{
+          this.findActivities("")
+            .then(()=>{
+              this.newActivity={title: "",level: "",category: "",questions: [{img: "",correctAnswer: "",options: [],points: 0,categoryImg:""},],coverIMG: "",description: "",}
+              this.$bvModal.hide("modalManage")
+          })
+        })
+         .catch((err)=>{
+            this.warning = `${err}`;
+            setTimeout(() => {
+              this.warning = "";
+            }, 5000);
+      })
+    },
+
+    removeActivity(id){
+      if(confirm('Confirma a alteração ?')){
+          this.deleteActivity(id)
+            .then(()=>{
+              this.findActivities("");
+            })
+      }
+    
     }
     
   },
 
   computed: {
-   ...mapGetters(['getUser','getUsers'])
+   ...mapGetters(['getUser','getUsers','getEmotions','getBadges','getActivities'])
   },
 
   mounted () {
@@ -1059,7 +1271,70 @@ export default {
       else{
         this.findAllUsers(`?typeUser=${this.formFilterUser.typeUser}&name=${newValue}`)
       }
-    }
+    },
+
+    'formFilterBadge.emotion'(newValue) {
+      if(this.formFilterBadge.title==''){
+          this.getAllBadges(`?emotion=${newValue}`)
+      }
+      else{
+          this.getAllBadges(`?emotion=${newValue}&title=${this.formFilterBadge.title}`)
+      }
+    },
+    'formFilterBadge.title'(newValue) {
+      if(this.formFilterBadge.emotion==''){
+          this.getAllBadges(`?title=${newValue}`)
+      }
+      else{
+          this.getAllBadges(`?emotion=${this.formFilterBadge.emotion}&title=${newValue}`)
+      }
+    },
+
+    'formFilterActivity.title'() {
+         if(this.formFilterActivity.level!='' && this.formFilterActivity.category!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&level=${this.formFilterActivity.level}&category=${this.formFilterActivity.category}`);
+         }
+         else if(this.formFilterActivity.level!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&level=${this.formFilterActivity.level}`);
+         }
+         else if(this.formFilterActivity.category!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&category=${this.formFilterActivity.category}`);
+         }
+         else{
+             this.findActivities(`?title=${this.formFilterActivity.title}`);
+         }
+         
+      },
+       'formFilterActivity.level'() {
+         if(this.formFilterActivity.title!='' && this.formFilterActivity.category!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&level=${this.formFilterActivity.level}&category=${this.formFilterActivity.category}`);
+         }
+         else if(this.formFilterActivity.title!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&level=${this.formFilterActivity.level}`);
+         }
+         else if(this.formFilterActivity.category!=''){
+            this.findActivities(`?level=${this.formFilterActivity.level}&category=${this.formFilterActivity.category}`);
+         }
+         else{
+            this.findActivities(`?level=${this.formFilterActivity.level}`);
+         }
+         
+      },
+       'formFilterActivity.category'() {
+         if(this.formFilterActivity.level!='' && this.formFilterActivity.title!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&level=${this.formFilterActivity.level}&category=${this.formFilterActivity.category}`);
+         }
+         else if(this.formFilterActivity.level!=''){
+            this.findActivities(`?category=${this.formFilterActivity.category}&level=${this.formFilterActivity.level}`);
+         }
+         else if(this.formFilterActivity.title!=''){
+            this.findActivities(`?title=${this.formFilterActivity.title}&category=${this.formFilterActivity.level}`);
+         }
+         else{
+            this.findActivities(`?category=${this.formFilterActivity.category}`);
+         }
+         
+      }
   },
 };
 </script>

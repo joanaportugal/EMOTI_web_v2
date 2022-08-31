@@ -183,7 +183,7 @@
                   class="btn"
                   id="orange"
                   :disabled="childSelected==''"
-                  @click="whatModalDo = 'intoclass'"
+                  @click="getAllRequests()"
                   v-b-modal.modal-profile
                 >
                   Pedidos de Inscrição
@@ -205,10 +205,17 @@
                       class="col-4 d-flex flex-row justify-content-end align-items-center"
                     >
                       <img
-                        src="../assets/Imagem 1.png"
+                        :src="childSelected.imgProfile"
                         :style="{ width: '200px', height: '200px' }"
                         class="rounded-circle"
+                        v-if="childSelected.imgProfile!=''"
                       />
+                       <b-avatar 
+                        :text="childSelected.name.charAt(0)" 
+                        :style="{ width: '200px',height:'200px',fontSize:'90px',fontFamily:'EAmbit SemiBold',backgroundColor:'#bfbfbf' }"
+                        class="text-center"
+                        v-else>
+                      </b-avatar>
                     </div>
                     <b-form class="col-8 p-0">
                       <b-form-group
@@ -219,7 +226,7 @@
                       >
                         <b-form-input
                           id="profileName"
-                          value="Joana Portugal"
+                          :value="childSelected.name"
                           disabled
                         ></b-form-input>
                       </b-form-group>
@@ -232,7 +239,7 @@
                       >
                         <b-form-input
                           id="profileUsername"
-                          value="user123"
+                          :value="childSelected.username"
                           disabled
                         ></b-form-input>
                       </b-form-group>
@@ -245,7 +252,7 @@
                       >
                         <b-form-input
                           id="profileEmail"
-                          value="user123@gmail.com"
+                          :value="childSelected.email"
                           disabled
                         ></b-form-input>
                       </b-form-group>
@@ -271,14 +278,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr :style="{borderBottom: '2px solid #707070'}">
-                        <td class="px-4 py-3">AA</td>
-                        <td>Maria das Dores Soares</td>
+                      <tr :style="{borderBottom: '2px solid #707070'}" v-for="(team,index) in getChildClasses" :key="index">
+                        <td class="px-4 py-3">{{team.name}}</td>
+                        <td>{{team.teacher}}</td>
                         <td>
                           <button
                             class="btn btn-danger d-flex flex-row align-items-center"
                             id="red"
                             size="sm"
+                            @click="removeKidFromClass([team._id,childSelected._id,{teacherId:team.teacherId}])"
                           >
                             Anular
                           </button>
@@ -310,16 +318,17 @@
           <div class="py-4 d-flex col-12 profileCard">
             <b-card
               class="p-0"
-              :style="{width: '310px', background: '#e36e63', borderRadius: '10px'}"
+              :style="{width: '310px', background: `${badge.mainColor}`, borderRadius: '10px',border:'none'}"
+              v-for="(badge,index) in getBadges" :key="index"
             >
               <div class="col-12 d-flex flex-row">
-                <div class="col-4 py-3 px-0">
+                <div class="col-4 py-3 px-0" >
                   <img
-                    src="https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1571606089"
+                    :src="badge.badgeIMG"
                     class="p-2"
                     :style="{
                       height: '76px',
-                      border: '5px solid #d85549',
+                      border: `5px solid ${badge.footerColor}`,
                       borderRadius: '50%'
                     }
                     "
@@ -335,7 +344,7 @@
                     "
                     class="m-0"
                   >
-                    Tristeza
+                    {{badge.name}}
                   </p>
                   <b-progress max="20" :style="{height: '20px'}">
                     <b-progress-bar
@@ -349,9 +358,10 @@
               </div>
               <b-card-footer
                 :style="{
-                  background: '#d85549',
+                  background: `${badge.footerColor}`,
                   borderBottomLeftRadius: '10px',
-                  borderBottomRightRadius: '10px'
+                  borderBottomRightRadius: '10px',
+                  border:'none'
                 }
                 "
               >
@@ -558,10 +568,8 @@
                 id="green"
                 class="ml-2 mr-1"
                 @click="
-                  acceptRequest(
-                    getChildInfo.username,
-                    request.teacher,
-                    request.name
+                  agreeRequest(
+                    {teacherId:request.teacherId,className:request.name}
                   )
                 "
               >
@@ -574,9 +582,7 @@
                 class="ml-1 mr-2"
                 @click="
                   removeRequest(
-                    getChildInfo.username,
-                    request.teacher,
-                    request.name
+                   {teacherId:request.teacherId,className:request.name}
                   )
                 "
               >
@@ -602,7 +608,7 @@
         </h4>
 
         <b-form
-          @submit="alterImg()"
+          @submit.prevent="alterImg()"
           class="px-2 pb-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
         >
@@ -676,11 +682,11 @@ export default {
   },
   
   computed: {
-    ...mapGetters(['getUser','getChilds'])
+    ...mapGetters(['getUser','getChilds','getBadges','getRequests','getChildClasses'])
   },
 
   methods: {
-    ...mapActions(['findUser','updateProfile','findRelations','createRelation','removeRelation']),
+    ...mapActions(['findUser','updateProfile','findRelations','createRelation','removeRelation','getAllBadges','findRequests','acceptRequest','deleteRequest','findChildClasses','removeStudent']),
 
     changePassword(){
       if(this.passForm.newPass!=this.passForm.confPass){
@@ -689,7 +695,11 @@ export default {
       }
       else{
        this.updateProfile({oldPass:this.passForm.oldPass,newPass:this.passForm.newPass})
-       .then(()=>{location.reload()})
+       .then(()=>{
+        this.findUser()
+        this.$bvModal.hide("modal-profile")
+        this.passForm={newPass: "",confPass: "",oldPass:""}
+       })
        .catch((err)=>{
         this.warning=`${err}`
         setTimeout(()=>{this.warning=""},5000)
@@ -699,7 +709,12 @@ export default {
 
     alterImg(){
       this.updateProfile({imgProfile:this.newImg})
-       .then(()=>{location.reload()})
+       .then(()=>{
+        this.findUser()
+        this.$bvModal.hide("modal-profile")
+        this.newImg=''
+
+       })
        .catch((err)=>{
         this.warning=`${err}`
         setTimeout(()=>{this.warning=""},5000)
@@ -708,7 +723,17 @@ export default {
 
     addChild(){
        this.createRelation(this.formAdd)
-        .then(()=>{location.reload()})
+        .then(()=>{
+          this.findRelations()
+            .then(()=>{
+              if(this.getChilds.length!=0){
+                this.childSelected=this.getChilds[0]
+                this.findChildClasses(this.getChilds[0]._id)
+              }
+              this.$bvModal.hide("modal-profile")
+              this.formAdd={username: "",password: ""}
+            })
+        })
         .catch((err)=>{
           this.warning=`${err}`
           setTimeout(()=>{this.warning=""},5000)
@@ -718,9 +743,50 @@ export default {
     removeChild(id){
       if(confirm('Confirma a alteração?')){
         this.removeRelation(id)
-        .then(()=>{location.reload();})
+        .then(()=>{
+          this.findRelations()
+            .then(()=>{
+              if(this.getChilds.length!=0){
+                this.childSelected=this.getChilds[0].name
+                this.findChildClasses(this.getChilds[0]._id)
+              }
+              else{
+                this.childSelected=''
+              }
+            })
+          })
         .catch((err)=>console.log(err))
       }
+    },
+
+    getAllRequests(){
+      this.whatModalDo = 'intoclass';
+      this.findRequests(this.childSelected._id);
+    },
+
+    agreeRequest(data){
+      this.acceptRequest([this.childSelected._id,data])
+        .then(()=>{
+          this.findChildClasses(this.childSelected._id);
+          this.findRequests(this.childSelected._id);
+        })
+    },
+
+    removeRequest(data){
+      this.deleteRequest([this.childSelected._id,data])
+        .then(()=>{
+          this.findRequests(this.childSelected._id);
+        })
+    },
+
+    removeKidFromClass(data){
+      if(confirm('Confirma a alteração?')){
+        this.removeStudent(data)
+          .then(()=>{
+            this.findChildClasses(data[1])
+          })
+      }
+      
     }
       
 
@@ -732,9 +798,13 @@ export default {
         this.findRelations()
         .then(()=>{
           if(this.getChilds.length!=0){
-            this.childSelected=this.getChilds[0].name
+            this.childSelected=this.getChilds[0]
+            this.findChildClasses(this.getChilds[0]._id)
           }
         })
+      }
+      else if(this.getUser.typeUser=='Criança'){
+        this.getAllBadges("")
       }
     });
   },
