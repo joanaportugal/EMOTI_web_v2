@@ -13,7 +13,7 @@
             </h2>
             <div
               class="rounded d-flex flex-row flex-wrap justify-content-around align-items-around pb-3"
-              :style="{border: '2px solid #e87461'}"
+              :style="{border: '2px solid #e87461',height:'450px'}"
             >
               <div class="m-3 myCard" :style="{position: 'relative'}">
                 <b-img src="../assets/Imagem 2.png"></b-img>

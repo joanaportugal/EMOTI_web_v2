@@ -10,7 +10,7 @@
     <main>
       <AppSearch />
       <b-container class="bv-example-row mb-5">
-        <!-- Reconhecimento--><!--
+        <!-- Reconhecimento-->
         <b-row class="mx-4 mx-4 d-flex flex-row flex-wrap justify-content-center">
            <h2
             :style="{ fontFamily: 'EAmbit SemiBold' }"
@@ -30,7 +30,7 @@
             <div class="col-2 mb-3 p-0 d-flex flex-row align-items-center">
               <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">1</span>/4</span>
               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
-              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>--><!--
+              <!--<b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>-->
               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}"  v-b-modal.modal-activity>done_all</span></b-button>
             </div>
             <div class="col-6 p-0">
@@ -43,15 +43,15 @@
               <h4>A carregar...</h4>
             </div>
             <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-4 mb-2" >
-              <b-button @click="messageAPI=result" :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none',fontFamily:'EAmbit SemiBold'}" class="d-flex flex-row align-items-center" size="lg"><span class="material-icons-round" :style="{fontSize:'30px',paddingRight:'5px'}" :disabled="showCamera==false">photo_camera</span> Captar Emoção</b-button>
+              <b-button @click="messageAPI=result" :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none',fontFamily:'EAmbit SemiBold'}" class="d-flex flex-row align-items-center" size="lg" :disabled="showCamera==false"><span class="material-icons-round" :style="{fontSize:'30px',paddingRight:'5px'}" >photo_camera</span> Captar Emoção</b-button>
             </div>
             <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-4">
               <h5><span :style="{fontWeight:'bolder',color:'#e87461'}">Emoção Captada: </span>{{messageAPI}}</h5>
             </div>
           </div>
-        </b-row>-->
+        </b-row>
 
-        <!--Quiz-->
+        <!--Quiz--><!--
         <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center">
           <h2
             :style="{ fontFamily: 'EAmbit SemiBold' }"
@@ -71,7 +71,7 @@
             <div class="col-2 mb-3 p-0 d-flex flex-row align-items-center">
               <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">1</span>/4</span>
               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
-              <!--<b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>-->
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>
                <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}"  v-b-modal.modal-activity>done_all</span></b-button>
             </div>
             <div class="col-6 p-0 mt-4 mb-3">
@@ -99,7 +99,7 @@
             </div>
 
           </div>
-        </b-row>
+        </b-row>-->
       </b-container>
       <AppFooter />
       <b-modal
@@ -236,11 +236,11 @@ export default {
     })
   },
    beforeMount () {
-    //this.initIA().then(()=>{
-      //this.init();
-    //})
+    this.initIA().then(()=>{
+      this.init();
+    })
   }
-};
+}
 </script>
 
 <style>
