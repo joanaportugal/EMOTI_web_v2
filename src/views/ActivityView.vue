@@ -222,7 +222,22 @@ export default {
         }
         else{
           let result=Object.keys(detections[0].expressions).reduce(function(a, b){ return detections[0].expressions[a] > detections[0].expressions[b] ? a : b })
-           this.result=result;
+          if (result=='happy') {
+            this.result='Feliz'
+          }else if (result=='neutral') {
+            this.result='Neutro'
+          }else if (result=='sad') {
+            this.result='Triste'
+          }else if (result=='surprised') {
+            this.result='Surpreso'
+          }else if (result=='angry') {
+            this.result='Zangado'
+          }else if (result=='fearful') {
+            this.result='Assustado'
+          }else{
+            this.result=result
+          }
+
         }
       },1000)
 
