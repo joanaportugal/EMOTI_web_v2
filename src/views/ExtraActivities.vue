@@ -912,6 +912,13 @@ export default {
 
   created() {
     this.findUser().then(() => {
+      if(this.getUser.typeUser=='Professor'){
+        this.findTeams();
+        this.findAllStudents();
+      }
+      else{
+        console.log('ok');
+      }
       this.findActivities("").then(() => {
         if (
           this.getActivities.filter(
@@ -922,8 +929,7 @@ export default {
             (activity) => activity.author == this.getUser.username
           )[0];
       });
-      this.findTeams();
-      this.findAllStudents();
+      
 
     });
     this.getAllEmotions();

@@ -148,7 +148,7 @@
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected =child.name"
+                      @click="childSelected =child"
                     >
                       <b-avatar
                         variant="light"
@@ -159,7 +159,7 @@
                         class="m-0 mx-2"
                         :style="{fontFamily: 'EAmbit SemiBold'}"
                         :class="{
-                          activeChild: childSelected === child.name,
+                          activeChild: childSelected.name === child.name,
                         }"
                       >
                         {{child.name}}
