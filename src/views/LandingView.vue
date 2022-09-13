@@ -29,21 +29,21 @@
           </p>
         </div>
 
-        <div class="w-75 d-flex flex-row justify-content-around pt-2">
+        <div class="w-75 d-flex flex-row justify-content-around pt-2 test">
           <b-button
-            id="orange"
             @click="whatDo = 'login'"
             size="lg"
             :style="{ width: '40%', fontFamily: 'EAmbit SemiBold' }"
             v-b-modal.modal-center
+            :id="styleButton=='a'?'whiteA':styleButton=='b'?'whiteA':'orangeA'" @mouseover="styleButton='a'" @mouseleave="styleButton=''"
             >Entrar</b-button
           >
           <b-button
-            id="white"
             @click="whatDo = 'register'"
             size="lg"
             :style="{ width: '40%', fontFamily: 'EAmbit SemiBold' }"
             v-b-modal.modal-center
+            :id="styleButton=='b'?'orangeA':styleButton=='a'?'orangeA':'whiteA'" @mouseover="styleButton='b'" @mouseleave="styleButton=''"
             >Registar</b-button
           >
         </div>
@@ -242,13 +242,14 @@ export default {
         username: "",
         password: "",
       },
+      styleButton:""
     };
   },
   methods: {
     ...mapActions(["login","register"]),
     auth() {
       this.login(this.formLogin)
-        .then(() => this.$router.push({ name: "home" }))
+        .then(() => this.$router.push({ name: "Página Principal" }))
         .catch((err) => {
           this.message = `${err}`;
           setTimeout(() => {
@@ -265,7 +266,7 @@ export default {
       this.register(this.formRegister)
       .then(()=>{
         this.login({username:this.formRegister.username,password:this.formRegister.password})
-        .then(() => this.$router.push({ name: "home" }))
+        .then(() => this.$router.push({ name: "Página Principal" }))
         .catch((err) => {
           this.message = `${err}`;
           setTimeout(() => {
@@ -319,8 +320,15 @@ export default {
   color: #fdfdf3;
 }
 
-#orange:hover ~ #white{
-  color:#fdfdf3;
-  background-color: #e87461;
+#orangeA {
+  background: #e87461;
+  border: 1px solid #e87461;
 }
+
+#whiteA {
+  background-color: #fdfdf3;
+  border: 1px solid #e87461;
+  color: #e87461;
+}
+
 </style>

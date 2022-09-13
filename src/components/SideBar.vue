@@ -70,7 +70,7 @@
               selected: activeTab === 'Página Principal',
             }"
           >
-            <router-link :to="{ name: 'home' }"
+            <router-link :to="{ name: 'Página Principal' }"
               ><span class="material-icons-round">home</span> Página
               Principal</router-link
             >
@@ -81,7 +81,7 @@
               selected: activeTab === 'Atividades',
             }"
           >
-            <router-link :to="{ name: 'activities' }"
+            <router-link :to="{ name: 'Atividades' }"
               ><span class="material-icons-round">sports_esports</span>
               Atividades</router-link
             >
@@ -92,7 +92,7 @@
               selected: activeTab === 'Perfil',
             }"
           >
-            <router-link :to="{ name: 'profile' }"
+            <router-link :to="{ name: 'Perfil' }"
               ><span class="material-icons-round">person</span>
               Perfil</router-link
             >
@@ -104,7 +104,7 @@
             }"
             v-if="getLoggedUser.typeUser == 'Professor'"
           >
-            <router-link :to="{ name: 'virtualSchool' }"
+            <router-link :to="{ name: 'Escola Virtual' }"
               ><span class="material-icons-round">school</span> Escola
               Virtual</router-link
             >
@@ -119,7 +119,7 @@
               getLoggedUser.typeUser == 'Tutor'
             "
           >
-            <router-link :to="{ name: 'extraActivities' }"
+            <router-link :to="{ name: 'Atividades Extras' }"
               ><span class="material-icons-round">square_foot</span> Atividades
               Extras</router-link
             >
@@ -131,7 +131,7 @@
             }"
             v-if="getLoggedUser.typeUser == 'Administrador'"
           >
-            <router-link :to="{ name: 'manage' }"
+            <router-link :to="{ name: 'Gerir' }"
               ><span class="material-icons-round">construction</span>
               Gerir</router-link
             >

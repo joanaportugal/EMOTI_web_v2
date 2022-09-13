@@ -16,7 +16,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'landing',
+    name: 'Olá!',
     component: LandingView,
     meta: {
       notRequiresAuth: true,
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: "/home",
-    name: "home",
+    name: "Página Principal",
     component: HomeView,
     meta: {
       requiresAuth: true,
@@ -32,7 +32,7 @@ const routes = [
   },
   {
     path: "/activities",
-    name: "activities",
+    name: "Atividades",
     component: ActivitiesView,
     meta: {
       requiresAuth: true,
@@ -40,7 +40,7 @@ const routes = [
   },
   {
     path: "/activities/:id",
-    name: "activity",
+    name: "Atividade",
     component: ActivityView,
     meta: {
       requiresAuth: true,
@@ -48,7 +48,7 @@ const routes = [
   },
   {
     path: "/profile",
-    name: "profile",
+    name: "Perfil",
     component: ProfileView,
     meta: {
       requiresAuth: true,
@@ -56,7 +56,7 @@ const routes = [
   },
   {
     path: "/school",
-    name: "virtualSchool",
+    name: "Escola Virtual",
     component: VirtualSchool,
     meta: {
       requiresAuth: true,
@@ -65,7 +65,7 @@ const routes = [
   },
   {
     path: "/extra",
-    name: "extraActivities",
+    name: "Atividades Extras",
     component: ExtraActivities,
     meta: {
       requiresAuth: true,
@@ -74,13 +74,63 @@ const routes = [
   },
   {
     path: "/manage",
-    name: "manage",
+    name: "Gerir",
     component: ManageView,
     meta: {
       requiresAuth: true,
       RequiresBeAdmin:true
     },
   },
+  {
+    path:'/twitter',
+    name: "Twitter",
+    beforeEnter() {
+      window.open('https://www.twitter.com/', '_blank')
+    },
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/facebook',
+    name: "Facebook",
+    beforeEnter() {
+      window.open('https://www.facebook.com/', '_blank')
+    },
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/instagram',
+    name: "Instagram",
+    beforeEnter() {
+      window.open('https://www.instagram.com/', '_blank')
+    },
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/youtube',
+    name: "Youtube",
+    beforeEnter() {
+      window.open('https://www.youtube.com/', '_blank')
+    },
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/linkedin',
+    name: "Linkedin",
+    beforeEnter() {
+      window.open('https://www.linkedin.com/', '_blank')
+    },
+    meta: {
+      requiresAuth: true,
+    }
+  }
 ]
 
 const router = new VueRouter({
@@ -91,22 +141,29 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !store.getters.getLoggedUser.token) {
-    next({ name: "landing" });}
+    next({ name: "Olá!" });}
   else if(to.meta.notRequiresAuth && store.getters.getLoggedUser.token){
-    next({ name: "home" });
+    next({ name: "Página Principal" });
   }
   else if(to.meta.RequiresBeAdmin && store.getters.getLoggedUser.typeUser!="Administrador"){
-    next({ name: "home" });
+    next({ name: "Página Principal" });
   }
   else if(to.meta.RequiresBeTutorOrTeacher && store.getters.getLoggedUser.typeUser!="Tutor" && store.getters.getLoggedUser.typeUser!="Professor"){
-    next({ name: "home" });
+    next({ name: "Página Principal" });
   }
   else if(to.meta.requiresBeTeacher && store.getters.getLoggedUser.typeUser!="Professor"){
-    next({ name: "home" });
+    next({ name: "Página Principal" });
   }
   else {
     next();
   }
+});
+
+router.afterEach((to) => {
+
+  Vue.nextTick(() => {
+      document.title = 'EMOTI: '+to.name;
+  });
 });
 
 export default router

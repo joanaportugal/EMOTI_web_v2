@@ -1,44 +1,72 @@
 <template>
   <div class="d-flex">
     <aside>
-      <SideBar activeTab="Perfil" v-if="this.getUser!=null" :user="this.getUser"/>
+      <SideBar
+        activeTab="Perfil"
+        v-if="this.getUser != null"
+        :user="this.getUser"
+      />
     </aside>
-    <main v-if="this.getUser!=null">
+    <main v-if="this.getUser != null">
       <AppSearch />
       <b-container class="bv-example-row">
         <b-row class="mx-4">
-          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 col-12">
+          <h2 :style="{ fontFamily: 'EAmbit SemiBold' }" class="p-0 col-12">
             Dados Pessoais
           </h2>
 
           <div class="py-4 d-flex flex-row flex-wrap col-9 profileCard">
             <div
-              class="col-4 d-flex flex-row justify-content-center align-items-center"
+              class="
+                col-4
+                d-flex
+                flex-row
+                justify-content-center
+                align-items-center
+              "
             >
               <img
                 :src="getUser.imgProfile"
-                :style="{ width: '220px',height:'220px' }"
+                :style="{ width: '220px', height: '220px' }"
                 class="rounded-circle"
-                v-if="getUser.imgProfile!=''"
+                v-if="getUser.imgProfile != ''"
               />
-              <b-avatar 
-                :text="getUser.name.charAt(0)" 
-                :style="{ width: '220px',height:'220px',fontSize:'90px',fontFamily:'EAmbit SemiBold',backgroundColor:'#bfbfbf' }"
+              <b-avatar
+                :text="getUser.name.charAt(0)"
+                :style="{
+                  width: '220px',
+                  height: '220px',
+                  fontSize: '90px',
+                  fontFamily: 'EAmbit SemiBold',
+                  backgroundColor: '#bfbfbf',
+                }"
                 class="text-center"
-                v-else>
+                v-else
+              >
               </b-avatar>
               <b-button
-                :style="{position: 'absolute', zIndex: '1', right: '6%', bottom: '40px'}"
+                :style="{
+                  position: 'absolute',
+                  zIndex: '1',
+                  right: '6%',
+                  bottom: '40px',
+                }"
                 pill
                 size="sm"
                 v-b-modal.modal-profile
-                class="d-flex flex-row justify-content-center align-items-center p-2"
+                class="
+                  d-flex
+                  flex-row
+                  justify-content-center
+                  align-items-center
+                  p-2
+                "
                 @click="whatModalDo = 'changePicture'"
                 id="orange"
               >
                 <span
                   class="material-icons-round"
-                  :style="{display: 'flex' , justifyContent: 'center'}"
+                  :style="{ display: 'flex', justifyContent: 'center' }"
                   >add_photo_alternate</span
                 >
               </b-button>
@@ -108,266 +136,341 @@
               >
             </div>
           </div>
-          
-          <div class="col-12 p-0 mt-5 mb-5" v-if="getUser.typeUser=='Tutor'">
-          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 col-12" >
-            Crianças
-          </h2>
-          <div class="d-flex col-12 p-0 profileCard" :style="{height: '510px'}">
-            <div class="p-0 col-4" :style="{borderRight: '2px solid #e87461'}">
-              <div class="border-bottom pt-3 px-2">
-                <div class="d-flex justify-content-between">
-                  <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="m-0">
-                    Lista
-                  </h3>
-                  <b-link
-                    :style="{ color: '#2b4141' }"
-                    v-b-modal.modal-profile
-                    @click="whatModalDo = 'addChild'"
-                    ><span
-                      class="material-icons-round"
-                      :style="{ fontSize: '30px' }"
-                      >add_circle</span
-                    ></b-link
-                  >
-                </div>
-                <b-form class="my-2">
-                  <b-form-input
-                    id="childName"
-                    placeholder="Pesquisa por nome..."
-                  ></b-form-input>
-                </b-form>
-              </div>
-              <div class="p-2" :style="{height: '397.5px', overflowY: 'scroll'}">
-                <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados ({{getChilds.length}})</h5>
-                <article>
-                  <div
-                    class="d-flex justify-content-between align-items-center pb-1 mt-2"
-                    :style="{borderBottom: '1px solid #707070'}"
-                    v-for="(child,index) in getChilds" :key='index'
-                  >
-                    <button
-                      class="btn d-flex align-items-center col-10 p-0"
-                      @click="childSelected =child"
-                    >
-                      <b-avatar
-                        variant="light"
-                        :text="child.initials"
-                        size="2.5rem"
-                      ></b-avatar>
-                      <span
-                        class="m-0 mx-2"
-                        :style="{fontFamily: 'EAmbit SemiBold'}"
-                        :class="{
-                          activeChild: childSelected.name === child.name,
-                        }"
-                      >
-                        {{child.name}}
-                      </span>
-                    </button>
-                    <button class="btn" @click="removeChild(child._id)">
-                      <span class="material-icons-round" :style="{color: '#e87461'}"
-                        >delete_forever</span
-                      >
-                    </button>
-                  </div>
-                </article>
-              </div>
-            </div>
-            <div class="col-8 py-3" :style="{overflowY: 'scroll'}">
-              <div class="d-flex justify-content-between">
-                <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 m-0">
-                  Detalhes
-                </h3>
-                <button
-                  class="btn"
-                  id="orange"
-                  :disabled="childSelected==''"
-                  @click="getAllRequests()"
-                  v-b-modal.modal-profile
-                >
-                  Pedidos de Inscrição
-                </button>
-              </div>
-              <div class="p-0 m-0" v-if="childSelected!=''">
-                <div class="mb-4">
-                  <h5 class="d-flex align-items-center my-4">
-                    <span class="material-icons-round" :style="{color: '#e87461'}"
-                      >info</span
-                    >
-                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                      Informações Gerais
-                    </span>
-                  </h5>
 
-                  <div class="d-flex align-items-center mb-5">
-                    <div
-                      class="col-4 d-flex flex-row justify-content-end align-items-center"
-                    >
-                      <img
-                        :src="childSelected.imgProfile"
-                        :style="{ width: '200px', height: '200px' }"
-                        class="rounded-circle"
-                        v-if="childSelected.imgProfile!=''"
-                      />
-                       <b-avatar 
-                        :text="childSelected.name.charAt(0)" 
-                        :style="{ width: '200px',height:'200px',fontSize:'90px',fontFamily:'EAmbit SemiBold',backgroundColor:'#bfbfbf' }"
-                        class="text-center"
-                        v-else>
-                      </b-avatar>
-                    </div>
-                    <b-form class="col-8 p-0">
-                      <b-form-group
-                        label="Nome:"
-                        label-for="profileName"
-                        label-cols-sm="4"
-                        label-align-sm="left"
-                      >
-                        <b-form-input
-                          id="profileName"
-                          :value="childSelected.name"
-                          disabled
-                        ></b-form-input>
-                      </b-form-group>
-
-                      <b-form-group
-                        label="Username:"
-                        label-for="profileUsername"
-                        label-cols-sm="4"
-                        label-align-sm="left"
-                      >
-                        <b-form-input
-                          id="profileUsername"
-                          :value="childSelected.username"
-                          disabled
-                        ></b-form-input>
-                      </b-form-group>
-
-                      <b-form-group
-                        label="Email:"
-                        label-for="profileEmail"
-                        label-cols-sm="4"
-                        label-align-sm="left"
-                      >
-                        <b-form-input
-                          id="profileEmail"
-                          :value="childSelected.email"
-                          disabled
-                        ></b-form-input>
-                      </b-form-group>
-                    </b-form>
-                  </div>
-                </div>
-                <div class="mb-5">
-                  <h5 class="d-flex align-items-center my-4">
-                    <span class="material-icons-round" :style="{color: '#e87461'}"
-                      >school</span
-                    >
-                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                      Turmas
-                    </span>
-                  </h5>
-
-                  <table class="col-12">
-                    <thead>
-                      <tr :style="{background: '#e87461', color: '#fbfbf3'}">
-                        <th class="px-4">Turma</th>
-                        <th>Professor</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr :style="{borderBottom: '2px solid #707070'}" v-for="(team,index) in getChildClasses" :key="index">
-                        <td class="px-4 py-3">{{team.name}}</td>
-                        <td>{{team.teacher}}</td>
-                        <td>
-                          <button
-                            class="btn btn-danger d-flex flex-row align-items-center"
-                            id="red"
-                            size="sm"
-                            @click="removeKidFromClass([team._id,childSelected._id,{teacherId:team.teacherId}])"
-                          >
-                            Anular
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="mb-4">
-                  <h5 class="d-flex align-items-center my-4">
-                    <span class="material-icons-round" :style="{color: '#e87461'}"
-                      >equalizer</span
-                    >
-                    <span class="mx-2" :style="{fontFamily: 'EAmbit SemiBold'}">
-                      Estatísticas
-                    </span>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-
-          <div class="p-0 col-12 mb-3" v-if="getUser.typeUser=='Criança'">
-          <h2 :style="{fontFamily: 'EAmbit SemiBold'}" class="mt-5 col-12 p-0">
-            Conquistas
-          </h2>
-          <div class="py-4 d-flex col-12 profileCard">
-            <b-card
-              class="p-0"
-              :style="{width: '310px', background: `${badge.mainColor}`, borderRadius: '10px',border:'none'}"
-              v-for="(badge,index) in getBadges" :key="index"
+          <div class="col-12 p-0 mt-5 mb-5" v-if="getUser.typeUser == 'Tutor'">
+            <h2 :style="{ fontFamily: 'EAmbit SemiBold' }" class="p-0 col-12">
+              Crianças
+            </h2>
+            <div
+              class="d-flex col-12 p-0 profileCard"
+              :style="{ height: '510px' }"
             >
-              <div class="col-12 d-flex flex-row">
-                <div class="col-4 py-3 px-0" >
-                  <img
-                    :src="badge.badgeIMG"
-                    class="p-2"
-                    :style="{
-                      height: '76px',
-                      border: `5px solid ${badge.footerColor}`,
-                      borderRadius: '50%'
-                    }
-                    "
-                  />
+              <div
+                class="p-0 col-4"
+                :style="{ borderRight: '2px solid #e87461' }"
+              >
+                <div class="border-bottom pt-3 px-2">
+                  <div class="d-flex justify-content-between">
+                    <h3 :style="{ fontFamily: 'EAmbit SemiBold' }" class="m-0">
+                      Lista
+                    </h3>
+                    <b-link
+                      :style="{ color: '#2b4141' }"
+                      v-b-modal.modal-profile
+                      @click="whatModalDo = 'addChild'"
+                      ><span
+                        class="material-icons-round"
+                        :style="{ fontSize: '30px' }"
+                        >add_circle</span
+                      ></b-link
+                    >
+                  </div>
+                  <b-form class="my-2">
+                    <b-form-input
+                      id="childName"
+                      placeholder="Pesquisa por nome..."
+                      v-model="searchKid"
+                    ></b-form-input>
+                  </b-form>
                 </div>
-                <div class="col-8 py-3 px-0">
-                  <p
-                    :style="{
-                      fontFamily: 'EAmbit SemiBold',
-                      color: 'white',
-                      fontSize: '28px'
-                    }
-                    "
-                    class="m-0"
-                  >
-                    {{badge.name}}
-                  </p>
-                  <b-progress max="20" :style="{height: '20px'}">
-                    <b-progress-bar
-                      value="10"
-                      :label="`10/20`"
-                      variant="warning"
-                      class="py-2"
-                    ></b-progress-bar>
-                  </b-progress>
+                <div
+                  class="p-2"
+                  :style="{ height: '397.5px', overflowY: 'scroll' }"
+                >
+                  <h5 :style="{ fontFamily: 'EAmbit SemiBold' }">
+                    Resultados ({{ getChilds.length }})
+                  </h5>
+                  <article>
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        pb-1
+                        mt-2
+                      "
+                      :style="{ borderBottom: '1px solid #707070' }"
+                      v-for="(child, index) in getChilds"
+                      :key="index"
+                    >
+                      <button
+                        class="btn d-flex align-items-center col-10 p-0"
+                        @click="childSelected = child"
+                      >
+                        <b-avatar
+                          variant="light"
+                          :text="child.initials"
+                          size="2.5rem"
+                        ></b-avatar>
+                        <span
+                          class="m-0 mx-2"
+                          :style="{ fontFamily: 'EAmbit SemiBold' }"
+                          :class="{
+                            activeChild: childSelected.name === child.name,
+                          }"
+                        >
+                          {{ child.name }}
+                        </span>
+                      </button>
+                      <button class="btn" @click="removeChild(child._id)">
+                        <span
+                          class="material-icons-round"
+                          :style="{ color: '#e87461' }"
+                          >delete_forever</span
+                        >
+                      </button>
+                    </div>
+                  </article>
                 </div>
               </div>
-              <b-card-footer
-                :style="{
-                  background: `${badge.footerColor}`,
-                  borderBottomLeftRadius: '10px',
-                  borderBottomRightRadius: '10px',
-                  border:'none'
-                }
-                "
-              >
-              </b-card-footer>
-            </b-card>
+              <div class="col-8 py-3" :style="{ overflowY: 'scroll' }">
+                <div class="d-flex justify-content-between">
+                  <h3
+                    :style="{ fontFamily: 'EAmbit SemiBold' }"
+                    class="p-0 m-0"
+                  >
+                    Detalhes
+                  </h3>
+                  <button
+                    class="btn"
+                    id="orange"
+                    :disabled="childSelected == ''"
+                    @click="getAllRequests()"
+                    v-b-modal.modal-profile
+                  >
+                    Pedidos de Inscrição
+                  </button>
+                </div>
+                <div class="p-0 m-0" v-if="childSelected != ''">
+                  <div class="mb-4">
+                    <h5 class="d-flex align-items-center my-4">
+                      <span
+                        class="material-icons-round"
+                        :style="{ color: '#e87461' }"
+                        >info</span
+                      >
+                      <span
+                        class="mx-2"
+                        :style="{ fontFamily: 'EAmbit SemiBold' }"
+                      >
+                        Informações Gerais
+                      </span>
+                    </h5>
+
+                    <div class="d-flex align-items-center mb-5">
+                      <div
+                        class="
+                          col-4
+                          d-flex
+                          flex-row
+                          justify-content-end
+                          align-items-center
+                        "
+                      >
+                        <img
+                          :src="childSelected.imgProfile"
+                          :style="{ width: '200px', height: '200px' }"
+                          class="rounded-circle"
+                          v-if="childSelected.imgProfile != ''"
+                        />
+                        <b-avatar
+                          :text="childSelected.name.charAt(0)"
+                          :style="{
+                            width: '200px',
+                            height: '200px',
+                            fontSize: '90px',
+                            fontFamily: 'EAmbit SemiBold',
+                            backgroundColor: '#bfbfbf',
+                          }"
+                          class="text-center"
+                          v-else
+                        >
+                        </b-avatar>
+                      </div>
+                      <b-form class="col-8 p-0">
+                        <b-form-group
+                          label="Nome:"
+                          label-for="profileName"
+                          label-cols-sm="4"
+                          label-align-sm="left"
+                        >
+                          <b-form-input
+                            id="profileName"
+                            :value="childSelected.name"
+                            disabled
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group
+                          label="Username:"
+                          label-for="profileUsername"
+                          label-cols-sm="4"
+                          label-align-sm="left"
+                        >
+                          <b-form-input
+                            id="profileUsername"
+                            :value="childSelected.username"
+                            disabled
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group
+                          label="Email:"
+                          label-for="profileEmail"
+                          label-cols-sm="4"
+                          label-align-sm="left"
+                        >
+                          <b-form-input
+                            id="profileEmail"
+                            :value="childSelected.email"
+                            disabled
+                          ></b-form-input>
+                        </b-form-group>
+                      </b-form>
+                    </div>
+                  </div>
+                  <div class="mb-5">
+                    <h5 class="d-flex align-items-center my-4">
+                      <span
+                        class="material-icons-round"
+                        :style="{ color: '#e87461' }"
+                        >school</span
+                      >
+                      <span
+                        class="mx-2"
+                        :style="{ fontFamily: 'EAmbit SemiBold' }"
+                      >
+                        Turmas
+                      </span>
+                    </h5>
+
+                    <table class="col-12">
+                      <thead>
+                        <tr
+                          :style="{ background: '#e87461', color: '#fbfbf3' }"
+                        >
+                          <th class="px-4">Turma</th>
+                          <th>Professor</th>
+                          <th>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                         :style="{'border-bottom':index==getChildClasses.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}"
+                          v-for="(team, index) in getChildClasses"
+                          :key="index"
+                        >
+                          <td class="px-4 py-3">{{ team.name }}</td>
+                          <td>{{ team.teacher }}</td>
+                          <td>
+                            <button
+                              class="
+                                btn btn-danger
+                                d-flex
+                                flex-row
+                                align-items-center
+                              "
+                              id="red"
+                              size="sm"
+                              @click="
+                                removeKidFromClass([
+                                  team._id,
+                                  childSelected._id,
+                                  { teacherId: team.teacherId },
+                                ])
+                              "
+                            >
+                              Anular
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="mb-4">
+                    <h5 class="d-flex align-items-center my-4">
+                      <span
+                        class="material-icons-round"
+                        :style="{ color: '#e87461' }"
+                        >equalizer</span
+                      >
+                      <span
+                        class="mx-2"
+                        :style="{ fontFamily: 'EAmbit SemiBold' }"
+                      >
+                        Estatísticas
+                      </span>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="p-0 col-12 mb-3" v-if="getUser.typeUser == 'Criança'">
+            <h2
+              :style="{ fontFamily: 'EAmbit SemiBold' }"
+              class="mt-5 col-12 p-0"
+            >
+              Conquistas
+            </h2>
+            <div class="py-4 d-flex col-12 profileCard">
+              <b-card
+                class="p-0"
+                :style="{
+                  width: '310px',
+                  background: `${badge.mainColor}`,
+                  borderRadius: '10px',
+                  border: 'none',
+                }"
+                v-for="(badge, index) in getBadges"
+                :key="index"
+              >
+                <div class="col-12 d-flex flex-row">
+                  <div class="col-4 py-3 px-0">
+                    <img
+                      :src="badge.badgeIMG"
+                      class="p-2"
+                      :style="{
+                        height: '76px',
+                        border: `5px solid ${badge.footerColor}`,
+                        borderRadius: '50%',
+                      }"
+                    />
+                  </div>
+                  <div class="col-8 py-3 px-0">
+                    <p
+                      :style="{
+                        fontFamily: 'EAmbit SemiBold',
+                        color: 'white',
+                        fontSize: '28px',
+                      }"
+                      class="m-0"
+                    >
+                      {{ badge.name }}
+                    </p>
+                    <b-progress max="20" :style="{ height: '20px' }">
+                      <b-progress-bar
+                        value="10"
+                        :label="`10/20`"
+                        variant="warning"
+                        class="py-2"
+                      ></b-progress-bar>
+                    </b-progress>
+                  </div>
+                </div>
+                <b-card-footer
+                  :style="{
+                    background: `${badge.footerColor}`,
+                    borderBottomLeftRadius: '10px',
+                    borderBottomRightRadius: '10px',
+                    border: 'none',
+                  }"
+                >
+                </b-card-footer>
+              </b-card>
+            </div>
           </div>
         </b-row>
       </b-container>
@@ -539,7 +642,7 @@
       <!--Pedidos para associar-->
       <div
         :style="{ fontFamily: 'EAmbit SemiBold' }"
-        class="text-center d-flex flex-column align-items-center"
+        class="text-center d-flex flex-column p-0"
         v-if="whatModalDo == 'intoclass'"
       >
         <h4
@@ -548,49 +651,49 @@
         >
           Pedidos para associar
         </h4>
-
-        <table class="col-12 mt-3 ml-4 mr-4 mb-3 text-center px-2 pb-3">
+        <div class="p-2 d-flex flex-row justify-content-center" :style="{borderRadius:'5px',border:'2px solid #e87461'}"> 
+        <table class="col-12 mt-3 ml-4 mr-4 mb-3 text-center px-2 pb-3" v-if="getRequests.length!=0">
           <tr :style="{ 'background-color': '#e87461', color: '#fbfbf3' }">
             <th class="p-1">Turma</th>
             <th>Professor</th>
             <th>Ações</th>
           </tr>
           <tr
-            :style="{ 'border-bottom': '2px solid #707070' }"
+            :style="{'border-bottom':index==getRequests.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}"
             v-for="(request, index) in getRequests"
             :key="index"
           >
             <td class="p-4">{{ request.name }}</td>
             <td>{{ request.teacher }}</td>
             <td>
-              <b-button
-                size="sm"
-                id="green"
-                class="ml-2 mr-1"
+              <b-link
+                class="mr-1"
+                :style="{ textDecoration: 'none', color: '#34B187' }"
                 @click="
-                  agreeRequest(
-                    {teacherId:request.teacherId,className:request.name}
-                  )
+                  agreeRequest({
+                    teacherId: request.teacherId,
+                    className: request.name,
+                  })
                 "
-              >
-                <span class="material-icons-round">done</span>
-              </b-button>
-              <b-button
-                variant="danger"
-                size="sm"
-                id="red"
-                class="ml-1 mr-2"
+                ><span class="material-icons-round"  :style="{fontSize:'32px'}">check </span>
+              </b-link>
+              <b-link :style="{ textDecoration: 'none', color: '#F54C25'}"
                 @click="
-                  removeRequest(
-                   {teacherId:request.teacherId,className:request.name}
-                  )
-                "
+                    removeRequest({
+                      teacherId: request.teacherId,
+                      className: request.name,
+                    })
+                  "
+                ><span class="material-icons-round" :style="{fontSize:'32px'}" >close</span></b-link
               >
-                <span class="material-icons-round">close</span>
-              </b-button>
+              
             </td>
           </tr>
         </table>
+        <div class="col-12 m-2" v-else>
+          <p class="d-flex flex-row align-items-center justify-content-center m-0">Não existem pedidos pendentes.</p>
+        </div>
+       </div>
       </div>
 
       <!--Alterar imagem-->
@@ -644,8 +747,12 @@
             <p>{{ warning }}</p>
           </div>
         </b-form>
+        
       </div>
     </b-modal>
+    <b-toast id="my-toast" append-toast no-close-button header-class="headerNotify" body-class="bodyNotify">
+      <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
+    </b-toast>
   </div>
 </template>
 
@@ -654,7 +761,7 @@ import SideBar from "@/components/SideBar.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import AppFooter from "@/components/AppFooter.vue";
 
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
@@ -671,142 +778,189 @@ export default {
       passForm: {
         newPass: "",
         confPass: "",
-        oldPass:""
+        oldPass: "",
       },
       formAdd: {
         username: "",
         password: "",
       },
       newImg: "",
+      searchKid: "",
+      message:""
     };
   },
-  
+
   computed: {
-    ...mapGetters(['getUser','getChilds','getBadges','getRequests','getChildClasses'])
+    ...mapGetters([
+      "getUser",
+      "getChilds",
+      "getBadges",
+      "getRequests",
+      "getChildClasses",
+    ]),
   },
 
   methods: {
-    ...mapActions(['findUser','updateProfile','findRelations','createRelation','removeRelation','getAllBadges','findRequests','acceptRequest','deleteRequest','findChildClasses','removeStudent']),
+    ...mapActions([
+      "findUser",
+      "updateProfile",
+      "findRelations",
+      "createRelation",
+      "removeRelation",
+      "getAllBadges",
+      "findRequests",
+      "acceptRequest",
+      "deleteRequest",
+      "findChildClasses",
+      "removeStudent",
+    ]),
 
-    changePassword(){
-      if(this.passForm.newPass!=this.passForm.confPass){
-        this.warning='As passwords não coincidem!'
-        setTimeout(()=>{this.warning=""},5000)
-      }
-      else{
-       this.updateProfile({oldPass:this.passForm.oldPass,newPass:this.passForm.newPass})
-       .then(()=>{
-        this.findUser()
-        this.$bvModal.hide("modal-profile")
-        this.passForm={newPass: "",confPass: "",oldPass:""}
-       })
-       .catch((err)=>{
-        this.warning=`${err}`
-        setTimeout(()=>{this.warning=""},5000)
-       })
-      }
-    },
-
-    alterImg(){
-      this.updateProfile({imgProfile:this.newImg})
-       .then(()=>{
-        this.findUser()
-        this.$bvModal.hide("modal-profile")
-        this.newImg=''
-
-       })
-       .catch((err)=>{
-        this.warning=`${err}`
-        setTimeout(()=>{this.warning=""},5000)
-       })
-    },
-
-    addChild(){
-       this.createRelation(this.formAdd)
-        .then(()=>{
-          this.findRelations()
-            .then(()=>{
-              if(this.getChilds.length!=0){
-                this.childSelected=this.getChilds[0]
-                this.findChildClasses(this.getChilds[0]._id)
-              }
-              this.$bvModal.hide("modal-profile")
-              this.formAdd={username: "",password: ""}
-            })
+    changePassword() {
+      if (this.passForm.newPass != this.passForm.confPass) {
+        this.warning = "As passwords não coincidem!";
+        setTimeout(() => {
+          this.warning = "";
+        }, 5000);
+      } else {
+        this.updateProfile({
+          oldPass: this.passForm.oldPass,
+          newPass: this.passForm.newPass,
         })
-        .catch((err)=>{
-          this.warning=`${err}`
-          setTimeout(()=>{this.warning=""},5000)
+          .then(() => {
+            this.findUser();
+            this.$bvModal.hide("modal-profile");
+            this.message='A password foi alterada com sucesso.'
+            this.$bvToast.show('my-toast');
+            this.passForm = { newPass: "", confPass: "", oldPass: "" };
+          })
+          .catch((err) => {
+            this.warning = `${err}`;
+            setTimeout(() => {
+              this.warning = "";
+            }, 5000);
+          });
+      }
+    },
+
+    alterImg() {
+      this.updateProfile({ imgProfile: this.newImg })
+        .then(() => {
+          this.findUser();
+          this.$bvModal.hide("modal-profile");
+          this.message='A imagem de perfil foi alterada com sucesso.'
+          this.$bvToast.show('my-toast');
+          this.newImg = "";
+        })
+        .catch((err) => {
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000);
         });
     },
 
-    removeChild(id){
-      if(confirm('Confirma a alteração?')){
+    addChild() {
+      this.createRelation(this.formAdd)
+        .then(() => {
+          this.findRelations("").then(() => {
+            if (this.getChilds.length != 0) {
+              this.childSelected = this.getChilds[0];
+              this.findChildClasses(this.getChilds[0]._id);
+            }
+            this.$bvModal.hide("modal-profile");
+            this.message='Criança associada com sucesso.'
+            this.$bvToast.show('my-toast');
+            this.formAdd = { username: "", password: "" };
+          });
+        })
+        .catch((err) => {
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000);
+        });
+    },
+
+    removeChild(id) {
+      if (confirm("Confirma a alteração?")) {
         this.removeRelation(id)
-        .then(()=>{
-          this.findRelations()
-            .then(()=>{
-              if(this.getChilds.length!=0){
-                this.childSelected=this.getChilds[0].name
-                this.findChildClasses(this.getChilds[0]._id)
+          .then(() => {
+            this.message='Criança desassociada com sucesso.'
+            this.$bvToast.show('my-toast');
+            this.findRelations("").then(() => {
+              if (this.getChilds.length != 0) {
+                this.childSelected = this.getChilds[0].name;
+                this.findChildClasses(this.getChilds[0]._id);
+              } else {
+                this.childSelected = "";
               }
-              else{
-                this.childSelected=''
-              }
-            })
+            });
           })
-        .catch((err)=>console.log(err))
+          .catch((err) => console.log(err));
       }
     },
 
-    getAllRequests(){
-      this.whatModalDo = 'intoclass';
+    getAllRequests() {
+      this.whatModalDo = "intoclass";
       this.findRequests(this.childSelected._id);
     },
 
-    agreeRequest(data){
-      this.acceptRequest([this.childSelected._id,data])
-        .then(()=>{
-          this.findChildClasses(this.childSelected._id);
-          this.findRequests(this.childSelected._id);
-        })
+    agreeRequest(data) {
+      this.acceptRequest([this.childSelected._id, data]).then(() => {
+        this.findChildClasses(this.childSelected._id);
+        this.findRequests(this.childSelected._id);
+        this.message='O pedido de integração foi aprovado com sucesso.'
+        this.$bvToast.show('my-toast');
+      });
     },
 
-    removeRequest(data){
-      this.deleteRequest([this.childSelected._id,data])
-        .then(()=>{
-          this.findRequests(this.childSelected._id);
-        })
+    removeRequest(data) {
+      this.deleteRequest([this.childSelected._id, data]).then(() => {
+        this.findRequests(this.childSelected._id);
+        this.message='O pedido de integração foi reprovado com sucesso.'
+        this.$bvToast.show('my-toast');
+      });
     },
 
-    removeKidFromClass(data){
-      if(confirm('Confirma a alteração?')){
-        this.removeStudent(data)
-          .then(()=>{
-            this.findChildClasses(data[1])
-          })
+    removeKidFromClass(data) {
+      if (confirm("Confirma a alteração?")) {
+        this.removeStudent(data).then(() => {
+          this.message='A criança foi removida da turma com sucesso.'
+          this.$bvToast.show('my-toast');
+          this.findChildClasses(data[1]);
+        });
       }
-      
-    }
-      
-
+    },
   },
 
-  mounted () {
-    this.findUser().then(()=>{
-      if(this.getUser.typeUser=='Tutor'){
-        this.findRelations()
-        .then(()=>{
-          if(this.getChilds.length!=0){
-            this.childSelected=this.getChilds[0]
-            this.findChildClasses(this.getChilds[0]._id)
+  mounted() {
+    this.findUser().then(() => {
+      if (this.getUser.typeUser == "Tutor") {
+        this.findRelations("").then(() => {
+          if (this.getChilds.length != 0) {
+            if(this.$route.params.idUserTutor){
+              this.childSelected = this.getChilds.find(child=>child._id==this.$route.params.idUserTutor);
+              this.findChildClasses(this.getChilds.find(child=>child._id==this.$route.params.idUserTutor)._id);
+            }
+            else{
+              this.childSelected = this.getChilds[0];
+              this.findChildClasses(this.getChilds[0]._id);
+            }
+            
           }
-        })
-      }
-      else if(this.getUser.typeUser=='Criança'){
-        this.getAllBadges("")
+        });
+      } else if (this.getUser.typeUser == "Criança") {
+        this.getAllBadges("");
       }
     });
+  },
+
+  watch: {
+    searchKid(newValue) {
+      this.findRelations(`?name=${newValue}`).then(() => {
+        this.childSelected = "";
+      });
+    },
   },
 };
 </script>
@@ -888,9 +1042,20 @@ table {
   color: #4da1a9;
 }
 
-.btn:focus{
-  outline:0px !important;
-  -webkit-appearance:none;
+.btn:focus {
+  outline: 0px !important;
+  -webkit-appearance: none;
   box-shadow: none !important;
+}
+
+.bodyNotify{
+  background-color:#34b187d1;
+  border:none;
+  border-radius: 5px;
+  color:white;
+  font-family: 'EAmbit SemiBold';
+}
+.toast{
+  border:none;
 }
 </style>

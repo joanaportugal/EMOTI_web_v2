@@ -53,8 +53,8 @@ export default {
 
 
     actions: {
-        async findTeams(context) {
-            const response = await fetch(`${context.state.linkAPI}api/classes`, {
+        async findTeams(context,data) {
+            const response = await fetch(`${context.state.linkAPI}api/classes`+data, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
             })
@@ -120,8 +120,8 @@ export default {
             }
         },
 
-        async findAllStudents(context) {
-            const response = await fetch(`${context.state.linkAPI}api/classes/children`, {
+        async findAllStudents(context,data) {
+            const response = await fetch(`${context.state.linkAPI}api/classes/children`+data, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
             })

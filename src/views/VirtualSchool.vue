@@ -57,8 +57,9 @@
                 </div>
                 <b-form class="my-2">
                   <b-form-input
-                    id="childName"
+                    id="teamName"
                     placeholder="Pesquisa por nome..."
+                    v-model="searchTeam"
                   ></b-form-input>
                 </b-form>
               </div>
@@ -128,7 +129,7 @@
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr :style="{borderBottom: '2px solid #707070'}" v-for="(student,index) in classSelected.students" :key="index">
+                  <tr :style="{'border-bottom':index==classSelected.students.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(student,index) in classSelected.students" :key="index">
                     <td class="px-4 py-3">{{student.name}}</td>
                     <td>{{student.tutor}}</td>
                     <td class="d-flex py-2">
@@ -177,7 +178,7 @@
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr :style="{borderBottom: '2px solid #707070'}"  v-for="(request,index) in classSelected.requests" :key="index">
+                  <tr :style="{'border-bottom':index==classSelected.requests.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}"  v-for="(request,index) in classSelected.requests" :key="index">
                     <td class="px-4 py-3">{{request.name}}</td>
                     <td>{{request.tutor}}</td>
                     <td>
@@ -226,12 +227,13 @@
                   <b-form-input
                     id="childName"
                     placeholder="Pesquisa por nome..."
+                    v-model="searchStudent"
                   ></b-form-input>
                 </b-form>
               </div>
               <div class="p-2" :style="{height: '388px', overflowY: 'scroll'}">
                 <h5 :style="{fontFamily: 'EAmbit SemiBold'}">Resultados ({{getStudents.length}})</h5>
-                <article v-if="childSelected!=''">
+                <article>
                   <div
                     class="d-flex justify-content-between align-items-center pb-1 mt-2"
                     :style="{borderBottom: '1px solid #707070'}"
@@ -243,7 +245,7 @@
                     >
                       <b-avatar
                         variant="light"
-                        :text="childSelected.name.charAt(0)"
+                        :text="student.name.charAt(0)"
                         size="2.5rem"
                       ></b-avatar>
                       <span
@@ -265,7 +267,7 @@
                 </article>
               </div>
             </div>
-            <div class="col-8 py-3" :style="{overflowY: 'scroll'}">
+            <div class="col-8 py-3" :style="{overflowY: 'scroll'}" >
               <div class="d-flex justify-content-between">
                 <h3 :style="{fontFamily: 'EAmbit SemiBold'}" class="p-0 m-0">
                   Detalhes
@@ -276,7 +278,7 @@
                   id="grey"
                   v-b-modal.modal-virtual-school
                   @click="whatModalDo = 'editStudent'"
-                  :disabled="getStudents.length==0"
+                  :disabled="childSelected==''"
                 >
                   Alterar Turma
                 </button>
@@ -645,6 +647,9 @@
         </b-form>
       </div>
     </b-modal>
+     <b-toast id="my-toast" append-toast no-close-button header-class="headerNotify" body-class="bodyNotify">
+      <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
+    </b-toast>
   </div>
 </template>
 
@@ -678,7 +683,10 @@ export default {
         tutor:"",
         className:""
       },
-      updateKidTeam:""
+      updateKidTeam:"",
+      searchTeam:"",
+      searchStudent:"",
+      message:""
     };
   },
 
@@ -695,13 +703,15 @@ export default {
       this.createTeam({className:this.teamName})
         .then(()=>{
           this.$bvModal.hide("modal-virtual-school")
-          this.findTeams().then(()=>{
+          this.findTeams("").then(()=>{
              this.classSelected=this.getTeams.find(team=>team.name==this.teamName)
              setTimeout(() => {
               this.teamName=''
              }, 1000);
 
           });
+          this.message='Turma adicionada com sucesso.'
+          this.$bvToast.show('my-toast');
         })
         .catch((err)=>{
           this.warning=`${err}`
@@ -713,7 +723,9 @@ export default {
       if(confirm('Deseja remover a turma ?')){
         this.removeTeam(id)
           .then(()=>{
-            this.findTeams().then(()=>{
+            this.message='Turma removida com sucesso.'
+            this.$bvToast.show('my-toast');
+            this.findTeams("").then(()=>{
               if(this.getTeams.length!=0){
                  this.classSelected=this.getTeams[0]
               }
@@ -727,7 +739,9 @@ export default {
       this.updateNameTeam([this.classSelected._id,{newName:this.updatedName}])
         .then(()=>{
           this.$bvModal.hide("modal-virtual-school")
-          this.findTeams().then(()=>{
+          this.message='Nome da Turma alterado com sucesso.'
+          this.$bvToast.show('my-toast');
+          this.findTeams("").then(()=>{
             this.classSelected=this.getTeams.find(team=>team.name==this.updatedName)
              setTimeout(() => {
               this.updatedName=''
@@ -742,7 +756,7 @@ export default {
 
     selectTeams(){
       this.optSelected="Turmas";
-      this.findTeams()
+      this.findTeams("")
         .then(()=>{
           if(this.getTeams.length!=0){
             this.classSelected=this.getTeams[0]
@@ -753,11 +767,14 @@ export default {
     //Students
     selectStudents(name){
       this.optSelected="Alunos"
-      this.findAllStudents()
+      this.findAllStudents("")
         .then(()=>{
           if(this.getStudents.length!=0){
             if(name==null){
               this.childSelected=this.getStudents[0];
+            }
+            else if(typeof name==="object"){
+               this.childSelected=this.getStudents.find((student)=>student._id==name.id);
             }
             else{
               this.childSelected=this.getStudents.find((student)=>student.name==name);
@@ -792,6 +809,7 @@ export default {
     addStudent(){
       this.createRequest({username:this.formNewStudent.username,className:this.formNewStudent.className})
         .then(()=>{
+          
           this.formNewStudent={
             username:"",
             name:"",
@@ -799,6 +817,8 @@ export default {
             className:""
           }
           this.$bvModal.hide("modal-virtual-school")
+          this.message='Pedido de integração efetuado com sucesso.'
+          this.$bvToast.show('my-toast');
         })
         .catch((err)=>{
           this.warning=`${err}`
@@ -810,7 +830,9 @@ export default {
       if(confirm('Deseja cancelar o pedido ?')){
         this.deleteRequest(data)
           .then(()=>{
-            this.findTeams().then(()=>{
+            this.message='Pedido de integração removido com sucesso.'
+            this.$bvToast.show('my-toast');
+            this.findTeams("").then(()=>{
               this.classSelected=this.getTeams.find(team=>team.name==data[1].className)
             })
           })
@@ -821,10 +843,12 @@ export default {
       let idClass=this.getTeams.find((team)=>team.name==this.childSelected.class)._id
       this.updateChildClass([idClass,this.childSelected._id,{newClass:this.updateKidTeam}])
         .then(()=>{
-          this.findAllStudents().then(()=>{
+          this.findAllStudents("").then(()=>{
             this.childSelected=this.getStudents.find(student=>student._id==this.childSelected._id)
           })
           this.$bvModal.hide("modal-virtual-school")
+          this.message='O processo de alteração de turma foi efetuado com sucesso.'
+          this.$bvToast.show('my-toast');
           setTimeout(() => {
               this.updateKidTeam=''
           }, 1000);
@@ -845,13 +869,15 @@ export default {
         }
         this.removeStudent(data)
           .then(()=>{
+            this.message='Criança removida com sucesso.'
+            this.$bvToast.show('my-toast');
             if(where=='team'){
-              this.findTeams().then(()=>{
+              this.findTeams("").then(()=>{
                 this.classSelected=this.getTeams.find(team=>team._id==data[0])
               })
             }
             else{
-              this.findAllStudents().then(()=>{
+              this.findAllStudents("").then(()=>{
                 if(this.getStudents.length!=0){
                   this.childSelected=this.getStudents[0]
                 }
@@ -871,13 +897,33 @@ export default {
   mounted () {
      this.findUser()
      .then(()=>{
-      this.findTeams()
+      this.findTeams("")
         .then(()=>{
           if(this.getTeams.length!=0){
-            this.classSelected=this.getTeams[0]
+            if(this.$route.params.idUserTeacher){
+              this.selectStudents({id:this.$route.params.idUserTeacher})
+            }
+            else{
+              this.classSelected=this.getTeams[0]
+            }
+            
           }
         });
      });
+  },
+
+  watch: {
+    searchTeam(newValue) {
+       this.findTeams(`?name=${newValue}`).then(()=>{
+        this.classSelected=""
+      })
+    },
+
+    searchStudent(newValue){
+      this.findAllStudents(`?name=${newValue}`).then(()=>{
+        this.childSelected=""
+      });
+    }
   },
 };
 </script>
@@ -963,5 +1009,16 @@ table {
   outline:0px !important;
   -webkit-appearance:none;
   box-shadow: none !important;
+}
+
+.bodyNotify{
+  background-color:#34b187d1;
+  border:none;
+  border-radius: 5px;
+  color:white;
+  font-family: 'EAmbit SemiBold';
+}
+.toast{
+  border:none;
 }
 </style>

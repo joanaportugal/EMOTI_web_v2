@@ -99,7 +99,7 @@
                 <th>Tipo de Utilizador</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(user,index) in getUsers" :key='index'>
+              <tr :style="{'border-bottom':index==getUsers.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(user,index) in getUsers" :key='index'>
                 <td class="p-4">{{user.username}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.typeUser}}</td>
@@ -163,6 +163,9 @@
               >
                 <b-form-select-option value="">Qualquer</b-form-select-option>
                 <b-form-select-option value="Quiz">Quiz</b-form-select-option>
+                <b-form-select-option value="Reconhecimento">Reconhecimento</b-form-select-option>
+                <b-form-select-option value="Atividades Personalizadas (Professor)">Atividades Personalizadas (Professor)</b-form-select-option>
+                <b-form-select-option value="Atividades Personalizadas (Tutor)">Atividades Personalizadas (Tutor)</b-form-select-option>
               </b-form-select>
 
               <label class="mr-sm-2" for="filterLevel">Dificuldade: </label>
@@ -174,8 +177,8 @@
                 <b-form-select-option value="">Qualquer</b-form-select-option>
                 <b-form-select-option value="Fácil">Fácil</b-form-select-option>
                 <b-form-select-option value="Médio">Médio</b-form-select-option>
-                <b-form-select-option value="Dificil"
-                  >Dificil</b-form-select-option
+                <b-form-select-option value="Difícil"
+                  >Difícil</b-form-select-option
                 >
               </b-form-select>
             </b-form>
@@ -202,7 +205,7 @@
                 <th>Categoria</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(activity,index) in getActivities" :key="index">
+              <tr :style="{'border-bottom':index==getActivities.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}"  v-for="(activity,index) in getActivities" :key="index">
                 <td class="p-4">{{activity.title}}</td>
                 <td>{{activity.level}}</td>
                 <td>{{activity.category}}</td>
@@ -212,7 +215,7 @@
                     variant="secondary"
                     class="ml-2 mr-1"
                     v-b-modal.modalManage
-                    @click="updateActivity('activity')"
+                    @click="openEditActivity(activity)"
                     v-if="activity.category=='Quiz' || activity.category=='Reconhecimento'"
                     ><b-icon icon="pencil-fill"></b-icon
                   ></b-button>
@@ -286,7 +289,7 @@
                 <th>Pontos Necessários</th>
                 <th>Ações</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(badge,index) in getBadges" :key="index">
+              <tr :style="{'border-bottom':index==getBadges.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(badge,index) in getBadges" :key="index">
                 <td class="p-4">{{badge.name}}</td>
                 <td>{{badge.emotion}}</td>
                 <td>{{badge.pointsNeeded}}</td>
@@ -514,8 +517,8 @@
               <b-form-select-option value="">Qualquer</b-form-select-option>
               <b-form-select-option value="Fácil">Fácil</b-form-select-option>
               <b-form-select-option value="Médio">Médio</b-form-select-option>
-              <b-form-select-option value="Dificil"
-              >Dificil</b-form-select-option
+              <b-form-select-option value="Difícil"
+              >Difícil</b-form-select-option
               >
             </b-form-select>
           </b-form-group>
@@ -558,7 +561,7 @@
                 required
               >
                 <b-form-select-option value="" disabled>Emoção</b-form-select-option>
-                <b-form-select-option :value="emotion.name" v-for="(emotion,index) in getEmotions" :key="index">{{emotion.name}}</b-form-select-option>
+                <b-form-select-option :value="emotion.name" v-for="(emotion,index) in getEmotions" :key="index" :disabled="newActivity.category=='Reconhecimento' && !emotionsRegonize.find(e=>e==emotion.name)">{{emotion.name}}</b-form-select-option>
               </b-form-select>
               <b-form-input
                 id="activityQuestions"
@@ -657,76 +660,103 @@
         <b-form
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="changeActivity()"
         >
           <b-form-group
             label="Título:"
-            label-for="activityTitle"
             label-cols-sm="2"
             label-align-sm="left"
           >
             <b-form-input
-              id="activityTitle"
-              placeholder="Atividade"
+              placeholder="Título da Atividade"
+              v-model="editActivity.title"
               disabled
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
             label="Dificuldade:"
-            label-for="activityDifficulty"
             label-cols-sm="2"
             label-align-sm="left"
           >
-            <b-form-input
-              id="activityDifficulty"
-              placeholder="Atividade"
-              disabled
-            ></b-form-input>
+            <b-form-select
+              v-model="editActivity.level"
+            >
+            <b-form-select-option value="" disabled>Selecione o Grau de Dificuldade</b-form-select-option>
+            <b-form-select-option value="Fácil">Fácil</b-form-select-option>
+            <b-form-select-option value="Médio">Médio</b-form-select-option>
+            <b-form-select-option value="Difícil">Difícil</b-form-select-option>
+            </b-form-select>
           </b-form-group>
 
           <b-form-group
-            label="Perguntas:"
+            label='Perguntas:'
             label-for="activityQuestions"
             label-cols-sm="2"
-            label-align-sm="left"
+            label-align-sm="left" v-for="(question,index) in editActivity.questions" :key="index"
+            required
           >
             <div class="d-flex flex-row flex-wrap">
-              <b-form-input
+                <b-form-input
                 id="activityQuestions"
                 class="col-10"
                 placeholder="Pergunta"
+                v-model="question.text"
                 required
-                disabled
               ></b-form-input>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2"
                 placeholder="Imagem(URL)"
-                disabled
+                v-model="question.img"
+                required
               ></b-form-input>
+              <b-form-select
+                class="col-5 mt-2 mx-2"
+                v-model="question.categoryImg"
+                required
+              >
+                <b-form-select-option value="" disabled>Categoria (IMG)</b-form-select-option>
+                <b-form-select-option value="Ilustração">Ilustração</b-form-select-option>
+                <b-form-select-option value="Realidade">Realidade</b-form-select-option>
+                <b-form-select-option value="Realidade/Familiar">Realidade/Familiar</b-form-select-option>
+              </b-form-select>
+              <b-form-select
+                class="col-5 mt-2"
+                v-model="question.correctAnswer"
+                required
+              >
+                <b-form-select-option value="" disabled>Emoção</b-form-select-option>
+                <b-form-select-option :value="emotion.name" v-for="(emotion,index) in getEmotions" :key="index" :disabled="editActivity.category=='Reconhecimento' && !emotionsRegonize.find(e=>e==emotion.name)">{{emotion.name}}</b-form-select-option>
+              </b-form-select>
               <b-form-input
                 id="activityQuestions"
                 class="col-5 mt-2 mx-2"
-                placeholder="Categoria"
-                disabled
-              ></b-form-input>
-              <b-form-input
-                id="activityQuestions"
-                class="col-5 mt-2 mt-2"
-                placeholder="Emoção"
-                disabled
-              ></b-form-input>
-              <b-form-input
-                id="activityQuestions"
-                class="col-5 mt-2 mx-2"
-                min="0"
+                type="number"
                 placeholder="Pontos"
-                disabled
+                min="0"
+                v-model="question.points"
+                required
               ></b-form-input>
+            
 
               <b-link
+                v-if="editActivity.questions.length!=1"
+                :style="{ color: '#2b4141',textDecoration:'none' }"
+                class="d-flex flex-row align-items-center mt-2"
+                @click="editActivity.questions.splice(index,1);"
+                ><span
+                  class="material-icons-round"
+                  :style="{ fontSize: '30px',textDecoration:'none' }"
+                  >cancel</span
+                ></b-link
+              >
+
+              <b-link
+                v-if="editActivity.questions.length-1==index"
                 :style="{ color: '#2b4141' }"
                 class="d-flex flex-row align-items-center mt-2"
+                @click="editActivity.questions.push({img:'',correctAnswer:'',options: [],points: 0,categoryImg:'',text:''})"
                 ><span
                   class="material-icons-round"
                   :style="{ fontSize: '30px' }"
@@ -742,7 +772,7 @@
             label-cols-sm="2"
             label-align-sm="left"
           >
-            <b-form-input id="activityIMG" placeholder="Capa" disabled></b-form-input>
+            <b-form-input id="activityIMG" placeholder="Capa" v-model="editActivity.coverIMG"></b-form-input>
           </b-form-group>
 
           <b-form-group
@@ -754,7 +784,7 @@
             <b-form-textarea
               id="activityDescription"
               placeholder="Descrição"
-              disabled
+              v-model="editActivity.description"
             ></b-form-textarea>
           </b-form-group>
 
@@ -840,7 +870,7 @@
                 <th class="p-1">Nome</th>
                 <th>Ação</th>
               </tr>
-              <tr :style="{ 'border-bottom': '2px solid #707070' }" v-for="(emotion,index) in getEmotions" :key="index">
+              <tr :style="{'border-bottom':index==getEmotions.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(emotion,index) in getEmotions" :key="index">
                 <td class="p-4">{{emotion.name}}</td>
                 <td>
                   <b-button
@@ -848,6 +878,7 @@
                     variant="danger"
                     class="ml-2 mr-1"
                     @click="deleteEmotion(emotion._id)"
+                    v-if="!emotionsRegonize.find(e=>e==emotion.name)"
                     ><b-icon icon="trash-fill"></b-icon
                   ></b-button>
                 </td>
@@ -990,8 +1021,12 @@
             <p>{{ warning }}</p>
           </div>
         </b-form>
+       
       </div>
-    </b-modal>
+    </b-modal> 
+    <b-toast id="my-toast" append-toast no-close-button header-class="headerNotify" body-class="bodyNotify">
+      <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
+    </b-toast>
   </div>
 </template>
 
@@ -1062,21 +1097,15 @@ export default {
         coverIMG: "",
         description: "",
       },
-      editActivity: {
-        title: "",
-        level: "",
-        questions: [{ img: "", correctAnswer: "", answers: [], points: 0 }],
-        caseIMG: "",
-        description: "",
-        category: "",
-        author: "admin",
-      },
+      editActivity: {},
       newEmotion: "",
+      emotionsRegonize:['Feliz','Triste','Zangado','Surpreendido','Assustado','Enojado'],
+      message:""
     };
   },
 
   methods: {
-    ...mapActions(['findUser','findAllUsers','addAdmin','unlockLock','deleteUser','getAllEmotions','addEmotion','removeEmotion','createBadge','getAllBadges','removeBadge','findActivities','createActivity','deleteActivity']),
+    ...mapActions(['findUser','findAllUsers','addAdmin','unlockLock','deleteUser','getAllEmotions','addEmotion','removeEmotion','createBadge','getAllBadges','removeBadge','findActivities','createActivity','deleteActivity','updateActivity']),
 
     calculateModalSize(type) {
       return type === "addActivity" || type === "editActivity" ? "lg" : "";
@@ -1085,10 +1114,33 @@ export default {
       this.whatModalDo = "seeUser";
       this.formDetail = user;
     },
-    updateActivity(activity) {
+
+    openEditActivity(activity) {
       this.whatModalDo = "editActivity";
-      this.selectedActivity = activity;
+      this.editActivity = Object.assign({}, this.editActivity , activity);
+      this.getAllEmotions();
     },
+
+    changeActivity(){
+      this.updateActivity([this.editActivity._id, {level:this.editActivity.level,questions:this.editActivity.questions,coverIMG:this.editActivity.coverIMG,description:this.editActivity.description}])
+        .then(()=>{
+          this.findActivities("")
+          setTimeout(() => {
+            this.editActivity ={};
+          }, 1000);
+          this.$bvModal.hide("modalManage");
+          this.message='Aos dados da atividade selecionada foram alterados com sucesso.'
+          this.$bvToast.show('my-toast');
+        })
+        .catch((err) => {
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000);
+        });
+    },
+
+    //users
 
     addNewAdmin(){
       if(this.newUser.password!=this.conf_password){
@@ -1107,6 +1159,8 @@ export default {
             }
             this.conf_password=""
             this.$bvModal.hide("modalManage")
+            this.message='Novo administrador registado com sucesso.'
+            this.$bvToast.show('my-toast');
           })
           .catch((err) => {
             this.warning = `${err}`;
@@ -1119,7 +1173,10 @@ export default {
 
     changeBlocked(id){
       this.unlockLock(id)
-      .then(()=>{this.findAllUsers("")})
+      .then(()=>{this.findAllUsers("")
+        this.message='O utilizador selecionado foi bloqueado/desbloqueado com sucesso.'
+        this.$bvToast.show('my-toast');
+      })
       .catch((err)=>{
         console.log(err);
       })
@@ -1128,7 +1185,10 @@ export default {
     removeUser(id){
       if(confirm('Deseja remover o utilizador?')){
         this.deleteUser(id)
-          .then(()=>{this.findAllUsers("")})
+          .then(()=>{this.findAllUsers("")
+            this.message='O utilizador selecionado foi removido com sucesso.'
+            this.$bvToast.show('my-toast');
+          })
           .catch((err)=>{
             console.log(err);
           })
@@ -1140,6 +1200,7 @@ export default {
       this.whatModalDo = 'seeEmotions'
       this.getAllEmotions();
       this.getAllBadges("");
+      
     },
 
     addNewEmotion(){
@@ -1147,6 +1208,8 @@ export default {
         .then(()=>{
           this.getAllEmotions()
           this.newEmotion='';
+          this.message='A nova emoção foi adicionada com sucesso.'
+          this.$bvToast.show('my-toast');
         })
         .catch((err)=>{
           this.warning = `${err}`;
@@ -1160,6 +1223,8 @@ export default {
       if(confirm('Deseja eliminar a emoção?')){
         this.removeEmotion(id)
           .then(()=>{
+            this.message='A emoção selecionada foi removida com sucesso.'
+            this.$bvToast.show('my-toast');
             this.getAllEmotions()
           })
       }
@@ -1179,6 +1244,8 @@ export default {
       .then(()=>{
         this.getAllBadges("");
         this.$bvModal.hide("modalManage");
+        this.message='O novo badge foi adicionado com sucesso.'
+        this.$bvToast.show('my-toast');
         this.newBadge= {
           name: "",
           badgeIMG: "",
@@ -1199,7 +1266,10 @@ export default {
     deleteBadge(id){
       if(confirm('Deseja remover o badge ?')){
         this.removeBadge(id)
-        .then(()=>{this.getAllBadges("")});
+        .then(()=>{this.getAllBadges("")
+          this.message='o badge selecionado foi removido com sucesso.'
+          this.$bvToast.show('my-toast');
+        });
       }
       
     },
@@ -1223,6 +1293,8 @@ export default {
             .then(()=>{
               this.newActivity={title: "",level: "",category: "",questions: [{img: "",correctAnswer: "",options: [],points: 0,categoryImg:""},],coverIMG: "",description: "",}
               this.$bvModal.hide("modalManage")
+              this.message='A nova atividade foi registada com sucesso.'
+              this.$bvToast.show('my-toast');
           })
         })
          .catch((err)=>{
@@ -1238,10 +1310,12 @@ export default {
           this.deleteActivity(id)
             .then(()=>{
               this.findActivities("");
+              this.message='A atividade selecionada foi removida com sucesso.'
+              this.$bvToast.show('my-toast');
             })
       }
     
-    }
+    },
     
   },
 
@@ -1251,7 +1325,12 @@ export default {
 
   mounted () {
     this.findUser();
-    this.findAllUsers("");
+    this.findAllUsers("").then(()=>{
+      if(this.$route.params.idUserAdmin){
+      this.formFilterUser.name=this.getUsers.find(user=>user._id==this.$route.params.idUserAdmin).name
+    }
+    });
+    
   },
 
   watch: {
@@ -1334,8 +1413,20 @@ export default {
             this.findActivities(`?category=${this.formFilterActivity.category}`);
          }
          
-      }
-  },
+      },
+
+      'newActivity.category'(newValue){
+        if(newValue=='Reconhecimento'){
+          for (let question of this.newActivity.questions) {
+            if(question.correctAnswer!='' && !this.emotionsRegonize.find(emotion=>emotion==question.correctAnswer)){
+              question.correctAnswer=''
+            }
+          }
+        }
+      },
+
+      
+  }
 };
 </script>
 
@@ -1367,5 +1458,16 @@ table {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   overflow: hidden;
+}
+
+.bodyNotify{
+  background-color:#34b187d1;
+  border:none;
+  border-radius: 5px;
+  color:white;
+  font-family: 'EAmbit SemiBold';
+}
+.toast{
+  border:none;
 }
 </style>

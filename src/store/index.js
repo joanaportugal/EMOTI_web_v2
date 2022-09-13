@@ -6,8 +6,7 @@ import emotions from "./modules/emotions";
 import activities from "./modules/activities";
 import badges from "./modules/badges";
 import teams from "./modules/teams";
-
-
+import search from './modules/search';
 
 Vue.use(Vuex)
 
@@ -17,6 +16,7 @@ export default new Vuex.Store({
     emotions,
     badges,
     activities,
-    teams
+    teams,
+    search
   }
 })

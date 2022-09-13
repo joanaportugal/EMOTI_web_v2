@@ -35,7 +35,7 @@ export default {
         SET_LOGOUT(state) {
             state.loggedUser = {};
             localStorage.user = JSON.stringify(state.loggedUser);
-            router.push({ name: 'landing' });
+            router.push({ name: 'Olá!' });
         },
 
         SET_USER(state, payload) {
@@ -193,8 +193,8 @@ export default {
             }
         },
 
-        async findRelations(context){
-            const response = await fetch(`${context.state.linkAPI}api/users/children`, {
+        async findRelations(context,data){
+            const response = await fetch(`${context.state.linkAPI}api/users/children`+data, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
             })
@@ -233,7 +233,45 @@ export default {
                 throw new Error(err.error)
             }
             
-        }
+        },
+
+        async deleteNotification(context,data){
+            const response = await fetch(`${context.state.linkAPI}api/users/notifications/${data}`, {
+                mode: 'cors', 
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                method: 'DELETE',
+                headers: {'Authorization': 'Bearer '+context.state.loggedUser.token, 
+                          'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+            })
+            if (!response.ok) {
+                const err = await response.json()
+                throw new Error(err.error)
+            }
+        },
+
+        async createNofication(context,data){
+            const response = await fetch(`${context.state.linkAPI}api/users/notifications`, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            })
+            if (!response.ok) {
+                const err = await response.json()
+                throw new Error(err.error)
+            }
+        },
 
 
 

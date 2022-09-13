@@ -79,7 +79,7 @@
                   >
                     <button
                       class="btn d-flex align-items-center col-10 p-0"
-                      @click="activitySelected = activity"
+                      @click="setActivity(activity)"
                     >
                       <b-avatar
                         variant="light"
@@ -118,7 +118,7 @@
                     v-b-modal.modal-extra
                     @click="whatModalDo = 'visibility'"
                     id="orange"
-                    :disabled="activitySelected == ''"
+                    :disabled="activitySelected == '' || activitySelected.approved==false"
                   >
                     Atribuir Atividade
                   </button>
@@ -134,7 +134,7 @@
                     "
                     id="grey"
                     v-b-modal.modal-extra
-                    @click="openEditModal()"
+                    @click="openEditModal(activitySelected)"
                     :disabled="activitySelected == ''"
                   >
                     <span
@@ -249,8 +249,8 @@
                   <th>Ações</th>
                 </tr>
                 <tbody>
-                  <tr :style="{ borderBottom: '2px solid #707070' }">
-                    <td class="px-4 py-3">João Soares Pereira de Amorim</td>
+                  <tr :style="{'border-bottom':index==getVisibility.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(kid,index) in getVisibility" :key="index">
+                    <td class="px-4 py-3">{{kid.name}}</td>
                     <td class="d-flex py-2">
                       <button
                         class="
@@ -263,6 +263,7 @@
                         "
                         size="sm"
                         id="red"
+                        @click="deleteVisibility(kid._id)"
                       >
                         <span
                           class="material-icons-round"
@@ -297,7 +298,7 @@
       header-border-variant="0"
       header-class="color"
       body-class="color"
-      size="lg"
+      :size="whatModalDo=='visibility'?'':'lg'"
     >
       <div
         v-if="whatModalDo == 'addActivityExtra'"
@@ -501,34 +502,22 @@
         <b-form
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
+          @submit.prevent="setVisibility"
         >
           <b-form-group
             label="Atribuir a:"
-            label-cols-sm="2"
+            label-cols-sm="3"
             label-align-sm="left"
             v-for="(apply,index) in applyVisibility" :key="index"
           >
             <div class="d-flex flex-row flex-wrap">
-              
-              <b-form-select
-                class="col-5"
-                v-model="apply.type"
-                required
-              >
-              <b-form-select-option value="" disabled>Selecione a Categoria</b-form-select-option>
-              <b-form-select-option value="Turma" >Turma</b-form-select-option>
-              <b-form-select-option value="Aluno">Aluno</b-form-select-option>
+              <b-form-select class="col-9 mx-2" v-if="getUser.typeUser=='Professor'" v-model="applyVisibility[index]" required>
+                <b-form-select-option v-for="(team,index) in getTeams" :value="team._id" :key="index" :disabled="applyVisibility.find(apply=>apply==team._id)!=undefined">{{team.name}}</b-form-select-option>
               </b-form-select>
-              <b-form-select class="col-5 mx-2" v-if="apply.type=='Turma'" v-model="apply.who" required>
-                <b-form-select-option v-for="(team,index) in getTeams" :value="team.name" :key="index" :disabled="applyVisibility.find(apply=>apply.who==team.name)!=undefined">{{team.name}}</b-form-select-option>
+              <b-form-select class="col-9 mx-2" v-if="getUser.typeUser=='Tutor'" v-model="applyVisibility[index]" required>
+                <b-form-select-option v-for="(kid,index) in getChilds" :value="kid._id" :key="index"  :disabled="applyVisibility.find(apply=>apply==kid._id)!=undefined">{{kid.name}}</b-form-select-option>
               </b-form-select>
-              <b-form-select class="col-5 mx-2" v-else-if="apply.type=='Aluno'" v-model="apply.who" required>
-                <b-form-select-option v-for="(student,index) in getStudents" :value="student.name" :key="index" :disabled="applyVisibility.find(apply=>apply.who==student.name)!=undefined">{{student.name}}</b-form-select-option>
-              </b-form-select>
-              <b-form-select class="col-5 mx-2" v-else disabled>
-              </b-form-select>
-              
-
+            
              <b-link
                 v-if="applyVisibility.length != 1"
                 :style="{ color: '#2b4141', textDecoration: 'none' }"
@@ -546,7 +535,7 @@
                 :style="{ color: '#2b4141' }"
                 class="d-flex flex-row align-items-center mt-2"
                 @click="
-                  applyVisibility.push({type:'',who:''})
+                  applyVisibility.push('')
                 "
                 ><span
                   class="material-icons-round"
@@ -587,7 +576,6 @@
         </h4>
 
         <b-form
-          name="formEditActivity"
           class="mb-3 px-3 pt-4 pb-2"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
           @submit.prevent="changeActivity()"
@@ -598,6 +586,7 @@
               placeholder="Atividade"
               required
               v-model="formEditActivity.title"
+              disabled
             ></b-form-input>
           </b-form-group>
 
@@ -763,6 +752,9 @@
         </b-form>
       </div>
     </b-modal>
+    <b-toast id="my-toast" append-toast no-close-button header-class="headerNotify" body-class="bodyNotify">
+      <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
+    </b-toast>
   </div>
 </template>
 
@@ -803,7 +795,8 @@ export default {
       },
       formEditActivity: {},
       filterName:"",
-      applyVisibility:[{type:'',who:''}]
+      applyVisibility:[""],
+      message:""
     };
   },
 
@@ -816,9 +809,19 @@ export default {
       "deleteActivity",
       "updateActivity",
       "findTeams",
-      "findAllStudents"
+      "findAllStudents",
+      "findRelations",
+      "findVisibility",
+      "giveVisiblity",
+      "removeVisibility",
+      "createNofication"
 
     ]),
+
+    setActivity(activity){
+      this.activitySelected = activity
+      this.findVisibility(this.activitySelected._id);
+    },
 
     addActivity() {
       this.createActivity(this.newActivity)
@@ -828,7 +831,8 @@ export default {
               (activity) =>
                 activity.author == this.getUser.username &&
                 activity.title == this.newActivity.title
-            );
+            )
+            this.findVisibility(this.activitySelected._id);
             setTimeout(() => {
               this.newActivity = {
                 title: "",
@@ -847,6 +851,8 @@ export default {
               };
             }, 1000);
             this.$bvModal.hide("modal-extra");
+            this.message='Atividade criada com sucesso.'
+          this.$bvToast.show('my-toast');
           });
         })
         .catch((err) => {
@@ -860,22 +866,26 @@ export default {
     removeActivity(id) {
       if (confirm("Confirma a alteração ?")) {
         this.deleteActivity(id).then(() => {
+          this.message='Atividade removida com sucesso.'
+          this.$bvToast.show('my-toast');
           this.findActivities("").then(() => {
             if (
               this.getActivities.filter(
                 (activity) => activity.author == this.getUser.username
               ).length != 0
-            )
+            ){
               this.activitySelected = this.getActivities.filter(
                 (activity) => activity.author == this.getUser.username
-              )[0];
+              )[0]
+              this.findVisibility(this.activitySelected._id);
+            }
           });
         });
       }
     },
 
     changeActivity() {
-      this.updateActivity([this.activitySelected._id, this.editActivity])
+      this.updateActivity([this.activitySelected._id, {level:this.formEditActivity.level,questions:this.formEditActivity.questions,coverIMG:this.formEditActivity.coverIMG,description:this.formEditActivity.description}])
         .then(() => {
           this.findActivities("").then(() => {
             this.activitySelected = this.getActivities.find(
@@ -883,11 +893,14 @@ export default {
                 activity.author == this.getUser.username &&
                 activity.title == this.activitySelected.title
             );
+            this.findVisibility(this.activitySelected._id);
           });
           setTimeout(() => {
-            this.editActivity = "";
+            this.formEditActivity = {};
           }, 1000);
           this.$bvModal.hide("modal-extra");
+          this.message='Os dados da atividade foram alterados com sucesso.'
+          this.$bvToast.show('my-toast');
         })
         .catch((err) => {
           this.warning = `${err}`;
@@ -897,37 +910,70 @@ export default {
         });
     },
 
+    setVisibility(){
+      this.giveVisiblity([this.activitySelected._id,{list:this.applyVisibility}]).then(()=>{
+        this.createNofication({list:this.applyVisibility,title:'Nova Atividade Personalizada',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name},`} adicionou ao seu catálogo a seguinte atividade: ${this.activitySelected.title.toUpperCase()}.`})
+        setTimeout(() => {this.applyVisibility=[""]}, 1000);
+        this.findVisibility(this.activitySelected._id);
+        this.$bvModal.hide("modal-extra");
+        this.message='Visibilidade atribuida com sucesso.'
+        this.$bvToast.show('my-toast');
+      })
+      .catch((err) => {
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000);
+      });
+    },
+
+    deleteVisibility(id){
+      if(confirm('Deseja remover a visibilidade à criança selecionada?')){
+        this.removeVisibility([this.activitySelected._id,id]).then(()=>{
+          this.message='A visibilidade da atividade foi retirada à criança selecionada com sucesso.'
+          this.$bvToast.show('my-toast');
+          this.findVisibility(this.activitySelected._id)
+        })
+      }
+    },
+
     //Modal
 
-    openEditModal() {
+    openEditModal(activity) {
       this.whatModalDo = "editActivityExtra";
-      let activity=this.getActivities.find((activity)=>activity._id===this.activitySelected._id);
-      this.formEditActivity=activity;
+      let myActivity=Object.assign({}, activity);
+      myActivity.questions=[]
+      for (let i = 0; i < activity.questions.length; i++) {
+          myActivity.questions.push(Object.assign({},activity.questions[i]))
+      }
+
+      this.formEditActivity=myActivity  
     },
   },
 
   computed: {
-    ...mapGetters(["getUser", "getActivities", "getEmotions","getStudents","getTeams"]),
+    ...mapGetters(["getUser", "getActivities", "getEmotions","getStudents","getTeams","getChilds","getVisibility"]),
   },
 
   created() {
     this.findUser().then(() => {
       if(this.getUser.typeUser=='Professor'){
-        this.findTeams();
-        this.findAllStudents();
+        this.findTeams("");
       }
       else{
-        console.log('ok');
+        this.findRelations("");
       }
       this.findActivities("").then(() => {
         if (
           this.getActivities.filter(
             (activity) => activity.author == this.getUser.username
           ).length != 0
-        )
+        ){
           this.activitySelected = this.getActivities.filter(
             (activity) => activity.author == this.getUser.username
           )[0];
+          this.findVisibility(this.activitySelected._id)
+        }
       });
       
 
@@ -1014,5 +1060,16 @@ table {
 
 .activeItem {
   color: #e87461;
+}
+
+.bodyNotify{
+  background-color:#34b187d1;
+  border:none;
+  border-radius: 5px;
+  color:white;
+  font-family: 'EAmbit SemiBold';
+}
+.toast{
+  border:none;
 }
 </style>

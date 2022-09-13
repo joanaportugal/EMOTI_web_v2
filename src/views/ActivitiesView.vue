@@ -3,7 +3,7 @@
     <aside>
       <SideBar activeTab="Atividades" v-if="this.getUser != null" :user="this.getUser"/>
     </aside>
-    <main>
+    <main v-if="this.getUser != null">
       <AppSearch />
       <b-container class="bv-example-row mb-4">
         <b-row>
@@ -11,15 +11,15 @@
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
               Catálogo
             </h2>
-            <div class="rounded d-flex flex-row flex-wrap p-3" :style="{border: '2px solid #e87461'}">
-              <div class="col-12 p-0 d-flex flex-row justify-content-end">
+            <div class="col-12 p-0 rounded p-3" :style="{border: '2px solid #e87461',minHeight:'462px'}">
+              <div class="col-12 p-0 d-flex flex-row justify-content-end align-items-center">
                 <b-button class="d-flex flex-row align-items-center" :style="{fontFamily: 'EAmbit SemiBold',}" id="orange" v-b-toggle.sidebar-right>
                   <span class="material-icons-round" :style="{paddingRight:'5px'}">filter_list</span>Filtrar</b-button>
               </div>
-              <div class="p-0 col-12 d-flex flex-row flex-wrap justify-content-between">
+              <div class="col-12 p-0 d-flex flex-row flex-wrap justify-content-between">
                 <div class="d-flex flex-column justify-content-start align-items-center my-4 myCard" 
                 :style="{borderRadius:'5px',position:'relative'}"
-                v-for="(activity,index) in getActivities.slice(0,this.number)" :key="index"
+                v-for="(activity,index) in getActivities.slice(0,number)" :key="index"
                 >
                   <b-img :src="activity.coverIMG" :style="{width:'326px',height:'189px',borderRadius:'5px'}"></b-img>
                     <div class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle">
@@ -49,11 +49,13 @@
                             <span
                               class="material-icons-round"
                               :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                              v-if="activity.suggestedByTutor==true"
                               >people_alt</span
                             >
                             <span
                               class="material-icons-round"
                               :style="{paddingRight: '8px', color: '#fdfdf3'}"
+                              v-if="activity.suggestedByProfessor==true"
                               >school</span
                             >
                           </div>
@@ -63,6 +65,7 @@
                             class="d-flex justify-content-center align-items-center h-75"
                             :style="{background: '#CCCCCC', color: 'white',border:'none'}"
                             v-b-modal.modal-activities
+                            @click="applySuggestions[0]=activity._id"
                           >
                           
                             <span class="material-icons-round" :style="{paddingRight:'3px'}">tips_and_updates</span>
@@ -76,7 +79,7 @@
                             pill
                             class="d-flex justify-content-center align-items-center h-75"
                             :style="{background: '#fdfdf3', color: '#e87461',border:'none'}"
-                            :to="{ name: 'activity', params: { id:activity._id} }"
+                            :to="{ name: 'Atividade', params:{id:activity._id} }"
                           >
                           
                             <span class="material-icons-round" :style="{paddingRight:'3px'}">play_arrow</span>
@@ -84,11 +87,10 @@
                           </b-button>
                         </div>
                     </div>
-                </div>
-        
-                <div class="col-12 text-center p-0 mb-2">
+                  </div>
+              </div>  
+              <div class="col-12 text-center p-0 mb-2">
                   <b-link :style="{ color: '#e87461', textDecoration: 'underline' }" @click="seeMoreActivities()" v-if="this.getActivities.length>this.number">Ver Mais</b-link>
-                </div>
               </div>
             </div> 
           </b-col>
@@ -100,11 +102,11 @@
               Top Atividades
             </h2>
             <div class="rounded px-2" style="border: 2px solid #e87461">
-              <div class="d-flex flex-row my-3">
+              <div class="d-flex flex-row my-3" v-for="(topActivity,index) in getTopActivities.slice(0,numberTop)" :key="index">
                 <div
                   class="col-6 p-0 d-flex flex-row justify-content-center align-items-center"
                 >
-                  <b-img src="../assets/Imagem 7.png"></b-img>
+                  <b-img :src="topActivity.coverIMG" :style="{width:'145px',height:'86px',borderRadius:'5px'}"></b-img>
                   <b-badge
                     pill
                     :style="{
@@ -113,7 +115,7 @@
                       left: '0px',
                       top: '0px',
                     }"
-                    ># 1</b-badge
+                    ># {{index+1}}</b-badge
                   >
                 </div>
                 <div class="col-6 p-0">
@@ -121,12 +123,12 @@
                     <p :style="{ color: '#2B4141' }">
                       <span :style="{ color: '#e87461', fontWeight: 'bolder' }"
                         >Tt: </span
-                      >Queres brincar comigo?
+                      >{{topActivity.title.slice(0,topActivity.title.length>45? 45 :topActivity.title.length)+`${topActivity.title.length>45?'...':''}`}}
                     </p>
                   </div>
                   <div class="col-12 p-0 text-center pl-2">
                     <p :style="{ color: '#e87461', fontWeight: 'bolder' }">
-                      <span :style="{ color: '#2B4141' }">10000 </span>Visitas
+                      <span :style="{ color: '#2B4141' }">{{topActivity.timesDone}} </span>Visitas
                     </p>
                   </div>
                 </div>
@@ -135,7 +137,15 @@
               <div class="text-center mb-1">
                 <b-link
                   :style="{ color: '#e87461', textDecoration: 'underline' }"
+                  v-if="getTopActivities.length>this.numberTop"
+                  @click="seeMoreTopActivities()"
                   >Ver Mais</b-link
+                >
+                <b-link
+                  :style="{ color: '#e87461', textDecoration: 'underline' }"
+                  v-if="numberTop>5"
+                  @click="numberTop=5"
+                  >Ver Menos</b-link
                 >
               </div>
             </div>
@@ -251,40 +261,29 @@
           :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }"
           class="mb-4"
         >
-          Aplicar Visibilidade
+          Sugerir Atividade
         </h4>
 
         <b-form
           class="px-2 py-3"
           :style="{ border: '2px solid #e87461', borderRadius: '5px' }"
-          v-if="getLoggedUser.typeUser=='Professor'"
+          @submit.prevent="setSuggestionActivity"
         >
-        <b-form-group label-cols="3" label-size="sm" :label="`Atribuição ${index+1}:`" label-for="input-sm" v-for="(suggest,index) in suggestTeacher" :key="index">
+        <b-form-group label-cols="3" label-size="sm" :label="`Atribuição ${index+1}:`" label-for="input-sm" v-for="(suggest,index) in applySuggestions[1]" :key="index">
           <div class="d-flex flex-row flex-wrap" >
 
-            <b-form-select class="col-9 mt-2" id="input-sm" size="sm" v-model="suggest.type" required>
-              <b-form-select-option value="" disabled>Selecione a Categoria</b-form-select-option>
-              <b-form-select-option :value="'Turma'" >Turma</b-form-select-option>
-              <b-form-select-option :value="'Aluno'" >Aluno</b-form-select-option>
-            </b-form-select>
+             <b-form-select class="col-8 mx-2" v-if="getUser.typeUser=='Professor'" v-model="applySuggestions[1][index]" required>
+                <b-form-select-option v-for="(team,index) in getTeams" :value="team._id" :key="index" :disabled="applySuggestions[1].find(apply=>apply==team.name)!=undefined">{{team.name}}</b-form-select-option>
+              </b-form-select>
+              <b-form-select class="col-8 mx-2" v-if="getUser.typeUser=='Tutor'" v-model="applySuggestions[1][index]" required>
+                <b-form-select-option v-for="(kid,index) in getChilds" :value="kid._id" :key="index"  :disabled="applySuggestions[1].find(apply=>apply==kid.username)!=undefined">{{kid.name}}</b-form-select-option>
+              </b-form-select>
 
-            <b-form-select class="col-9 mt-2" id="input-sm" size="sm" v-model="suggest.who" v-if="suggest.type=='Turma'" required>
-              <b-form-select-option value="" disabled>Selecione a Turma</b-form-select-option>
-              <b-form-select-option :value="team.name" v-for="(team,index) in getTeams" :key="index" :disabled="suggestTeacher.find(apply=>apply.who==team.name)!=undefined">{{team.name}}</b-form-select-option>
-            </b-form-select>
-
-            <b-form-select class="col-9 mt-2" id="input-sm" size="sm" v-model="suggest.who" v-else-if="suggest.type=='Aluno'" required>
-              <b-form-select-option value="" disabled>Selecione o Aluno</b-form-select-option>
-              <b-form-select-option :value="student.username" v-for="(student,index) in getStudents" :key="index" :disabled="suggestTeacher.find(apply=>apply.who==student.name)!=undefined">{{student.name}}</b-form-select-option>
-            </b-form-select>
-
-            <b-form-select class="mt-2 col-9" id="input-sm" size="sm" disabled v-else>
-            </b-form-select>
             <b-link
-                v-if="suggestTeacher.length!=1"
+                v-if="applySuggestions[1].length!=1"
                 :style="{ color: '#2b4141',textDecoration:'none' }"
                 class="d-flex flex-row align-items-center mt-2 ml-1"
-                @click="suggestTeacher.splice(index,1);"
+                @click="applySuggestions[1].splice(index,1);"
                 ><span
                   class="material-icons-round"
                   :style="{ fontSize: '30px',textDecoration:'none' }"
@@ -292,10 +291,10 @@
                 ></b-link
               >
             <b-link
-             v-if="suggestTeacher.length-1==index"
+             v-if="applySuggestions[1].length-1==index"
               :style="{ color: '#2b4141' }"
               class="d-flex flex-row align-items-center mt-2 ml-1"
-               @click="suggestTeacher.push({type:'',who:''})"
+               @click="applySuggestions[1].push('')"
               ><span
                 class="material-icons-round"
                 :style="{ fontSize: '30px' }"
@@ -318,59 +317,14 @@
           >
             <p>{{ warning }}</p>
         </div>
-      </b-form>
-
-      <b-form class="px-2 py-3" :style="{ border: '2px solid #e87461', borderRadius: '5px' }" v-else>
-        <b-form-group label-cols="3" label-size="sm" :label="`Atribuição ${index+1}:`" label-for="input-sm" v-for="(suggest,index) in suggestTutor" :key="index">
-          <div class="d-flex flex-row flex-wrap" >
-
-            <b-form-select class="col-9 mt-2" id="input-sm" size="sm" v-model="suggestTutor[index]" required>
-              <b-form-select-option value="" disabled>Selecione a Criança</b-form-select-option>
-              <b-form-select-option :value="child.username" v-for="(child,index) in getChilds" :key="index" :disabled="suggestTutor.find(apply=>apply==child.username)!=undefined">{{child.username}}</b-form-select-option>
-            </b-form-select>
-
-             <b-link
-                v-if="suggestTutor.length!=1"
-                :style="{ color: '#2b4141',textDecoration:'none' }"
-                class="d-flex flex-row align-items-center mt-2 ml-1"
-                @click="suggestTutor.splice(index,1);"
-                ><span
-                  class="material-icons-round"
-                  :style="{ fontSize: '30px',textDecoration:'none' }"
-                  >cancel</span
-                ></b-link
-              >
-              <b-link
-              v-if="suggestTutor.length-1==index"
-                :style="{ color: '#2b4141' }"
-                class="d-flex flex-row align-items-center mt-2 ml-1"
-                @click="suggestTutor.push('')"
-                ><span
-                  class="material-icons-round"
-                  :style="{ fontSize: '30px' }"
-                  >add_circle</span
-                ></b-link>
-          </div>
-        </b-form-group>
-
-        <div class="d-flex flex-row justify-content-end mt-4">
-            <b-button type="submit" class="text-end" id="orange"
-              >Atribuir</b-button
-            >
-        </div>
-        <div
-            v-if="warning != ''"
-            :style="{
-              'background-color': '#C82333',
-              color: '#fdfdf3',
-              'border-radius': '4px',
-            }"
-          >
-            <p>{{ warning }}</p>
-        </div>
+       
       </b-form>
       </div>
     </b-modal>
+
+    <b-toast id="my-toast" append-toast no-close-button header-class="headerNotify" body-class="bodyNotify">
+      <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
+    </b-toast>
     </main>
   </div>
 </template>
@@ -390,7 +344,6 @@ export default {
   },
   data() {
     return {
-      test:'Esta Atividade consiste em que a criança possa desenvolver as suas habilidades em relação às emoções mais básicas. Esta Atividade é ideal para as crianças que tenham bastantes dificuldades.',
       formFilter: {
         level: "",
         category: "",
@@ -405,15 +358,16 @@ export default {
         "Atividades Personalizadas (Professor)",
       ],
       suggestions: ["Tutor", "Professor", "Ambos"],
-      suggestTeacher:[{type:'',who:''}],
-      suggestTutor:[''],
+      applySuggestions:["",[""]],
       warning:'',
-      number:4
+      number:4,
+      numberTop:5,
+      message:''
     };
   },
 
   methods: {
-    ...mapActions(["findUser","findActivities","findAllStudents","findTeams","findRelations"]),
+    ...mapActions(["findUser","findActivities","findAllStudents","findTeams","findRelations","suggestActivity","findTopActivities","createNofication"]),
 
     resetForm(){
       this.formFilter={
@@ -431,14 +385,39 @@ export default {
       else{
         this.number+=4
       }
+    },
+
+    seeMoreTopActivities(){
+       if((this.getTopActivities-this.numberTop)-5!=0){
+        this.numberTop+=this.getTopActivities.slice(this.numberTop).length
+      }
+      else{
+        this.numberTop+=5
+      }
+    },
+
+    setSuggestionActivity(){
+      this.suggestActivity([this.applySuggestions[0],{list:this.applySuggestions[1]}]).then(()=>{
+        this.createNofication({list:this.applySuggestions[1],title:'Nova Sugestão',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name},`} sugeriu a atividade: ${this.getActivities.find(activity=>activity._id==this.applySuggestions[0]).title.toUpperCase()}.`})
+        setTimeout(() => {this.applySuggestions=["",[""]]}, 1000);
+        this.$bvModal.hide("modal-activities");
+        this.message='Atividade sugerida com sucesso.'
+        this.$bvToast.show('my-toast');
+      })
+      .catch((err) => {
+          this.warning = `${err}`;
+          setTimeout(() => {
+            this.warning = "";
+          }, 5000);
+      });
     }
   },
 
   computed: {
-    ...mapGetters(["getLoggedUser","getUser","getActivities","getTeams","getStudents","getChilds"])
+    ...mapGetters(["getLoggedUser","getUser","getActivities","getTeams","getStudents","getChilds","getTopActivities"])
   },
 
-  mounted() {
+  created() {
     this.findUser().then(()=>{
       this.findActivities("").then(()=>{
         if(this.getActivities.length<4){
@@ -446,12 +425,12 @@ export default {
         }
       });
       if(this.getUser.typeUser=='Professor'){
-        this.findAllStudents();
-        this.findTeams();
+        this.findTeams("");
       }
       else if(this.getUser.typeUser=='Tutor'){
-        this.findRelations();
+        this.findRelations("");
       }
+      this.findTopActivities()
       
     });
   },
@@ -699,6 +678,17 @@ main > div {
 .myCard:hover #iconPlay{
   visibility: hidden;
   opacity: 0;
+}
+
+.bodyNotify{
+  background-color:#34b187d1;
+  border:none;
+  border-radius: 5px;
+  color:white;
+  font-family: 'EAmbit SemiBold';
+}
+.toast{
+  border:none;
 }
 
 </style>

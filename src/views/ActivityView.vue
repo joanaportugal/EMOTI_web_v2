@@ -7,16 +7,16 @@
         :user="this.getUser"
       />
     </aside>
-    <main>
+    <main v-if="activity!=''">
       <AppSearch />
       <b-container class="bv-example-row mb-5">
         <!-- Reconhecimento-->
-        <b-row class="mx-4 mx-4 d-flex flex-row flex-wrap justify-content-center">
+        <b-row class="mx-4 mx-4 d-flex flex-row flex-wrap justify-content-center" v-if="activity.category=='Reconhecimento'">
            <h2
             :style="{ fontFamily: 'EAmbit SemiBold' }"
             class="mt-4 p-0 col-12"
           >
-            <span :style="{ color: '#e87461' }">Reconhecimento</span> | Queres brincar ?
+            <span :style="{ color: '#e87461' }">Reconhecimento</span> | {{activity.title}}
           </h2>
            <div
             class="col-12 p-0 px-4 py-3 d-flex flex-row flex-wrap"
@@ -25,16 +25,16 @@
             <div
               class="col-10 mb-3 p-0 d-flex flex-row align-items-center"
             >
-              <h5 class="m-0 p-0"><span :style="{fontWeight:'600',color:'#e87461'}">Pergunta |</span> Como está a mãe do Harry?</h5>
+              <h5 class="m-0 p-0"><span :style="{fontWeight:'600',color:'#e87461'}">Pergunta |</span> {{activity.questions[positionArray].text}}</h5>
             </div>
             <div class="col-2 mb-3 p-0 d-flex flex-row align-items-center">
-              <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">1</span>/4</span>
-              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
-              <!--<b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>-->
-              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}"  v-b-modal.modal-activity>done_all</span></b-button>
+              <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">{{nQuestion}}</span>/{{activity.questions.length}}</span>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2" :disabled="nQuestion==1" @click="previousQuestion"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2" @click="nextQuestion" v-if="positionArray != activity.questions.length-1"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2" @click="checkActivity" v-b-modal.modal-activity v-else><span class="material-icons-round" :style="{fontSize:'27px'}">done_all</span></b-button>
             </div>
             <div class="col-6 p-0">
-              <b-img src="../assets/Imagem 5.png" :style="{borderRadius:'5px'}" width="475px" height="356px"></b-img>
+              <b-img :src="activity.questions[positionArray].img" :style="{borderRadius:'5px'}" width="480px" height="321px"></b-img>
             </div>
             <div class="col-6 p-0 d-flex flex-row justify-content-end" v-if="showCamera==true">
               <video @play="checkEmotion" autoplay class="feed"></video>
@@ -43,7 +43,7 @@
               <h4>A carregar...</h4>
             </div>
             <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-4 mb-2" >
-              <b-button @click="messageAPI=result" :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none',fontFamily:'EAmbit SemiBold'}" class="d-flex flex-row align-items-center" size="lg" :disabled="showCamera==false"><span class="material-icons-round" :style="{fontSize:'30px',paddingRight:'5px'}" >photo_camera</span> Captar Emoção</b-button>
+              <b-button @click="addAnswer" :style="{backgroundColor:'#e87461',color:'#fdfdf3',border:'none',fontFamily:'EAmbit SemiBold'}" class="d-flex flex-row align-items-center" size="lg" :disabled="showCamera==false"><span class="material-icons-round" :style="{fontSize:'30px',paddingRight:'5px'}" >photo_camera</span> Captar Emoção</b-button>
             </div>
             <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-4">
               <h5><span :style="{fontWeight:'bolder',color:'#e87461'}">Emoção Captada: </span>{{messageAPI}}</h5>
@@ -51,13 +51,13 @@
           </div>
         </b-row>
 
-        <!--Quiz--><!--
-        <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center">
+        <!--Quiz-->
+        <b-row class="mx-4 d-flex flex-row flex-wrap justify-content-center" v-if="activity.category!='Reconhecimento'">
           <h2
             :style="{ fontFamily: 'EAmbit SemiBold' }"
             class="mt-4 p-0 col-12"
           >
-            <span :style="{ color: '#e87461' }">Quiz</span> | Queres brincar ?
+            <span :style="{ color: '#e87461' }">Quiz</span> | {{activity.title}}
           </h2>
           <div
             class="col-12 p-0 px-4 py-3 d-flex flex-row flex-wrap"
@@ -66,89 +66,74 @@
             <div
               class="col-10 mb-3 p-0 d-flex flex-row align-items-center"
             >
-              <h5 class="m-0 p-0"><span :style="{fontWeight:'600',color:'#e87461'}">Pergunta |</span> Como está a mãe do Harry?</h5>
+              <h5 class="m-0 p-0"><span :style="{fontWeight:'600',color:'#e87461'}">Pergunta |</span> {{activity.questions[positionArray].text}}</h5>
             </div>
             <div class="col-2 mb-3 p-0 d-flex flex-row align-items-center">
-              <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">1</span>/4</span>
-              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
-              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>
-               <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2"><span class="material-icons-round" :style="{fontSize:'27px'}"  v-b-modal.modal-activity>done_all</span></b-button>
+              <span :style="{ fontFamily: 'EAmbit SemiBold',fontSize:'23px' }" class="mx-3"><span :style="{color:'#e87461'}">{{nQuestion}}</span>/{{activity.questions.length}}</span>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 mr-2" :disabled="nQuestion==1" @click="previousQuestion"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_left</span></b-button>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2" @click="nextQuestion" v-if="positionArray != activity.questions.length-1"><span class="material-icons-round" :style="{fontSize:'27px'}">keyboard_arrow_right</span></b-button>
+              <b-button id="orange" class="d-flex flex-row align-items-center justify-content-center p-2 ml-2" @click="checkActivity" v-b-modal.modal-activity v-else><span class="material-icons-round" :style="{fontSize:'27px'}">done_all</span></b-button>
             </div>
             <div class="col-6 p-0 mt-4 mb-3">
-              <b-img src="../assets/Imagem 5.png" :style="{borderRadius:'5px'}" width="500px" height="330px"></b-img>
+              <b-img :src="activity.questions[positionArray].img" :style="{borderRadius:'5px'}" width="500px" height="330px"></b-img>
             </div>
             <div class="col-6 mt-4 mb-3 p-0" :style="{minHeight:'330px'}">
-              <form action="" :style="{minHeight:'330px'}" class="col-12 d-flex flex-column align-items-end p-0 justify-content-between">
-                <label :class="`${answer=='Feliz' ? 'option' : 'noption'} p-3 rounded`">
-                  <input v-model="answer" type="radio" value="Feliz">
-                  <span :class="`${answer=='Feliz' ? 'emotionOption' : 'nEmotionOption'}`"><span :style="{fontWeight:'bolder'}" :class="`${answer=='Feliz' ? 'wordOption' : 'nWordOption'}`">A.</span> Feliz</span>
-                </label>
-                <label :class="`${answer=='Triste' ? 'option' : 'noption'} p-3 rounded`">
-                  <input v-model="answer" type="radio" name=""  value="Triste">
-                  <span :class="`${answer=='Triste' ? 'emotionOption' : 'nEmotionOption'}`"><span :style="{fontWeight:'bolder'}" :class="`${answer=='Triste' ? 'wordOption' : 'nWordOption'}`">B.</span> Triste</span>
-                </label>
-                <label :class="`${answer=='Envergonhado' ? 'option' : 'noption'} p-3 rounded`">
-                  <input v-model="answer" type="radio" name="" id="" value="Envergonhado">
-                  <span :class="`${answer=='Envergonhado' ? 'emotionOption' : 'nEmotionOption'}`"><span :style="{fontWeight:'bolder'}" :class="`${answer=='Envergonhado' ? 'emotionOption' : 'nWordOption'}`">C.</span> Envergonhado</span>
-                </label>
-                <label :class="`${answer=='Zangado' ? 'option' : 'noption'} p-3 rounded`">
-                  <input v-model="answer" type="radio" value="Zangado">
-                  <span :class="`${answer=='Zangado' ? 'emotionOption' : 'nEmotionOption'}`"><span :style="{fontWeight:'bolder'}" :class="`${answer=='Zangado' ? 'wordOption' : 'nWordOption'}`">D.</span> Zangado</span>
+              <form action="" :style="{minHeight:'330px'}" class="col-12 d-flex flex-column align-items-end p-0 m-0 justify-content-between">
+                <label :class="`${responses[positionArray]==question ? 'option' : 'noption'} p-3 rounded`" v-for="(question,index) in activity.questions[positionArray].options" :key="index">
+                  <input v-model="responses[positionArray]" type="radio" :value="question">
+                  <span :class="`${responses[positionArray]==question ? 'emotionOption' : 'nEmotionOption'}`"><span :style="{fontWeight:'bolder'}" :class="`${responses[positionArray]==question ? 'wordOption' : 'nWordOption'}`">{{letters[index]}}</span> {{question}}</span>
                 </label>
               </form>
             </div>
 
           </div>
-        </b-row>-->
+        </b-row>
       </b-container>
       <AppFooter />
       <b-modal
         id="modal-activity"
         centered
-        hide-footer
-        size="lg"   
+        hide-footer   
         header-border-variant="0"
         header-class="color"
         body-class="colorActivity"
         hide-header 
         no-close-on-esc 
         no-close-on-backdrop
-        scrollable
       >
       <div class="p-0 d-flex flex-column align-items-center py-3" :style="{fontFamily:'EAmbit Regular'}">
-        <h2 :style="{fontFamily:'EAmbit SemiBold',color:'#e87461'}" class="mt-4 mb-4">Parabéns, concluíste a atividade !!</h2>
-        <div class="col-10 p-3 d-flex flex-column align-items-center justify-content-start mb-4" :style="{border:'2px solid #e87461',borderRadius:'5px'}">
-          <h2 :style="{fontFamily:'EAmbit SemiBold'}" class="my-2"><span :style="{color:'#e87461'}">0</span>/7</h2>
-          <p :style="{fontSize:'21px'}" class="mt-3 mb-4">Conseguiste acertar em <span :style="{fontWeight:'bolder',color:'#e87461'}">5</span> questões das <span :style="{fontWeight:'bolder',color:'#e87461'}">7</span> propostas.</p>
-          <table  class="col-10 text-center mt-3 mb-4">
+        <h2 :style="{fontFamily:'EAmbit SemiBold',color:'#2B4141'}" class="mt-4 mb-4">Resultado</h2>
+        <div class="rounded col-12 p-3 text-center" :style="{border:'2px solid #e87461'}">
+          <div class="p-0 col-12 d-flex flex-row align-items-center">
+            <b-link @click="whatShow='resume'" :style="{textDecoration:'none',opacity: whatShow === 'resume' ? 1 : 0.4,}"><h5 :style="{fontFamily:'EAmbit SemiBold',color:'#2B4141'}" class="d-flex flex-row align-items-center"><span class="material-icons-round" :style="{color:'#e87461',paddingRight:'5px'}">info</span> Resumo</h5></b-link>
+            <b-link @click="whatShow='details'" :style="{textDecoration:'none',opacity: whatShow === 'details' ? 1 : 0.4,}"><h5 :style="{fontFamily:'EAmbit SemiBold',color:'#2B4141'}" class="d-flex flex-row align-items-center ml-3"><span class="material-icons-round" :style="{color:'#e87461',paddingRight:'5px'}">notes</span> Detalhes</h5></b-link>
+          </div>
+         
+          <div class="p-0 col-12" v-if="whatShow=='resume'">
+            <apexchart-chart type="radialBar" height="350" :options="chartOptions" :series="series"></apexchart-chart>
+            <p :style="{fontSize:'20px'}" class="mt-3 mb-4">Conseguiste acertar em <span :style="{fontWeight:'bolder',color:'#e87461'}">{{rightAnswers}}</span> questões das <span :style="{fontWeight:'bolder',color:'#e87461'}">{{activity.questions.length}}</span> propostas.</p>
+          </div>
+
+          <div class="p-0 col-12 d-flex flex-column align-items-center mt-2" v-else>
+           <table class="col-11 text-center mt-3 mb-2">
             <tr :style="{'background-color':'#e87461',color:'#fbfbf3'}">
               <th>Pergunta</th>
               <th>Emoção</th>
               <th>Pontos</th>
             </tr>
-            <tr :style="{'border-bottom':'2px solid #707070'}">
-              <td class="p-3" :style="{fontWeight:'bolder'}">Que emoção está representada?</td>
-              <td :style="{fontWeight:'bolder',color:'#e87461'}">Felicidade</td>
-              <td>10</td>
+            <tr :style="{'border-bottom':index==quizResult.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(question,index) in quizResult" :key="index">
+              <td class="p-2" :style="{fontFamily:'EAmbit SemiBold'}">{{question.question.slice(0,`${question.question.length>40? 37:question.question.length}`)+`${question.question.length>40?'...':''}`}}</td>
+              <td :style="{color:'#e87461'}">{{question.emotion}}</td>
+              <td>{{question.points}}</td>
             </tr>
-            <tr :style="{'border-bottom':'2px solid #707070'}">
-              <td class="p-3" :style="{fontWeight:'bolder'}">Que emoção está representada?</td>
-              <td :style="{fontWeight:'bolder',color:'#e87461'}">Felicidade</td>
-              <td>10</td>
-            </tr>
-            <tr :style="{'border-bottom':'2px solid #707070'}">
-              <td class="p-3" :style="{fontWeight:'bolder'}">Que emoção está representada?</td>
-              <td :style="{fontFamily:'EAmbit SemiBold',color:'#e87461'}">Felicidade</td>
-              <td>10</td>
-            </tr>
-            <tr :style="{'border-bottom':'2px solid #707070'}">
-              <td class="p-3" :style="{fontWeight:'bolder'}">Que emoção está representada?</td>
-              <td :style="{fontFamily:'EAmbit SemiBold',color:'#e87461'}">Felicidade</td>
-              <td>10</td>
-            </tr>
-          </table>
-            <b-button :to="{name:'activities'}" id="orange" class="mt-3 mb-4" :style="{fontFamily:'EAmbit SemiBold'}">Voltar ao Catálogo</b-button>
+           </table>
+            <p :style="{fontSize:'20px'}" class="mt-4">Conseguiste acumular mais <span :style="{fontWeight:'bolder',color:'#e87461'}">{{points}} </span>pontos.</p>
+          </div>
+          <div class="p-0 d-flex flex-row align-items-center justify-content-center">
+            <b-button @click="$router.go(-1)" id="orange" class="mt-3 mb-3 d-flex flex-row align-items-center" :style="{fontFamily:'EAmbit SemiBold'}"><span class="material-icons-round" :style="{paddingRight:'5px'}">navigate_before</span>Voltar ao Catálogo</b-button>
+          </div>
         </div>
+        
        </div>
       </b-modal>
     </main>
@@ -169,9 +154,69 @@ export default {
       answer: '',
       result:"",
       messageAPI:'Não foi captada nenhuma emoção.',
-      activitiy:"",
+      activity:"",
+      //Quiz
+      nQuestion:1,
+      positionArray:0,
+      responses:[],
+      letters:['A.','B.','C.','D.'],
+      quizResult:[],
+      rightAnswers:0,
+      points:0,
+      //modal
+      whatShow:'resume',
       //Reconhecimento
-      showCamera:false
+      showCamera:false,
+      localstream:'',
+      //Gráfico
+      series: [],
+      chartOptions: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            speed: 1000,
+            animateGradually: {
+                enabled: true,
+                delay: 150
+            },
+            dynamicAnimation: {
+                enabled: true,
+                speed: 350
+            }
+          }
+          
+        },
+        plotOptions: {
+          radialBar: {
+            colors:['#e87461'],
+            hollow: {
+              size: '65%',
+            },
+            track: {
+              background: '#DCDCD7',
+            },
+             dataLabels: {
+              name: {
+                fontFamily:'EAmbit SemiBold',
+                fontSize:'35px',
+                color:'#2B4141'
+              },
+              value:{
+                show:false
+              }
+             }
+
+          },
+        },
+        labels: [],
+        colors:['#e87461'],
+        stroke: {
+              lineCap: 'round'
+        }
+      },
     }
   },
   components: {
@@ -186,6 +231,56 @@ export default {
   methods: {
     ...mapActions(["findUser","findActivities"]),
 
+    nextQuestion() {
+      this.positionArray++
+      this.nQuestion++
+      if(this.activity.category=='Reconhecimento'){
+        if(!this.responses[this.positionArray]){
+          this.messageAPI='Não foi captada nenhuma emoção.'
+        }
+        else{
+          this.messageAPI=this.responses[this.positionArray]
+        }
+        
+      }
+    },
+
+    previousQuestion(){
+      this.positionArray--
+      this.nQuestion--
+      if(this.activity.category=='Reconhecimento'){
+        if(!this.responses[this.positionArray]){
+          this.messageAPI='Não foi captada nenhuma emoção.'
+        }
+        else{
+          this.messageAPI=this.responses[this.positionArray]
+        }
+      }
+    },
+
+    addAnswer(){
+      this.responses[this.positionArray]=this.result;
+      this.messageAPI=this.result;
+    },
+
+    checkActivity(){
+      //let wrongAnswers=0;
+
+      for (let i = 0; i < this.activity.questions.length; i++) {
+        if(this.activity.questions[i].correctAnswer==this.responses[i]){
+          this.quizResult.push({question:this.activity.questions[i].text,emotion:this.activity.questions[i].correctAnswer,points:this.activity.questions[i].points});
+          this.rightAnswers++
+          this.points+=+this.activity.questions[i].points
+        }
+        else{
+          this.quizResult.push({question:this.activity.questions[i].text,emotion:this.activity.questions[i].correctAnswer,points:0});
+        }
+      }
+
+      this.chartOptions.labels.push(`${this.rightAnswers}/${this.activity.questions.length}`)
+      this.series.push(this.rightAnswers*100/this.activity.questions.length)
+    },
+
     changeResultCamera(value){
       this.messageAPI=value
     },
@@ -196,10 +291,11 @@ export default {
       if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
         navigator.mediaDevices.getUserMedia({video:true}).then(stream=>{
           const videoPlayer=document.querySelector("video");
+          this.localstream=stream;
           videoPlayer.srcObject=stream;
           videoPlayer.play();
         })
-        this.showCamera=true
+        this.showCamera=true;
       }
       else{
         alert('Cannot get mediaDevices')
@@ -229,12 +325,15 @@ export default {
           }else if (result=='sad') {
             this.result='Triste'
           }else if (result=='surprised') {
-            this.result='Surpreso'
+            this.result='Surpreendido'
           }else if (result=='angry') {
             this.result='Zangado'
           }else if (result=='fearful') {
             this.result='Assustado'
-          }else{
+          }else if (result=='disgusted'){
+            this.result='Enojado'
+          }
+          else{
             this.result=result
           }
 
@@ -245,16 +344,34 @@ export default {
 
   },
   created() {
-    this.findUser();
+    this.findUser()
     this.findActivities(`?id=${this.$route.params.id}`).then(()=>{
-      this.activitiy=this.getActivities[0]
+      this.activity=this.getActivities
+    }).then(()=>{
+        if(this.activity.category=='Reconhecimento'){
+          this.initIA().then(()=>{
+          this.init();
+        })}
     })
   },
-   beforeMount () {
-    this.initIA().then(()=>{
-      this.init();
-    })
-  }
+
+  beforeDestroy(){
+    if(this.activity.category=='Reconhecimento'){
+      this.showCamera=false;
+      this.localstream.getTracks()[0].stop();
+    }
+  
+  },
+  
+
+  watch: {
+    '$route.params.id'(newValue,oldValue) {
+      if(newValue!=oldValue){
+        location.reload()
+      }
+    }
+  },
+   
 }
 </script>
 
@@ -374,7 +491,10 @@ video {
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
   -moz-transform: rotateY(180deg); /* Firefox */
   border-radius: 5px;
-  width:475px;
+  width:480px;
+  height:321px;
+  object-fit: cover;
+  
 }
 
 .btn:focus {
@@ -385,8 +505,7 @@ video {
 
 table {
   border-collapse: collapse;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
