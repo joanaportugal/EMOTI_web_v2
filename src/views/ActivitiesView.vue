@@ -397,8 +397,16 @@ export default {
     },
 
     setSuggestionActivity(){
+      let studentsList=[]
+      if(this.getUser.typeUser=='Professor'){
+        for (let team of this.getTeams.filter(team=>team._id==this.applySuggestions[1])) {
+          for (let student of team.students) {
+            studentsList.push(student._id)
+          }
+        }
+      }
       this.suggestActivity([this.applySuggestions[0],{list:this.applySuggestions[1]}]).then(()=>{
-        this.createNofication({list:this.applySuggestions[1],title:'Nova Sugestão',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name},`} sugeriu a atividade: ${this.getActivities.find(activity=>activity._id==this.applySuggestions[0]).title.toUpperCase()}.`})
+        this.createNofication({list:this.getUser.typeUser=='Professor'?studentsList:this.applySuggestions[1],title:'Nova Sugestão',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name.toUpperCase()},`} sugeriu a atividade: ${this.getActivities.find(activity=>activity._id==this.applySuggestions[0]).title.toUpperCase()}.`})
         setTimeout(() => {this.applySuggestions=["",[""]]}, 1000);
         this.$bvModal.hide("modal-activities");
         this.message='Atividade sugerida com sucesso.'

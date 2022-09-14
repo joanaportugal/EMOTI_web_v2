@@ -276,7 +276,7 @@
                 </tbody>
               </table>
 
-              <h5 class="d-flex align-items-center my-4">
+              <h5 class="d-flex align-items-center mb-4 mt-5">
                 <span class="material-icons-round" :style="{ color: '#e87461' }"
                   >equalizer</span
                 >
@@ -284,6 +284,18 @@
                   Estatísticas
                 </span>
               </h5>
+
+              <div class="col-12 text center d-flex flex-row justify-content-center align-items-center">
+                <b-link class="p-0 m-0 d-flex flex-row align-items-center mr-4" @click="showChart='Bar'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Bar'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">show_chart</span> Resultado Geral</b-link>
+                <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2" @click="showChart='Pie'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Pie'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Respostas Erradas</b-link>
+              </div>
+              
+              <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex" v-if="showChart=='Bar'"></apexchart-chart>
+              
+              <apexchart-chart type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex" v-else ></apexchart-chart>
+            
+       
+               
             </div>
           </div>
         </b-row>
@@ -777,6 +789,7 @@ export default {
       activitySelected: "",
       whatModalDo: "",
       warning: "",
+      showChart:"Bar",
       newActivity: {
         title: "",
         level: "",
@@ -796,9 +809,109 @@ export default {
       formEditActivity: {},
       filterName:"",
       applyVisibility:[""],
-      message:""
-    };
-  },
+      message:"",
+      //BAr Chart
+      series: [{
+        name: 'Nº de Vezes',
+        data: [76, 85,]
+      }],
+      chartOptions: {
+        chart: {
+          type: 'bar',
+          height: 350,
+          background:'#FDFDF3',
+          fontFamily: 'EAmbit SemiBold'
+        },
+        colors: ['#E87461', '#DCDCD7'],
+        plotOptions: {
+          bar: {
+              horizontal: false,
+              columnWidth: '17%',
+              endingShape: 'flat',
+              borderRadius: 2,
+              distributed: true,
+            },
+        },
+         dataLabels: {
+          enabled: false
+        },
+        labels:{
+          style:{
+            fontFamily:'EAmbitSemiBold'
+          }
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: ['Ganhou', 'Perdeu'],
+          axisBorder: {
+            show: true,
+            borderType: 'dotted',
+            color: '#BFBFBF',
+            height: 1,
+            width: '100%',
+            offsetX: 0,
+            offsetY: 0
+          },
+          axisTicks: {
+            show: true,
+            borderType: 'dotted',
+            color: '#BFBFBF',
+            height: 6,
+            offsetX: 0,
+            offsetY: 0
+            }
+        },
+        yaxis:{
+          show:false
+        },
+        fill: {
+          opacity: 1,
+        },
+        grid: {
+          yaxis: {
+              lines: {
+                  show: false
+              }
+        },
+      } 
+    },
+
+    //Pie Chart
+
+    seriesPie: [44, 55, 41, 17, 15],
+    chartOptionsPie: {
+      chart: {
+        type: 'donut',
+        fontFamily:'EAmbit SemiBold',
+        toolbar:{
+          show:true
+        }
+      },
+      labels: ['Questão 1', 'Questão 2', 'Questão 3', 'Questão 4', 'Questão 5'],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }],
+      legend: {
+        show:true,
+        position:'bottom'
+      },
+      colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E','']
+    },
+      
+  };
+},
 
   methods: {
     ...mapActions([
@@ -826,6 +939,7 @@ export default {
     addActivity() {
       this.createActivity(this.newActivity)
         .then(() => {
+          this.createNofication({toAdmin:true,title:'Nova Pedido de Aprovação',text:`${this.getUser.typeUser=='Tutor'?`O Tutor, ${this.getUser.name.toUpperCase()},`:`O Professor, ${this.getUser.name.toUpperCase()},`} espera a decisão de aprovação da atividade: ${this.newActivity.title.toUpperCase()}.`})
           this.findActivities("").then(() => {
             this.activitySelected = this.getActivities.find(
               (activity) =>
@@ -911,8 +1025,16 @@ export default {
     },
 
     setVisibility(){
+      let studentsList=[]
+      if(this.getUser.typeUser=='Professor'){
+        for (let team of this.getTeams.filter(team=>team._id==this.applyVisibility)) {
+          for (let student of team.students) {
+            studentsList.push(student._id)
+          }
+        }
+      }
       this.giveVisiblity([this.activitySelected._id,{list:this.applyVisibility}]).then(()=>{
-        this.createNofication({list:this.applyVisibility,title:'Nova Atividade Personalizada',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name},`} adicionou ao seu catálogo a seguinte atividade: ${this.activitySelected.title.toUpperCase()}.`})
+        this.createNofication({list:this.getUser.typeUser=='Professor'?studentsList:this.applyVisibility,title:'Nova Atividade Personalizada',text:`${this.getUser.typeUser=='Tutor'?`O seu Tutor, ${this.getUser.name.toUpperCase()},`:`O seu Professor, ${this.getUser.name.toUpperCase()},`} adicionou ao seu catálogo a seguinte atividade: ${this.activitySelected.title.toUpperCase()}.`})
         setTimeout(() => {this.applyVisibility=[""]}, 1000);
         this.findVisibility(this.activitySelected._id);
         this.$bvModal.hide("modal-extra");

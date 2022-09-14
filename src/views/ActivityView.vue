@@ -348,10 +348,16 @@ export default {
     this.findActivities(`?id=${this.$route.params.id}`).then(()=>{
       this.activity=this.getActivities
     }).then(()=>{
+      if(this.getActivities.length==0){
+        this.$router.go(-1)
+      }
+      else{
         if(this.activity.category=='Reconhecimento'){
           this.initIA().then(()=>{
           this.init();
         })}
+      }
+        
     })
   },
 

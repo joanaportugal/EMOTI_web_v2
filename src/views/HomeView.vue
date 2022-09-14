@@ -67,7 +67,10 @@
             <div>
               <div class="rounded p-3" :style="{border: '2px solid #e87461',height:'510px',overflowY:getUser.typeUser=='Tutor' || getUser.typeUser=='Administrador'?'scroll':'visible'}">
                 <div v-if="getUser.typeUser=='Criança'">
-                  <h5 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }" class="mt-2 mb-5">Resultados das Atividades</h5>
+                  <div class="col-12 p-0 d-flex flex-row flex-wrap align-items-center justify-content-between mt-2 mb-5" :style="{fontFamily: 'EAmbit SemiBold'}">
+                    <h6 :style="{color: '#2B4141',fontSize:'18px' }" class="p-0 m-0">Resultado das Atividades</h6>
+                    <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center"  @click="$bvToast.show('my-toast')"><span class="material-icons-round">autorenew</span> Alternar</b-link>
+                  </div>
                   <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex"></apexchart-chart>
                 </div>
 

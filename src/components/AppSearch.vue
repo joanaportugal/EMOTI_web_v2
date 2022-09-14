@@ -106,7 +106,7 @@
           header-class="headerNotification"
           body-class="bodyNotification"
           :style="{ border: 'none' }"
-          v-for="(notification,index) in getUser.notifications" :key="index"
+          v-for="(notification,index) in getUser.notifications.reverse()" :key="index"
         >
           <template #header>
             <div

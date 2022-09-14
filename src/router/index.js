@@ -8,6 +8,7 @@ import ProfileView from '../views/ProfileView.vue'
 import VirtualSchool from '../views/VirtualSchool.vue'
 import ExtraActivities from '../views/ExtraActivities.vue'
 import ManageView from '../views/ManageView.vue'
+import Error from '../views/ErrorView.vue'
 
 import store from "../store/index.js";
 
@@ -130,7 +131,12 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
-  }
+  },
+  {
+		path: '*',
+		name: 'Erro 404',
+		component: Error,
+	},
 ]
 
 const router = new VueRouter({

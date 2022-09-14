@@ -402,6 +402,20 @@
                         Estatísticas
                       </span>
                     </h5>
+                    <div class="col-12 text center d-flex flex-row justify-content-center">
+                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mr-4" @click="showChart='Bar'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Bar'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">show_chart</span> Resultado Geral</b-link>
+                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2 mr-4" @click="showChart='Pie'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Pie'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Emoções</b-link>
+                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2" @click="showChart='Circle'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Circle'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">wifi_tethering</span>Categoria de Imagens</b-link>
+                    </div>
+                    <div class="col-12 mt-2 mb-1 d-flex flex-row justify-content-end p-0 pr-2" v-if="showChart=='Bar'">
+                      <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center"  @click="$bvToast.show('my-toast')"><span class="material-icons-round">autorenew</span> Alternar</b-link>
+                    </div>
+             
+                    <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex" v-if="showChart=='Bar'"></apexchart-chart>
+                    
+                    <apexchart-chart type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex" v-if="showChart=='Pie'"></apexchart-chart>
+
+                    <apexchart-chart type="radialBar" height="400" :options="chartOptionsRadial" :series="seriesRadial" class="apex"  v-if="showChart=='Circle'"></apexchart-chart>
                   </div>
                 </div>
               </div>
@@ -774,6 +788,7 @@ export default {
     return {
       warning: "",
       whatModalDo: "",
+      showChart:"Bar",
       childSelected: "",
       passForm: {
         newPass: "",
@@ -786,9 +801,147 @@ export default {
       },
       newImg: "",
       searchKid: "",
-      message:""
-    };
-  },
+      message:"",
+      //BAr Chart
+      series: [{
+        name: 'Ganhou',
+        data: [44, 55, 57,60]
+      }, 
+      {
+        name: 'Perdeu',
+        data: [76, 85, 101,62]
+      }],
+      chartOptions: {
+        chart: {
+          type: 'bar',
+          height: 350,
+          background:'#FDFDF3',
+          fontFamily: 'EAmbit SemiBold'
+        },
+        colors: ['#E87461', '#DCDCD7'],
+        plotOptions: {
+          bar: {
+              horizontal: false,
+              columnWidth: '25%',
+              endingShape: 'flat',
+              borderRadius: 2
+            },
+        },
+         dataLabels: {
+          enabled: false
+        },
+        labels:{
+          style:{
+            fontFamily:'EAmbitSemiBold'
+          }
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: ['18/04', '19/04', '20/04','21/04'],
+          axisBorder: {
+            show: true,
+            borderType: 'dotted',
+            color: '#BFBFBF',
+            height: 1,
+            width: '100%',
+            offsetX: 0,
+            offsetY: 0
+          },
+          axisTicks: {
+            show: true,
+            borderType: 'dotted',
+            color: '#BFBFBF',
+            height: 6,
+            offsetX: 0,
+            offsetY: 0
+            }
+        },
+        yaxis:{
+          show:false
+        },
+        fill: {
+          opacity: 1,
+        },
+        grid: {
+          yaxis: {
+              lines: {
+                  show: false
+              }
+        },
+      } 
+    },
+
+    //Pie Chart
+
+    seriesPie: [44, 55, 41, 17, 15],
+    chartOptionsPie: {
+      chart: {
+        type: 'donut',
+        fontFamily:'EAmbit SemiBold',
+        toolbar:{
+          show:true
+        }
+      },
+      labels: ['Felicidade', 'Tristeza', 'Zangado', 'Furioso', 'Assustado'],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }],
+      legend: {
+        show:true,
+        position:'bottom'
+      },
+      colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E','#8D8DBA']
+    },
+
+    //Radial
+     seriesRadial: [44, 55, 41],
+    chartOptionsRadial: {
+      chart: {
+        type: 'radialBar',
+        fontFamily:'EAmbit SemiBold',
+        toolbar:{
+          show:true
+        }
+      },
+      plotOptions: {
+          radialBar: {
+             track: {
+              background: '#DCDCD7',
+            }
+          }
+      },
+      labels: ['Ilustração', 'Realidade', 'Realidade/Familiar'],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }],
+      legend: {
+        show:true,
+        position:'bottom'
+      },
+      colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E','#8D8DBA']
+    },
+  };
+},
 
   computed: {
     ...mapGetters([
@@ -813,6 +966,7 @@ export default {
       "deleteRequest",
       "findChildClasses",
       "removeStudent",
+      "createNofication"
     ]),
 
     changePassword() {
@@ -907,6 +1061,7 @@ export default {
 
     agreeRequest(data) {
       this.acceptRequest([this.childSelected._id, data]).then(() => {
+        this.createNofication({list:[data.teacherId],title:'Resultado do Pedido de Aprovação',text:`O tutor ${this.getUser.name.toUpperCase()}, aceitou o pedido de integração da criança ${this.getChilds.find(kid=>kid._id==this.childSelected._id).name.toUpperCase()} na Turma: ${data.className.toUpperCase()}.`})
         this.findChildClasses(this.childSelected._id);
         this.findRequests(this.childSelected._id);
         this.message='O pedido de integração foi aprovado com sucesso.'
@@ -916,6 +1071,7 @@ export default {
 
     removeRequest(data) {
       this.deleteRequest([this.childSelected._id, data]).then(() => {
+        this.createNofication({list:[data.teacherId],title:'Resultado do Pedido de Aprovação',text:`O tutor ${this.getUser.name.toUpperCase()}, rejeitou o pedido de integração da criança ${this.getChilds.find(kid=>kid._id==this.childSelected._id).name.toUpperCase()} na Turma: ${data.className.toUpperCase()}.`})
         this.findRequests(this.childSelected._id);
         this.message='O pedido de integração foi reprovado com sucesso.'
         this.$bvToast.show('my-toast');
@@ -925,6 +1081,7 @@ export default {
     removeKidFromClass(data) {
       if (confirm("Confirma a alteração?")) {
         this.removeStudent(data).then(() => {
+          this.createNofication({list:[data[2].teacherId],title:'Resultado do Pedido de Aprovação',text:`O tutor ${this.getUser.name.toUpperCase()}, retirou a criança ${this.getChilds.find(kid=>kid._id==data[1]).name.toUpperCase()} da Turma: ${this.getChildClasses.find(team=>team._id==data[0]).name.toUpperCase()}.`})
           this.message='A criança foi removida da turma com sucesso.'
           this.$bvToast.show('my-toast');
           this.findChildClasses(data[1]);
