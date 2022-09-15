@@ -19,7 +19,7 @@
               <div class="col-12 p-0 d-flex flex-row flex-wrap justify-content-between">
                 <div class="d-flex flex-column justify-content-start align-items-center my-4 myCard" 
                 :style="{borderRadius:'5px',position:'relative'}"
-                v-for="(activity,index) in getActivities.slice(0,number)" :key="index"
+                v-for="(activity,index) in activities" :key="index"
                 >
                   <b-img :src="activity.coverIMG" :style="{width:'326px',height:'189px',borderRadius:'5px'}"></b-img>
                     <div class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle">
@@ -362,7 +362,8 @@ export default {
       warning:'',
       number:4,
       numberTop:5,
-      message:''
+      message:'',
+      activities:[]
     };
   },
 
@@ -381,9 +382,11 @@ export default {
     seeMoreActivities(){
       if((this.getActivities-this.number)-4!=0){
         this.number+=this.getActivities.slice(this.number).length
+        this.activities=this.getActivities.slice(0,this.number)
       }
       else{
         this.number+=4
+        this.activities=this.getActivities.slice(0,this.number)
       }
     },
 
@@ -430,6 +433,10 @@ export default {
       this.findActivities("").then(()=>{
         if(this.getActivities.length<4){
           this.number=this.getActivities.length
+           this.activities=this.getActivities.slice(0,this.number)
+        }
+        else{
+          this.activities=this.getActivities.slice(0,this.number)
         }
       });
       if(this.getUser.typeUser=='Professor'){
@@ -449,6 +456,11 @@ export default {
             this.findActivities(`?level=${this.formFilter.level}&category=${this.formFilter.category}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
+              }
+              else{
+                this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             })
          }
@@ -456,6 +468,11 @@ export default {
            this.findActivities(`?level=${this.formFilter.level}&category=${this.formFilter.category}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
+              }
+              else{
+                this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             })
          }
@@ -463,9 +480,11 @@ export default {
            this.findActivities(`?level=${this.formFilter.level}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             })
          }
@@ -473,9 +492,11 @@ export default {
             this.findActivities(`?level=${this.formFilter.level}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
          }
@@ -484,21 +505,25 @@ export default {
   'formFilter.category'() {
       if(this.formFilter.level!='' && this.formFilter.nQuestions!=''){
         this.findActivities(`?level=${this.formFilter.level}&category=${this.formFilter.category}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
-              if(this.getActivities.length<4){
-                this.number=this.getActivities.length
-              }
-              else{
-                this.number=4
-              }
-            });
+          if(this.getActivities.length<4){
+            this.number=this.getActivities.length
+            this.activities=this.getActivities.slice(0,this.number)
+          }
+          else{
+            this.number=4
+            this.activities=this.getActivities.slice(0,this.number)
+          }
+        });
       }
       else if(this.formFilter.nQuestions!=''){
          this.findActivities(`?category=${this.formFilter.category}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
       }
@@ -506,32 +531,38 @@ export default {
         this.findActivities(`?category=${this.formFilter.category}&level=${this.formFilter.level}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
       }
       else{
         this.findActivities(`?category=${this.formFilter.category}`).then(()=>{
-              if(this.getActivities.length<4){
-                this.number=this.getActivities.length
-              }
-              else{
-                this.number=4
-              }
-            });
+          if(this.getActivities.length<4){
+            this.number=this.getActivities.length
+            this.activities=this.getActivities.slice(0,this.number)
+          }
+          else{
+            this.number=4
+            this.activities=this.getActivities.slice(0,this.number)
+          }
+        });
       }
     
     },
   'formFilter.nQuestions'() {
     if(this.formFilter.level!='' && this.formFilter.category!=''){
       this.findActivities(`?level=${this.formFilter.level}&category=${this.formFilter.category}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
-              if(this.getActivities.length<4){
+             if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             })
     }
@@ -539,19 +570,23 @@ export default {
       this.findActivities(`?level=${this.formFilter.level}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
     }
     else if(this.formFilter.category!=''){
       this.findActivities(`?category=${this.formFilter.category}&questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
-              if(this.getActivities.length<4){
+             if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
     }
@@ -559,9 +594,11 @@ export default {
       this.findActivities(`?questionsNumber=${this.formFilter.nQuestions}`).then(()=>{
               if(this.getActivities.length<4){
                 this.number=this.getActivities.length
+                this.activities=this.getActivities.slice(0,this.number)
               }
               else{
                 this.number=4
+                this.activities=this.getActivities.slice(0,this.number)
               }
             });
     }

@@ -15,7 +15,7 @@
               <div class="col-12 p-0 d-flex flex-row flex-wrap justify-content-between">
                 <div class="d-flex flex-column justify-content-start align-items-center my-4 myCard" 
                 :style="{borderRadius:'5px',position:'relative'}"
-                v-for="(activity,index) in activities.filter(activity=>activity.category=='Quiz' || activity.category=='Reconhecimento').slice(0,4)" :key="index"
+                v-for="(activity,index) in activities" :key="index"
                 >
                   <b-img :src="activity.coverIMG" :style="{width:'326px',height:'189px',borderRadius:'5px'}"></b-img>
                     <div class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center activityTitle">
@@ -100,15 +100,15 @@
 
                 <div v-if="getUser.typeUser=='Administrador'" class="p-0">
                   <h6 :style="{color: '#2B4141',fontSize:'21px',fontFamily: 'EAmbit SemiBold'}" class="p-0 m-0 mt-2 mb-3 d-flex flex-row align-items-center"><span class="material-icons-round" :style="{color:'#e87461',paddingRight:'7px'}">sports_esports</span> Atividades Personalizadas</h6>
-                  <p class="text-center" v-if="getActivities.filter(activity=>activity.approved==false).length==0">Não existem pedidos de aprovação de atividades personalizadas pendentes.</p>
+                  <p class="text-center" v-if="activitiesForApproved.length==0">Não existem pedidos de aprovação de atividades personalizadas pendentes.</p>
                    <table class="col-12 mt-4 mb-2" v-else>
                     <tr class="text-center" :style="{'background-color':'#e87461',color:'#fbfbf3'}">
                       <th>Atividade</th>
                       <th>Ações</th>
                     </tr>
-                    <tr :style="{'border-bottom':index==getActivities.filter(activity=>activity.approved==false).length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(activity,index) in getActivities.filter(activity=>activity.approved==false)" :key="index">
-                      <td class="p-2" :style="{fontFamily:'EAmbit SemiBold'}" v-if="activity.title!=undefined"> <b-avatar variant="light" :text="activity.title.charAt(0)" size="2.7rem" class="mr-2"></b-avatar>{{activity.title.slice(0,activity.title.length>14? 14 :activity.title.length)+`${activity.title.length>14?'...':''}`}}</td>
-                      <td class="text-center" v-if="activity._id!=undefined"><b-link :to="{ name: 'activity', params:{id:activity._id} }" class="mr-1" :style="{textDecoration:'none',color:'#DCDCD7'}"><span class="material-icons-round">visibility</span></b-link> <b-link class="mr-1" :style="{textDecoration:'none',color:'#34B187'}"  @click="setAcceptActivity(activity._id)"><span class="material-icons-round">check</span></b-link> <b-link :style="{textDecoration:'none',color:'#F54C25'}" @click="setDeleteActivity(activity._id)"><span class="material-icons-round">close</span></b-link></td>
+                    <tr :style="{'border-bottom':index==activitiesForApproved.length-1 ?'5px solid #e87461' :'1px solid #707070',color:'#2B4141'}" v-for="(activity,index) in activitiesForApproved" :key="index">
+                      <td class="p-2" :style="{fontFamily:'EAmbit SemiBold'}"> <b-avatar variant="light" :text="activity.title.charAt(0)" size="2.7rem" class="mr-2"></b-avatar>{{activity.title.slice(0,activity.title.length>14? 14 :activity.title.length)+`${activity.title.length>14?'...':''}`}}</td>
+                      <td class="text-center"><b-link :to="{ name: 'Atividade', params:{id:activity._id} }" class="mr-1" :style="{textDecoration:'none',color:'#DCDCD7'}"><span class="material-icons-round">visibility</span></b-link> <b-link class="mr-1" :style="{textDecoration:'none',color:'#34B187'}"  @click="setAcceptActivity(activity._id)"><span class="material-icons-round">check</span></b-link> <b-link :style="{textDecoration:'none',color:'#F54C25'}" @click="setDeleteActivity(activity._id)"><span class="material-icons-round">close</span></b-link></td>
                     </tr>
                    </table>
                 </div>  
@@ -142,6 +142,7 @@ export default {
   data() {
     return {
       activities: [],
+      activitiesForApproved:[],
       message:'',
       series: [{
         name: 'Ganhou',
@@ -220,7 +221,9 @@ export default {
     setAcceptActivity(id){
       if(confirm('Confirma a alteração (Aprovar Atividade)?')){
        this.acceptActivity(id).then(()=>{
-        this.findActivities("");
+        this.findActivities("").then(()=>{
+           this.activitiesForApproved=this.getActivities.filter(activity=>activity.approved==false);
+        });
         this.message='A atividade foi aprovada com sucesso.'
         this.$bvToast.show('my-toast');
        })
@@ -230,7 +233,9 @@ export default {
     setDeleteActivity(id){
        if(confirm('Confirma a alteração (Remover Atividade)?')){
        this.deleteActivityExtra(id).then(()=>{
-        this.findActivities("");
+        this.findActivities("").then(()=>{
+          this.activitiesForApproved=this.getActivities.filter(activity=>activity.approved==false);
+        });
         this.message='A atividade foi reprovada com sucesso.'
         this.$bvToast.show('my-toast');
        }) 
@@ -245,6 +250,8 @@ export default {
     });
     this.findActivities("").then(()=>{
       this.activities=this.getActivities.reverse();
+      this.activities=this.activities.filter(activity=>activity.category=='Quiz' || activity.category=='Reconhecimento').slice(0,4);
+      this.activitiesForApproved=this.getActivities.filter(activity=>activity.approved==false);
     });
   },
 };
