@@ -102,7 +102,7 @@
             </div> 
           </b-col>
 
-          <!--Top Atividades--->
+          <!--Top Atividades-->
 
           <b-col cols="4">
             <h2 :style="{ fontFamily: 'EAmbit SemiBold', color: '#2B4141' }">
