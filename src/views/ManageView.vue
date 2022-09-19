@@ -1,4 +1,9 @@
 <template>
+ <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
   <div class="d-flex">
     <aside>
       <SideBar activeTab="Gerir" v-if="this.getUser!=null" :user="this.getUser"/>
@@ -1028,6 +1033,7 @@
       <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
     </b-toast>
   </div>
+  </div>
 </template>
 
 <script>
@@ -1046,6 +1052,7 @@ export default {
   },
   data() {
     return {
+      showLoading:true,
       optSelected: "Utilizadores",
       typeUsers: ["Criança", "Tutor", "Administrador"],
       whatModalDo: "",
@@ -1316,6 +1323,12 @@ export default {
       }
     
     },
+
+    showOrNotLoading(){
+      setTimeout(()=>{
+        this.showLoading=false
+      },1500);
+    }
     
   },
 
@@ -1324,6 +1337,7 @@ export default {
   },
 
   mounted () {
+    this.showOrNotLoading();
     this.findUser();
     this.findAllUsers("").then(()=>{
       if(this.$route.params.idUserAdmin){
@@ -1469,5 +1483,72 @@ table {
 }
 .toast{
   border:none;
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
 }
 </style>

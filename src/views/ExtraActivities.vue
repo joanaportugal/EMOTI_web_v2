@@ -1,4 +1,9 @@
 <template>
+ <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
   <div class="d-flex">
     <aside>
       <SideBar
@@ -145,6 +150,7 @@
                   </button>
                 </div>
               </div>
+              <div class="p-0" v-if="activitySelected!=''">
               <h5 class="d-flex align-items-center my-4">
                 <span class="material-icons-round" :style="{ color: '#e87461' }"
                   >info</span
@@ -233,7 +239,6 @@
                   ></b-form-textarea>
                 </b-form-group>
               </div>
-
               <h5 class="d-flex align-items-center my-4">
                 <span class="material-icons-round" :style="{ color: '#e87461' }"
                   >visibility</span
@@ -275,7 +280,9 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
 
+              <div class="p-0" :hidden="activitySelected=='' || activitySelected.approved==false || check()">
               <h5 class="d-flex align-items-center mb-4 mt-5">
                 <span class="material-icons-round" :style="{ color: '#e87461' }"
                   >equalizer</span
@@ -285,16 +292,28 @@
                 </span>
               </h5>
 
-              <div class="col-12 text center d-flex flex-row justify-content-center align-items-center">
-                <b-link class="p-0 m-0 d-flex flex-row align-items-center mr-4" @click="showChart='Bar'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Bar'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">show_chart</span> Resultado Geral</b-link>
-                <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2" @click="showChart='Pie'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Pie'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Respostas Erradas</b-link>
-              </div>
+              <b-tabs content-class="mt-3" active-nav-item-class="changeColorTab" fill>
+                <b-tab>
+                  <template #title>
+                    <h6 class="p-0 d-flex flex-row align-items-center justify-content-center" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'17px'}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">bar_chart</span> Resultado Geral</h6>
+                  </template>
+                   <apexchart-chart ref="chartReactive" type="bar" height="350" :options="chartOptions" :series="series" class="apex"></apexchart-chart>
+                </b-tab>
+                <b-tab>
+                  <template #title>
+                    <h6 class="p-0 d-flex flex-row align-items-center justify-content-center" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'17px'}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Respostas Erradas</h6>
+                  </template>
+                  <apexchart-chart  type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex"></apexchart-chart>
+                </b-tab>
+               
+              </b-tabs>
               
-              <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex" v-if="showChart=='Bar'"></apexchart-chart>
               
-              <apexchart-chart type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex" v-else ></apexchart-chart>
-            
-       
+            </div>
+            <div class="text-center my-3" v-if="activitySelected.approved==false">
+              <hr>
+              <h6><strong>Nota: </strong> Esta atividade encontra-se bloqueada pelo facto de ainda não ter sido aprovada.</h6>
+            </div>
                
             </div>
           </div>
@@ -768,6 +787,7 @@
       <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
     </b-toast>
   </div>
+ </div>
 </template>
 
 <script>
@@ -786,6 +806,7 @@ export default {
   },
   data() {
     return {
+      showLoading:true,
       activitySelected: "",
       whatModalDo: "",
       warning: "",
@@ -810,10 +831,11 @@ export default {
       filterName:"",
       applyVisibility:[""],
       message:"",
-      //BAr Chart
+      //BAr Chart 
+      
       series: [{
         name: 'Nº de Vezes',
-        data: [76, 85,]
+        data: []
       }],
       chartOptions: {
         chart: {
@@ -879,10 +901,10 @@ export default {
         },
       } 
     },
-
+ 
     //Pie Chart
-
-    seriesPie: [44, 55, 41, 17, 15],
+    
+    seriesPie: [],
     chartOptionsPie: {
       chart: {
         type: 'donut',
@@ -891,7 +913,7 @@ export default {
           show:true
         }
       },
-      labels: ['Questão 1', 'Questão 2', 'Questão 3', 'Questão 4', 'Questão 5'],
+      labels: [],
       responsive: [{
         breakpoint: 480,
         options: {
@@ -907,8 +929,11 @@ export default {
         show:true,
         position:'bottom'
       },
-      colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E','']
+      colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E']
     },
+
+    history:[],
+    tabIndex:0
       
   };
 },
@@ -927,13 +952,32 @@ export default {
       "findVisibility",
       "giveVisiblity",
       "removeVisibility",
-      "createNofication"
+      "createNofication",
+      "findHistoryActivities"
 
     ]),
 
+    check(){
+      if(this.history!=undefined){
+        if(this.history.questionsRight==0 && this.history.questionsWrong==0){
+          return true
+        }
+        else{
+          return false
+        }
+      }
+      else{
+        return true
+      }
+    },
+
     setActivity(activity){
-      this.activitySelected = activity
+      this.activitySelected = activity;
       this.findVisibility(this.activitySelected._id);
+      this.history=this.getHistoryActivity.find(register=>register._id==this.activitySelected._id);
+      this.setBarChart()
+      this.setPieChart()
+      
     },
 
     addActivity() {
@@ -992,6 +1036,11 @@ export default {
                 (activity) => activity.author == this.getUser.username
               )[0]
               this.findVisibility(this.activitySelected._id);
+              if(this.activitySelected.approved==true){
+                 this.history=this.getHistoryActivity.find(register=>register._id==this.activitySelected._id);
+                 this.setBarChart()
+                 this.setPieChart()
+              }
             }
           });
         });
@@ -1071,13 +1120,39 @@ export default {
 
       this.formEditActivity=myActivity  
     },
+
+    showOrNotLoading(){
+      setTimeout(()=>{
+        this.showLoading=false
+      },1500);
+    },
+
+    setBarChart(){
+      this.$refs.chartReactive.updateSeries([{data:[this.history.questionsRight,this.history.questionsWrong]}],true)
+    },
+
+    setPieChart(){
+      if(this.activitySelected.approved==true){
+        let array=[]
+        let otherArray=[]
+        for (const wrong of this.history.wrongEmotions){
+            array.push(Object.values(wrong)[0])
+            otherArray.push(Object.keys(wrong)[0])
+        }
+        this.seriesPie=array
+        this.chartOptionsPie={...this.chartOptionsPie,...{
+          labels:otherArray
+        }}
+      }
+    }
   },
 
   computed: {
-    ...mapGetters(["getUser", "getActivities", "getEmotions","getStudents","getTeams","getChilds","getVisibility"]),
+    ...mapGetters(["getUser", "getActivities", "getEmotions","getStudents","getTeams","getChilds","getVisibility","getHistoryActivity"]),
   },
 
   created() {
+    this.showOrNotLoading();
     this.findUser().then(() => {
       if(this.getUser.typeUser=='Professor'){
         this.findTeams("");
@@ -1086,21 +1161,25 @@ export default {
         this.findRelations("");
       }
       this.findActivities("").then(() => {
-        if (
-          this.getActivities.filter(
-            (activity) => activity.author == this.getUser.username
-          ).length != 0
-        ){
-          this.activitySelected = this.getActivities.filter(
-            (activity) => activity.author == this.getUser.username
-          )[0];
-          this.findVisibility(this.activitySelected._id)
+        if (this.getActivities.filter( (activity) => activity.author == this.getUser.username).length != 0){
+          this.activitySelected = this.getActivities.filter((activity) => activity.author == this.getUser.username)[0];
+
+          this.findVisibility(this.activitySelected._id);
+
+          this.findHistoryActivities().then(()=>{
+            this.history=this.getHistoryActivity.find(register=>register._id=this.activitySelected._id)
+            this.setBarChart()
+            this.setPieChart()
+        
+          })
+          
         }
       });
       
 
     });
     this.getAllEmotions();
+   
   },
 
   watch: {
@@ -1114,7 +1193,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 aside {
   height: 100%;
   width: 18vw;
@@ -1193,5 +1272,77 @@ table {
 }
 .toast{
   border:none;
+}
+
+.changeColorTab{
+  background-color:#d9d9d558 !important;
+  border-bottom: none;
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
 }
 </style>

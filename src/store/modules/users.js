@@ -11,7 +11,9 @@ export default {
 
         linkAPI: 'http://127.0.0.1:3000/',
 
-        childs:[]
+        childs:[],
+
+        historyUser:[],
     },
 
 
@@ -22,7 +24,9 @@ export default {
 
         getUsers:(state)=> state.users,
 
-        getChilds:(state)=>state.childs
+        getChilds:(state)=>state.childs,
+
+        getHistoryUser:(state)=>state.historyUser
     },
 
 
@@ -48,6 +52,16 @@ export default {
 
         SET_CHILDS(state,payload){
             state.childs=payload.children
+        },
+
+        SET_HISTORY_USER(state,payload){
+            if(state.user.typeUser=='Criança'){
+               state.historyUser={history:payload.history,emotions:payload.emotions}
+            }
+            else{
+                state.historyUser=payload.list
+            }
+            
         }
 
     },
@@ -270,6 +284,16 @@ export default {
             if (!response.ok) {
                 const err = await response.json()
                 throw new Error(err.error)
+            }
+        },
+
+        async findHistoryUser(context){
+            const response = await fetch(`${context.state.linkAPI}api/users/history`, {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+            })
+            if (response.ok) {
+                context.commit("SET_HISTORY_USER", await response.json());
             }
         },
 

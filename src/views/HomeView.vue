@@ -1,4 +1,9 @@
 <template>
+  <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
   <div class="d-flex">
     <aside>
       <SideBar activeTab="Página Principal" v-if="this.getUser!=null" :user="this.getUser" />
@@ -69,18 +74,20 @@
                 <div v-if="getUser.typeUser=='Criança'">
                   <div class="col-12 p-0 d-flex flex-row flex-wrap align-items-center justify-content-between mt-2 mb-5" :style="{fontFamily: 'EAmbit SemiBold'}">
                     <h6 :style="{color: '#2B4141',fontSize:'18px' }" class="p-0 m-0">Resultado das Atividades</h6>
-                    <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center"  @click="$bvToast.show('my-toast')"><span class="material-icons-round">autorenew</span> Alternar</b-link>
+                    <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center" v-if="historyUser.length>4"  @click="changeData()"><span class="material-icons-round">autorenew</span> Alternar</b-link>
                   </div>
-                  <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex"></apexchart-chart>
+                  <apexchart-chart type="bar" ref="realtimeChart" id="chartKid" height="350" :options="chartOptions" :series="series" class="apex" :hidden="historyUser.length<2"></apexchart-chart>
+                  <div class="col-12 d-flex flex-column align-items-center justify-content-center" v-if="historyUser.length<2"><h6>Não existem registos suficientes para comparar.</h6></div>
                 </div>
 
                 <div v-if="getUser.typeUser=='Professor'">
                   <div class="col-12 p-0 d-flex flex-row flex-wrap align-items-center justify-content-between mt-2 mb-5" :style="{fontFamily: 'EAmbit SemiBold'}">
                     <h6 :style="{color: '#2B4141',fontSize:'21px' }" class="p-0 m-0">Ranking das Turmas</h6>
-                    <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center"  @click="$bvToast.show('my-toast')"><span class="material-icons-round">autorenew</span> Alternar</b-link>
+                    <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center" v-if="historyTeams.length>4"  @click="changeData()"><span class="material-icons-round">autorenew</span> Alternar</b-link>
                   </div>
                   
-                  <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex"></apexchart-chart>
+                  <apexchart-chart ref="reactiveChart" type="bar" height="350" :options="chartOptions" :series="series" :hidden="historyTeams.length<2" class="apex"></apexchart-chart>
+                  <div class="col-12 d-flex flex-column align-items-center justify-content-center" v-if="historyTeams.length<2"><h6>Não existem registos suficientes para comparar.</h6></div>
                 </div>
 
                 <div v-if="getUser.typeUser=='Tutor'" class="p-0">
@@ -124,6 +131,7 @@
       <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
     </b-toast>
   </div>
+  </div>
 </template>
 
 <script>
@@ -142,21 +150,23 @@ export default {
   data() {
     return {
       activities: [],
+      showLoading:true,
       activitiesForApproved:[],
       message:'',
       series: [{
         name: 'Ganhou',
-        data: [44, 55, 57,60]
+        data: []
       }, 
       {
         name: 'Perdeu',
-        data: [76, 85, 101,62]
+        data: []
       }],
       chartOptions: {
         chart: {
           type: 'bar',
           height: 350,
-          background:'#FDFDF3'
+          background:'#FDFDF3',
+          fontFamily:'EAmbit SemiBold'
         },
         colors: ['#E87461', '#DCDCD7'],
         plotOptions: {
@@ -164,7 +174,8 @@ export default {
               horizontal: false,
               columnWidth: '60%',
               endingShape: 'flat',
-              borderRadius: 2
+              borderRadius: 2,
+              distributed: false,
             },
         },
          dataLabels: {
@@ -176,7 +187,7 @@ export default {
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['18/04', '19/04', '20/04','21/04'],
+          categories: [],
           axisBorder: {
             show: true,
             borderType: 'dotted',
@@ -208,15 +219,22 @@ export default {
               }
         }
       } 
-}
+},
+
+    startGraphKid:0,
+    endGraphKid:4,
+    startGraphTeacher:0,
+    endGraphTeacher:4,
+    historyTeams:[],
+    historyUser:[]
 
     }
   },
   computed: {
-    ...mapGetters(['getUser','getActivities','getChilds'])
+    ...mapGetters(['getUser','getActivities','getChilds','getHistoryUser',"getTeams"])
   },
   methods: {
-    ...mapActions(['findUser','findActivities','findRelations','acceptActivity','deleteActivityExtra']),
+    ...mapActions(['findUser','findActivities','findRelations','acceptActivity','deleteActivityExtra','findHistoryUser',"findTeams",]),
 
     setAcceptActivity(id){
       if(confirm('Confirma a alteração (Aprovar Atividade)?')){
@@ -241,11 +259,147 @@ export default {
        }) 
       }
     },
+    showOrNotLoading(){
+      setTimeout(()=>{
+        this.showLoading=false
+      },1500);
+    },
+
+    changeData(){
+      if(this.getUser.typeUser=='Criança'){
+        if(Math.sign(this.startGraphKid-1)==-1){
+          this.startGraphKid=this.getHistoryUser.history.length-4
+          this.endGraphKid=this.getHistoryUser.history.length
+        }
+        else{
+          this.startGraphKid--
+          this.endGraphKid--
+        }
+        this.setGraphKid()
+      }
+      else{
+        if(Math.sign(this.startGraphTeacher-1)==-1){
+          this.startGraphTeacher=this.historyTeams.length-4
+          this.endGraphTeacher=this.historyTeams.length
+        }
+        else{
+          this.startGraphTeacher--
+          this.endGraphTeacher--
+        }
+
+        this.setGraphTeacher()
+      }
+    },
+
+    setGraphKid(){
+      let array=[]
+      let rightArray=[] 
+      let wrongArray=[]
+
+      for (const history of this.historyUser.slice(this.startGraphKid,this.endGraphKid)) {
+       array.push(history.date)
+
+        let right=0
+        let wrong=0
+        for (let activity of history.activities) {
+          right+=+activity.questionsRight.length
+          wrong+=+activity.questionsWrong.length
+        }
+        rightArray.push(right)
+        wrongArray.push(wrong)
+        
+      }
+      
+      this.$refs.realtimeChart.updateSeries([
+          {
+            name: 'Ganhou',
+            data: rightArray
+          }, 
+          {
+            name: 'Perdeu',
+            data: wrongArray
+          }
+        ],true)
+
+      this.chartOptions={...this.chartOptions,...{
+        xaxis:{
+          categories:array
+        }
+      }}
+          
+    },
+
+    setGraphTeacher(){
+      let array=[]
+      let otherArray=[]
+
+      for (const team of this.historyTeams) {
+        let points=0
+        array.push(team.name)
+        for (const student of team.students) {
+          points+=+student.totalPoints
+        }
+        otherArray.push(points)
+      }
+
+      this.$refs.reactiveChart.updateSeries([{
+      name:'Nº de Pontos',
+      data:otherArray
+      }])
+
+      this.chartOptions={...this.chartOptions,...{
+        xaxis:{
+          categories:array
+        },
+        plotOptions:{
+          bar:{
+            distributed:true
+          }
+        }
+      }}
+    }
+      
   },
-  mounted () {
+  created () {
+    this.showOrNotLoading();
+    
     this.findUser().then(()=>{
       if(this.getUser.typeUser=='Tutor'){
         this.findRelations("")
+      }
+      else if(this.getUser.typeUser=='Criança'){
+        
+       
+        this.findHistoryUser().then(()=>{
+          this.historyUser=this.getHistoryUser.history
+          if(this.historyUser.length>=2){
+            if(this.historyUser.length<=4){
+              this.endGraphKid=this.historyUser.length
+            }
+            else{
+              this.startGraphKid=this.historyUser.length-4
+              this.endGraphKid=this.historyUser.length
+            }
+            this.setGraphKid()
+             
+          }
+          
+        });
+      }
+      else if(this.getUser.typeUser=='Professor'){
+        this.findTeams("").then(()=>{
+            this.historyTeams=this.getTeams.filter(team=>team.students.length>=1)
+            if(this.historyTeams.length>1){
+               if(this.historyTeams.length<=4){
+                  this.endGraphTeacher=this.historyTeams.length
+               }
+              else{
+                this.startGraphTeacher=this.historyTeams.length-4
+                this.endGraphTeacher=this.historyTeams.length
+              }
+             this.setGraphTeacher()
+            }
+        });
       }
     });
     this.findActivities("").then(()=>{
@@ -254,6 +408,7 @@ export default {
       this.activitiesForApproved=this.getActivities.filter(activity=>activity.approved==false);
     });
   },
+  
 };
 </script>
 
@@ -329,4 +484,70 @@ main > header {
   border:none;
 }
 
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
+}
 </style>

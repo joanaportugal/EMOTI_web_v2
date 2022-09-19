@@ -1,4 +1,9 @@
 <template>
+ <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
   <div class="d-flex">
     <aside>
       <SideBar
@@ -39,7 +44,7 @@
             <div class="col-6 p-0 d-flex flex-row justify-content-end" v-if="showCamera==true">
               <video @play="checkEmotion" autoplay class="feed"></video>
             </div>
-            <div class="loading col-6 p-0 d-flex flex-row justify-content-center align-items-center" v-else>
+            <div class="loadingCam col-6 p-0 d-flex flex-row justify-content-center align-items-center" v-else>
               <h4>A carregar...</h4>
             </div>
             <div class="col-12 d-flex flex-row align-items-center justify-content-center mt-4 mb-2" >
@@ -138,6 +143,7 @@
       </b-modal>
     </main>
   </div>
+ </div>
 </template>
 
 <script>
@@ -151,6 +157,8 @@ export default {
   name: "BaseView",
   data() {
     return {
+      time:3000,
+      showLoading:true,
       answer: '',
       result:"",
       messageAPI:'Não foi captada nenhuma emoção.',
@@ -229,7 +237,7 @@ export default {
     ...mapGetters(["getUser","getActivities"]),
   },
   methods: {
-    ...mapActions(["findUser","findActivities"]),
+    ...mapActions(["findUser","findActivities","updateChildActivity","createNofication"]),
 
     nextQuestion() {
       this.positionArray++
@@ -265,16 +273,25 @@ export default {
 
     checkActivity(){
       //let wrongAnswers=0;
+      let rightQuestions=[]
+      let wrongQuestions=[]
 
       for (let i = 0; i < this.activity.questions.length; i++) {
         if(this.activity.questions[i].correctAnswer==this.responses[i]){
           this.quizResult.push({question:this.activity.questions[i].text,emotion:this.activity.questions[i].correctAnswer,points:this.activity.questions[i].points});
           this.rightAnswers++
           this.points+=+this.activity.questions[i].points
+          rightQuestions.push(i)
         }
         else{
           this.quizResult.push({question:this.activity.questions[i].text,emotion:this.activity.questions[i].correctAnswer,points:0});
+          wrongQuestions.push(i)
         }
+      }
+
+      if(this.getUser.typeUser=='Criança'){
+        this.updateChildActivity([this.activity._id,{points:this.points,questionsRight:rightQuestions,questionsWrong:wrongQuestions}])
+        this.createNofication({title:'Novo Resultado',text:`A criança ${this.getUser.name.toUpperCase()} realizou a atividade ${this.activity.title.toUpperCase()} e obteve o seguinte resultado:${this.rightAnswers.length==this.activity.questions.length? 'GANHOU':'PERDEU'}.`})
       }
 
       this.chartOptions.labels.push(`${this.rightAnswers}/${this.activity.questions.length}`)
@@ -299,6 +316,7 @@ export default {
       }
       else{
         alert('Cannot get mediaDevices')
+        this.$router.go(-1)
       }
     
     },
@@ -340,10 +358,16 @@ export default {
         }
       },1000)
 
+    },
+    showOrNotLoading(payload){
+      setTimeout(()=>{
+        this.showLoading=false
+      },payload);
     }
 
   },
   created() {
+    
     this.findUser()
     this.findActivities(`?id=${this.$route.params.id}`).then(()=>{
       this.activity=this.getActivities
@@ -355,7 +379,13 @@ export default {
         if(this.activity.category=='Reconhecimento'){
           this.initIA().then(()=>{
           this.init();
-        })}
+          this.showOrNotLoading(15000);
+        })
+        }
+        else{
+          this.showOrNotLoading(1500);
+        }
+
       }
         
     })
@@ -470,7 +500,7 @@ main > header {
   color:white;
 }
 
-.loading{
+.loadingCam{
   border-radius: 5px;
   background-color:#e87361e7;
   color:white;
@@ -478,6 +508,7 @@ main > header {
   animation-name: scaleit;
   animation-direction:alternate;
   animation-iteration-count:infinite;
+  font-family: 'EAmbit SemiBold';
 }
 
 @keyframes scaleit {
@@ -490,6 +521,73 @@ background-color: #34B187;
 100% {
 background-color: #F5BAD6;
 }
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
 }
 
 video {

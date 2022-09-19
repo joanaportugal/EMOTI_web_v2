@@ -37,7 +37,7 @@
         <b-avatar
           rounded
           v-else
-          :text="user.name.charAt(0)"
+          :text="user.name.split(' ')[0].charAt(0)+user.name.split(' ')[1].charAt(0)"
           :style="{
             width: '5vw',
             height: '9vh',

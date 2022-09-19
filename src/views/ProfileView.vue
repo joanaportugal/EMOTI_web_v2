@@ -1,4 +1,9 @@
 <template>
+ <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
   <div class="d-flex">
     <aside>
       <SideBar
@@ -32,7 +37,7 @@
                 v-if="getUser.imgProfile != ''"
               />
               <b-avatar
-                :text="getUser.name.charAt(0)"
+                :text="getUser.name.split(' ')[0].charAt(0)+getUser.name.split(' ')[1].charAt(0)"
                 :style="{
                   width: '220px',
                   height: '220px',
@@ -195,7 +200,7 @@
                     >
                       <button
                         class="btn d-flex align-items-center col-10 p-0"
-                        @click="childSelected = child"
+                        @click="selectChild(child)"
                       >
                         <b-avatar
                           variant="light"
@@ -241,8 +246,8 @@
                     Pedidos de Inscrição
                   </button>
                 </div>
-                <div class="p-0 m-0" v-if="childSelected != ''">
-                  <div class="mb-4">
+                <div class="p-0 m-0">
+                  <div class="mb-4" v-if="childSelected != ''">
                     <h5 class="d-flex align-items-center my-4">
                       <span
                         class="material-icons-round"
@@ -274,7 +279,7 @@
                           v-if="childSelected.imgProfile != ''"
                         />
                         <b-avatar
-                          :text="childSelected.name.charAt(0)"
+                          :text="childSelected.name.split(' ')[0].charAt(0)+childSelected.name.split(' ')[1].charAt(0)"
                           :style="{
                             width: '200px',
                             height: '200px',
@@ -329,7 +334,7 @@
                       </b-form>
                     </div>
                   </div>
-                  <div class="mb-5">
+                  <div class="mb-5" v-if="childSelected != ''">
                     <h5 class="d-flex align-items-center my-4">
                       <span
                         class="material-icons-round"
@@ -388,7 +393,7 @@
                     </table>
                   </div>
 
-                  <div class="mb-4">
+                  <div class="mb-4" :hidden="childSelected=='' || historyKid.length<2">
                     <h5 class="d-flex align-items-center my-4">
                       <span
                         class="material-icons-round"
@@ -402,20 +407,29 @@
                         Estatísticas
                       </span>
                     </h5>
-                    <div class="col-12 text center d-flex flex-row justify-content-center">
-                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mr-4" @click="showChart='Bar'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Bar'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">show_chart</span> Resultado Geral</b-link>
-                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2 mr-4" @click="showChart='Pie'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Pie'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Emoções</b-link>
-                      <b-link class="p-0 m-0 d-flex flex-row align-items-center mb-2" @click="showChart='Circle'" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'20px',opacity:showChart=='Circle'?1:0.6}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">wifi_tethering</span>Categoria de Imagens</b-link>
-                    </div>
-                    <div class="col-12 mt-2 mb-1 d-flex flex-row justify-content-end p-0 pr-2" v-if="showChart=='Bar'">
-                      <b-link :style="{color:'#e87461',textDecoration:'none'}" class="d-flex flex-row align-items-center"  @click="$bvToast.show('my-toast')"><span class="material-icons-round">autorenew</span> Alternar</b-link>
-                    </div>
-             
-                    <apexchart-chart type="bar" height="350" :options="chartOptions" :series="series" class="apex" v-if="showChart=='Bar'"></apexchart-chart>
-                    
-                    <apexchart-chart type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex" v-if="showChart=='Pie'"></apexchart-chart>
-
-                    <apexchart-chart type="radialBar" height="400" :options="chartOptionsRadial" :series="seriesRadial" class="apex"  v-if="showChart=='Circle'"></apexchart-chart>
+                    <b-tabs content-class="mt-3" active-nav-item-class="changeColorTab" fill>
+                      <b-tab>
+                        <template #title>
+                          <h6 class="p-0 d-flex flex-row align-items-center justify-content-center" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'17px'}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">bar_chart</span> Resultado Geral</h6>
+                        </template>
+                          <b-link :style="{color:'#e87461',textDecoration:'none'}" class="col-12 d-flex flex-row align-items-center justify-content-end mb-3" v-if="historyKid.length>4"  @click="changeData"><span class="material-icons-round">autorenew</span> Alternar</b-link>
+                      
+                        <apexchart-chart ref="chartReactive" type="bar" height="350" :options="chartOptions" :series="series" class="apex"></apexchart-chart>
+                      </b-tab>
+                      <b-tab>
+                        <template #title>
+                          <h6 class="p-0 d-flex flex-row align-items-center justify-content-center" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'17px'}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">pie_chart</span>Emoções Acertadas</h6>
+                        </template>
+                        <apexchart-chart  type="donut" height="400" :options="chartOptionsPie" :series="seriesPie" class="apex"></apexchart-chart>
+                      </b-tab>
+                       <b-tab>
+                        <template #title>
+                          <h6 class="p-0 d-flex flex-row align-items-center justify-content-center" :style="{textDecoration:'none', fontFamily:'EAmbit SemiBold',color:'#2B4141',fontSize:'17px'}"><span class="material-icons-round" :style="{paddingRight:'5px',color:'#e87461'}">wifi_tethering</span>Categoria de Imagens</h6>
+                        </template>
+                        <apexchart-chart type="radialBar" height="400" :options="chartOptionsRadial" :series="seriesRadial" class="apex"></apexchart-chart>
+                      </b-tab>
+                    </b-tabs>
+          
                   </div>
                 </div>
               </div>
@@ -464,11 +478,11 @@
                     >
                       {{ badge.name }}
                     </p>
-                    <b-progress max="20" :style="{ height: '20px' }">
+                    <b-progress :max="badge.pointsNeeded" :style="{ height: '20px' }">
                       <b-progress-bar
-                        value="10"
-                        :label="`10/20`"
-                        variant="warning"
+                        :value="`${setValue(badge.emotion)}`"
+                        :label="`${setValue(badge.emotion)}/`+badge.pointsNeeded"
+                        :variant="setValue(badge.emotion)==0?'secondary':'warning'"
                         class="py-2"
                       ></b-progress-bar>
                     </b-progress>
@@ -768,6 +782,7 @@
       <h6 class="d-flex flex-row align-items-center p-0 m-0"><span class="material-icons-round mr-2 p-0">check_circle</span> {{message}}</h6>
     </b-toast>
   </div>
+  </div>
 </template>
 
 <script>
@@ -786,6 +801,7 @@ export default {
   },
   data() {
     return {
+      showLoading:true,
       warning: "",
       whatModalDo: "",
       showChart:"Bar",
@@ -802,14 +818,15 @@ export default {
       newImg: "",
       searchKid: "",
       message:"",
+      pointsBadges:[],
       //BAr Chart
       series: [{
-        name: 'Ganhou',
-        data: [44, 55, 57,60]
+        name: '',
+        data: []
       }, 
       {
-        name: 'Perdeu',
-        data: [76, 85, 101,62]
+        name: '',
+        data: []
       }],
       chartOptions: {
         chart: {
@@ -841,7 +858,7 @@ export default {
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['18/04', '19/04', '20/04','21/04'],
+          categories: [],
           axisBorder: {
             show: true,
             borderType: 'dotted',
@@ -872,9 +889,12 @@ export default {
                   show: false
               }
         },
-      } 
+        },
+         
     },
-
+    historyKid:[],
+    categoriesKid:[],
+    emotionsKid:[],
     //Pie Chart
 
     seriesPie: [44, 55, 41, 17, 15],
@@ -940,6 +960,8 @@ export default {
       },
       colors:['#68C0A2','#55ACD1','#F0C6DA','#F1D144','#F0795E','#8D8DBA']
     },
+    startGraphKid:0,
+    endGraphKid:0
   };
 },
 
@@ -950,6 +972,7 @@ export default {
       "getBadges",
       "getRequests",
       "getChildClasses",
+      "getHistoryUser"
     ]),
   },
 
@@ -966,8 +989,29 @@ export default {
       "deleteRequest",
       "findChildClasses",
       "removeStudent",
-      "createNofication"
+      "createNofication",
+      "findHistoryUser"
     ]),
+
+    selectChild(child){
+      this.childSelected=child
+       this.findChildClasses(this.getChilds.find(child=>child.username==this.childSelected.username)._id);
+       this.historyKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).history;
+       this.categoriesKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).categories;
+       this.emotionsKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).emotions;
+       if(this.historyKid.length>=2){
+        if(this.historyKid.length<=4){
+          this.endGraphKid=this.historyKid.length
+        }
+        else{
+          this.startGraphKid=this.historyKid.length-4
+          this.endGraphKid=this.historyKid.length
+        }
+        this.setGraphKid()
+        this.setPieGraphKid()
+        this.setRadialGraph()
+      }
+    },
 
     changePassword() {
       if (this.passForm.newPass != this.passForm.confPass) {
@@ -1018,8 +1062,23 @@ export default {
         .then(() => {
           this.findRelations("").then(() => {
             if (this.getChilds.length != 0) {
-              this.childSelected = this.getChilds[0];
-              this.findChildClasses(this.getChilds[0]._id);
+              this.childSelected = this.getChilds.find(child=>child.username==this.formAdd.username);
+              this.findChildClasses(this.getChilds.find(child=>child.username==this.formAdd.username)._id);
+              this.historyKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).history;
+              this.categoriesKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).categories;
+              this.emotionsKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).emotions;
+                 if(this.historyKid.length>=2){
+                    if(this.historyKid.length<=4){
+                      this.endGraphKid=this.historyKid.length
+                    }
+                    else{
+                      this.startGraphKid=this.historyKid.length-4
+                      this.endGraphKid=this.historyKid.length
+                    }
+                  this.setGraphKid()
+                  this.setPieGraphKid()
+                  this.setRadialGraph()
+                 }
             }
             this.$bvModal.hide("modal-profile");
             this.message='Criança associada com sucesso.'
@@ -1043,8 +1102,24 @@ export default {
             this.$bvToast.show('my-toast');
             this.findRelations("").then(() => {
               if (this.getChilds.length != 0) {
-                this.childSelected = this.getChilds[0].name;
+                this.childSelected = this.getChilds[0];
                 this.findChildClasses(this.getChilds[0]._id);
+                this.historyKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).history;
+                this.categoriesKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).categories;
+                this.emotionsKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).emotions;
+                 if(this.historyKid.length>=2){
+                    if(this.historyKid.length<=4){
+                      this.endGraphKid=this.historyKid.length
+                    }
+                    else{
+                      this.startGraphKid=this.historyKid.length-4
+                      this.endGraphKid=this.historyKid.length
+                    }
+                  this.setGraphKid()
+                  this.setPieGraphKid()
+                  this.setRadialGraph()
+                 }
+                
               } else {
                 this.childSelected = "";
               }
@@ -1088,9 +1163,112 @@ export default {
         });
       }
     },
+
+    showOrNotLoading(){
+      setTimeout(()=>{
+        this.showLoading=false
+      },1500);
+    },
+
+    setValue(payload){
+      let valueforBadge=0
+      if(this.getHistoryUser.emotions){
+        for (const emotion of this.getHistoryUser.emotions) {
+          for (const [key, value] of Object.entries(emotion)) {
+            if(key==payload){
+              valueforBadge=value
+            }
+          }
+        }
+      }
+      return valueforBadge
+      
+    },
+
+    setGraphKid(){
+      let array=[]
+      let rightArray=[]
+      let wrongArray=[]
+      for (let history of this.historyKid.slice(this.startGraphKid,this.endGraphKid)) {
+        array.push(history.date)
+        let right=0
+        let wrong=0
+        
+        right+=+history.questionsRight
+        wrong+=+history.questionsWrong
+        
+        rightArray.push(right)
+        wrongArray.push(wrong)
+        
+      }
+      
+
+      this.$refs.chartReactive.updateSeries([
+          {
+            name: 'Ganhou',
+            data: rightArray
+          }, 
+          {
+            name: 'Perdeu',
+            data: wrongArray 
+          }
+        ],true)
+
+      this.chartOptions={...this.chartOptions,...{
+        xaxis:{
+          categories:array
+        }
+      }}
+          
+    },
+
+    setPieGraphKid(){
+      let array=[]
+      let otherArray=[]
+      for (const emotion of this.emotionsKid) {
+        array.push(+(Object.values(emotion)[0]))
+        otherArray.push(Object.keys(emotion)[0])
+
+      }
+
+      this.seriesPie=array
+
+      this.chartOptionsPie={...this.chartOptionsPie,...{
+        labels:otherArray
+      }}
+      
+
+    },
+
+    setRadialGraph(){
+      let array=[]
+      let otherArray=[]
+      for (const category of this.categoriesKid) {
+        array.push(+(Object.values(category)[0]))
+        otherArray.push(Object.keys(category)[0])
+      }
+      
+      this.seriesRadial=array
+      this.chartOptionsRadial={...this.chartOptionsRadial,...{
+        labels:otherArray
+      }}
+    },
+
+    changeData(){
+        if(Math.sign(this.startGraphKid-1)==-1){
+          this.startGraphKid=this.historyKid.length-4
+          this.endGraphKid=this.historyKid.length
+        }
+        else{
+          this.startGraphKid--
+          this.endGraphKid--
+        }
+        this.setGraphKid()
+      }
   },
 
-  mounted() {
+  created() {
+    this.showOrNotLoading();
     this.findUser().then(() => {
       if (this.getUser.typeUser == "Tutor") {
         this.findRelations("").then(() => {
@@ -1103,11 +1281,29 @@ export default {
               this.childSelected = this.getChilds[0];
               this.findChildClasses(this.getChilds[0]._id);
             }
+            this.findHistoryUser().then(()=>{
+              this.historyKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).history;
+              this.categoriesKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).categories;
+              this.emotionsKid=this.getHistoryUser.find(user=>user._id==this.childSelected._id).emotions;
+                if(this.historyKid.length>=2){
+                  if(this.historyKid.length<=4){
+                    this.endGraphKid=this.historyKid.length
+                  }
+                  else{
+                    this.startGraphKid=this.historyKid.length-4
+                    this.endGraphKid=this.historyKid.length
+                  }
+                 this.setGraphKid()
+                 this.setPieGraphKid()
+                 this.setRadialGraph()
+                }
+              })
             
           }
         });
       } else if (this.getUser.typeUser == "Criança") {
         this.getAllBadges("");
+        this.findHistoryUser();
       }
     });
   },
@@ -1139,7 +1335,7 @@ main {
 
 main > header {
   width: 81.3vw;
-  z-index: 2;
+  z-index: 1;
   position: fixed;
   top: 0;
   right: 0;
@@ -1214,5 +1410,77 @@ table {
 }
 .toast{
   border:none;
+}
+
+.changeColorTab{
+  background-color:#d9d9d558 !important;
+  border-bottom: none;
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
 }
 </style>

@@ -258,7 +258,7 @@ export default {
         });
     },
     createUser(){
-      if(this.formRegister.password!=this.conf_password){
+      if(this.formRegister.password!=this.c_password){
         this.message='As passwords não coincidem'
         setTimeout(()=>{this.message=""},5000)
       }

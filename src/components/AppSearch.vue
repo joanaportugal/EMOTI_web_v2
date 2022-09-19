@@ -53,7 +53,7 @@
           p-2
         "
         :style="{backgroundColor: '#e87461', border: 'none'}"
-        @click="openNotification = true"
+        @click="openNotificationBar()"
         v-if="openNotification == false"
       >
         <span class="material-icons-round" :style="{fontSize: '30px'}"
@@ -106,7 +106,7 @@
           header-class="headerNotification"
           body-class="bodyNotification"
           :style="{ border: 'none' }"
-          v-for="(notification,index) in getUser.notifications.reverse()" :key="index"
+          v-for="(notification,index) in notifications" :key="index"
         >
           <template #header>
             <div
@@ -250,6 +250,7 @@ export default {
       openSearch: false,
       searchForm: "",
       showUsers:true,
+      notifications:[]
     };
   },
 
@@ -259,6 +260,11 @@ export default {
 
   methods: {
     ...mapActions(["findActivities_Search","findAllUsers_Search","findRelations_Search","findAllStudents_Search","deleteNotification","findUser"]),
+
+    openNotificationBar(){
+      this.notifications=this.getUser.notifications.reverse()
+      this.openNotification=true
+    },
 
     setReloadActivity(id){
       if(this.$route.params.id==id){
@@ -287,7 +293,9 @@ export default {
 
     removeNotification(id){
       this.deleteNotification(id).then(()=>{
-        this.findUser()
+        this.findUser().then(()=>{
+          this.notifications=this.getUser.notifications.reverse()
+        })
       })
     }
 

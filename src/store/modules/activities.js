@@ -9,6 +9,8 @@ export default{
         visibility:[],
 
         linkAPI: 'http://127.0.0.1:3000/',
+
+        historyActivity:[]
     },
   
   
@@ -17,7 +19,9 @@ export default{
 
         getTopActivities:(state)=>state.topActivities,
 
-        getVisibility:(state)=>state.visibility
+        getVisibility:(state)=>state.visibility,
+
+        getHistoryActivity:(state)=>state.historyActivity
     },
   
   
@@ -32,6 +36,10 @@ export default{
 
         SET_VISIBILITY(state,payload){
             state.visibility=payload.children
+        },
+
+        SET_HISTORY_ACTIVITY(state,payload){
+            state.historyActivity=payload.list
         }
     },
   
@@ -200,6 +208,36 @@ export default{
                 throw new Error(err.error)
             }
             
+        },
+
+        async updateChildActivity(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/activities/${data[0]}`, {
+                method: 'PUT',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data[1])
+            })
+            if (!response.ok) {
+                const err = await response.json()
+                throw new Error(err.error)
+            }
+        },
+
+        async findHistoryActivities(context){
+            const response = await fetch(`${context.state.linkAPI}api/activities/history`, {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+            })
+            if (response.ok) {
+                context.commit("SET_HISTORY_ACTIVITY", await response.json());
+            }
         },
 
 

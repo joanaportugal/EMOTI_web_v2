@@ -1,4 +1,10 @@
 <template>
+  <div class="p-0">
+    <div class="loading d-flex flex-column align-items-center justify-content-center" :style="{position:'fixed',zIndex:'2'}"  v-if="showLoading==true">
+      <b-spinner style="width: 8rem; height: 8rem;color:white" label="Spinning"></b-spinner>
+      <h3 class="mt-4" style="color:white">A carregar <span class="info">...</span></h3>
+    </div>
+  
   <div class="d-flex">
     <aside>
       <SideBar activeTab="Atividades" v-if="this.getUser != null" :user="this.getUser"/>
@@ -29,7 +35,7 @@
                             <span class="material-icons-round" :style="{paddingRight:'8px'}" v-else-if="activity.category=='Atividades Personalizadas (Professor)'">backpack</span>
                             <span class="material-icons-round" :style="{paddingRight:'8px'}" v-else-if="activity.category=='Atividades Personalizadas (Tutor)'">diversity_3</span>
                             <span class="material-icons-round" :style="{paddingRight:'8px'}" v-else>video_camera_front</span>
-                            {{activity.title}}
+                            {{activity.title.substr(0,25)}}<span v-if="activity.title>=23">...</span>
                           </span>
                          
                         </div>
@@ -44,6 +50,7 @@
                              <span
                               class="material-icons-round"
                               :style="{paddingRight: '8px',color: '#fdfdf3'}"
+                              v-if="checkHistory(activity.title)==true"
                               >check</span
                             >
                             <span
@@ -90,7 +97,7 @@
                   </div>
               </div>  
               <div class="col-12 text-center p-0 mb-2">
-                  <b-link :style="{ color: '#e87461', textDecoration: 'underline' }" @click="seeMoreActivities()" v-if="this.getActivities.length>this.number">Ver Mais</b-link>
+                  <b-link :style="{ color: '#e87461', textDecoration: 'underline' }" @click="seeMoreActivities()" v-if="getActivities.length>number">Ver Mais</b-link>
               </div>
             </div> 
           </b-col>
@@ -327,6 +334,7 @@
     </b-toast>
     </main>
   </div>
+  </div>
 </template>
 
 <script>
@@ -363,12 +371,13 @@ export default {
       number:4,
       numberTop:5,
       message:'',
-      activities:[]
+      activities:[],
+      showLoading:true,
     };
   },
 
   methods: {
-    ...mapActions(["findUser","findActivities","findAllStudents","findTeams","findRelations","suggestActivity","findTopActivities","createNofication"]),
+    ...mapActions(["findUser","findActivities","findAllStudents","findTeams","findRelations","suggestActivity","findTopActivities","createNofication","findHistoryUser"]),
 
     resetForm(){
       this.formFilter={
@@ -399,6 +408,20 @@ export default {
       }
     },
 
+    checkHistory(title){
+      let boolean=false
+
+      for (const history of this.getHistoryUser.history) {
+        for (let activity of history.activities) {
+          if(activity.title==title){
+            return true
+          }
+        }
+      }
+
+      return boolean
+    },
+
     setSuggestionActivity(){
       let studentsList=[]
       if(this.getUser.typeUser=='Professor'){
@@ -421,14 +444,21 @@ export default {
             this.warning = "";
           }, 5000);
       });
+    },
+
+    showOrNotLoading(){
+      setTimeout(()=>{
+        this.showLoading=false
+      },1500);
     }
   },
 
   computed: {
-    ...mapGetters(["getLoggedUser","getUser","getActivities","getTeams","getStudents","getChilds","getTopActivities"])
+    ...mapGetters(["getLoggedUser","getUser","getActivities","getTeams","getStudents","getChilds","getTopActivities","getHistoryUser"])
   },
 
   created() {
+    this.showOrNotLoading();
     this.findUser().then(()=>{
       this.findActivities("").then(()=>{
         if(this.getActivities.length<4){
@@ -444,6 +474,9 @@ export default {
       }
       else if(this.getUser.typeUser=='Tutor'){
         this.findRelations("");
+      }
+      else if(this.getUser.typeUser=='Criança'){
+        this.findHistoryUser()
       }
       this.findTopActivities()
       
@@ -734,6 +767,74 @@ main > div {
 }
 .toast{
   border:none;
+}
+
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  position: fixed;
+  animation-duration: 12s;
+  animation-name: changeColor;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #f54c25;
+    opacity: 0.6;
+  }
+  20% {
+    background-color: #34b187;
+    opacity: 0.6;
+  }
+  40% {
+    background-color: #6969a9;
+    opacity: 0.6;
+  }
+  60% {
+    background-color: #f7c901;
+    opacity: 0.6;
+  }
+  80% {
+    background-color: #1995c9;
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #f5bad6;
+    opacity: 0.6;
+  }
+}
+
+.info{
+    color:white;
+    animation-duration: 6s;
+    animation-name: textChange;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textChange {
+  0% {
+    color:white;
+  }
+  20% {
+    color:transparent;
+  }
+  40% {
+    color:white;
+  }
+  60% {
+    color:transparent;
+  }
+  80% {
+    color:white;
+  }
+  100% {
+    color:transparent;
+  }
 }
 
 </style>
