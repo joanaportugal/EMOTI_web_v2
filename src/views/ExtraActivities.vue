@@ -1057,6 +1057,11 @@ export default {
                 activity.title == this.activitySelected.title
             );
             this.findVisibility(this.activitySelected._id);
+             if(this.activitySelected.approved==true){
+                 this.history=this.getHistoryActivity.find(register=>register._id==this.activitySelected._id);
+                 this.setBarChart()
+                 this.setPieChart()
+              }
           });
           setTimeout(() => {
             this.formEditActivity = {};
@@ -1135,7 +1140,7 @@ export default {
       if(this.activitySelected.approved==true){
         let array=[]
         let otherArray=[]
-        for (const wrong of this.history.wrongEmotions){
+        for (const wrong of this.history.wrongQuestions){
             array.push(Object.values(wrong)[0])
             otherArray.push(Object.keys(wrong)[0])
         }
