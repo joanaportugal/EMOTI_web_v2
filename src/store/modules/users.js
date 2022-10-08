@@ -9,11 +9,11 @@ export default {
 
         loggedUser: localStorage.user ? JSON.parse(localStorage.user) : {},
 
-        linkAPI: 'http://127.0.0.1:3000/',
+        linkAPI: 'https://newemotiapi.herokuapp.com/',
 
-        childs:[],
+        childs: [],
 
-        historyUser:[],
+        historyUser: [],
     },
 
 
@@ -22,46 +22,53 @@ export default {
 
         getUser: (state) => state.user,
 
-        getUsers:(state)=> state.users,
+        getUsers: (state) => state.users,
 
-        getChilds:(state)=>state.childs,
+        getChilds: (state) => state.childs,
 
-        getHistoryUser:(state)=>state.historyUser
+        getHistoryUser: (state) => state.historyUser
     },
 
 
     mutations: {
         SET_LOGGED_USER(state, payload) {
-            state.loggedUser = { token: payload.authKey, typeUser: payload.typeUser };
+            state.loggedUser = {
+                token: payload.authKey,
+                typeUser: payload.typeUser
+            };
             localStorage.user = JSON.stringify(state.loggedUser);
         },
 
         SET_LOGOUT(state) {
             state.loggedUser = {};
             localStorage.user = JSON.stringify(state.loggedUser);
-            router.push({ name: 'Olá!' });
+            router.push({
+                name: 'Olá!'
+            });
         },
 
         SET_USER(state, payload) {
             state.user = payload.user
         },
 
-        SET_USERS(state,payload){
-            state.users=payload.users
+        SET_USERS(state, payload) {
+            state.users = payload.users
         },
 
-        SET_CHILDS(state,payload){
-            state.childs=payload.children
+        SET_CHILDS(state, payload) {
+            state.childs = payload.children
         },
 
-        SET_HISTORY_USER(state,payload){
-            if(state.user.typeUser=='Criança'){
-               state.historyUser={history:payload.history,emotions:payload.emotions}
+        SET_HISTORY_USER(state, payload) {
+            if (state.user.typeUser == 'Criança') {
+                state.historyUser = {
+                    history: payload.history,
+                    emotions: payload.emotions
+                }
+            } else {
+                state.historyUser = payload.list
             }
-            else{
-                state.historyUser=payload.list
-            }
-            
+
         }
 
     },
@@ -83,8 +90,7 @@ export default {
             })
             if (response.ok) {
                 context.commit("SET_LOGGED_USER", await response.json());
-            }
-            else {
+            } else {
                 const err = await response.json()
                 throw new Error(err.error)
             }
@@ -112,20 +118,23 @@ export default {
         async findUser(context) {
             const response = await fetch(`${context.state.linkAPI}api/users/profile`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_USER", await response.json());
-            }
-            else{
+            } else {
                 context.commit('SET_LOGOUT')
             }
         },
 
-        async findAllUsers(context,data){
-            const response = await fetch(`${context.state.linkAPI}api/users`+data, {
+        async findAllUsers(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/users` + data, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_USERS", await response.json());
@@ -154,12 +163,13 @@ export default {
 
         async unlockLock(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'PATCH',
-                headers: {'Authorization': 'Bearer '+context.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -170,14 +180,15 @@ export default {
             }
         },
 
-        async deleteUser(context,data){
+        async deleteUser(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+context.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -190,12 +201,13 @@ export default {
 
         async updateProfile(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/profile`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'PATCH',
-                headers: {'Authorization': 'Bearer '+context.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -207,17 +219,19 @@ export default {
             }
         },
 
-        async findRelations(context,data){
-            const response = await fetch(`${context.state.linkAPI}api/users/children`+data, {
+        async findRelations(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/users/children` + data, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_CHILDS", await response.json());
             }
         },
 
-        async createRelation(context,data){
+        async createRelation(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/children`, {
                 method: 'POST',
                 mode: 'cors',
@@ -237,26 +251,29 @@ export default {
             }
         },
 
-        async removeRelation(context,data){
+        async removeRelation(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/children/${data}`, {
-               method: 'DELETE',
-               headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                }
             })
             if (!response.ok) {
                 const err = await response.json()
                 throw new Error(err.error)
             }
-            
+
         },
 
-        async deleteNotification(context,data){
+        async deleteNotification(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/notifications/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+context.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -267,7 +284,7 @@ export default {
             }
         },
 
-        async createNofication(context,data){
+        async createNofication(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/users/notifications`, {
                 method: 'POST',
                 mode: 'cors',
@@ -287,10 +304,12 @@ export default {
             }
         },
 
-        async findHistoryUser(context){
+        async findHistoryUser(context) {
             const response = await fetch(`${context.state.linkAPI}api/users/history`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + context.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + context.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_HISTORY_USER", await response.json());

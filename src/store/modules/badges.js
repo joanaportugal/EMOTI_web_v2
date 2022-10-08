@@ -1,25 +1,25 @@
 import users from './users'
 
-export default{
+export default {
     state: {
-        badges:[],
+        badges: [],
 
-        linkAPI: 'http://127.0.0.1:3000/'
+        linkAPI: 'https://newemotiapi.herokuapp.com/'
     },
-  
-  
+
+
     getters: {
-        getBadges:(state)=>state.badges
+        getBadges: (state) => state.badges
     },
-  
-  
+
+
     mutations: {
-        SET_BADGES(state,payload){
-            state.badges=payload.badges
+        SET_BADGES(state, payload) {
+            state.badges = payload.badges
         }
     },
-  
-  
+
+
     actions: {
         async createBadge(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/badges`, {
@@ -41,24 +41,27 @@ export default{
             }
         },
 
-        async getAllBadges(context,data) {
-            const response = await fetch(`${context.state.linkAPI}api/badges`+data, {
+        async getAllBadges(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/badges` + data, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_BADGES", await response.json());
             }
         },
 
-        async removeBadge(context,data){
+        async removeBadge(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/badges/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',

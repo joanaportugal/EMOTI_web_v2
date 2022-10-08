@@ -2,61 +2,63 @@ import users from './users'
 
 export default {
     state: {
-        students:[],
+        students: [],
 
-        teams:[],
+        teams: [],
 
-        kid:{},
+        kid: {},
 
-        linkAPI: 'http://127.0.0.1:3000/',
+        linkAPI: 'https://newemotiapi.herokuapp.com/',
 
-        requests:[],
+        requests: [],
 
-        childClasses:[]
+        childClasses: []
     },
 
 
     getters: {
-        getStudents:(state)=>state.students,
+        getStudents: (state) => state.students,
 
-        getTeams:(state)=>state.teams,
+        getTeams: (state) => state.teams,
 
-        getKid:(state)=>state.kid,
+        getKid: (state) => state.kid,
 
-        getRequests:(state)=>state.requests,
+        getRequests: (state) => state.requests,
 
-        getChildClasses:(state)=>state.childClasses
+        getChildClasses: (state) => state.childClasses
     },
 
 
     mutations: {
-        SET_TEAMS(state,payload){
-            state.teams=payload.classes
+        SET_TEAMS(state, payload) {
+            state.teams = payload.classes
         },
 
-        SET_STUDENTS(state,payload){
-            state.students=payload.students
+        SET_STUDENTS(state, payload) {
+            state.students = payload.students
         },
 
-        SET_KID(state,payload){
-            state.kid=payload.child
+        SET_KID(state, payload) {
+            state.kid = payload.child
         },
 
-        SET_REQUESTS(state,payload){
-            state.requests=payload.requests
+        SET_REQUESTS(state, payload) {
+            state.requests = payload.requests
         },
 
-        SET_CHILDCLASSES(state,payload){
-            state.childClasses=payload.class
+        SET_CHILDCLASSES(state, payload) {
+            state.childClasses = payload.class
         }
     },
 
 
     actions: {
-        async findTeams(context,data) {
-            const response = await fetch(`${context.state.linkAPI}api/classes`+data, {
+        async findTeams(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/classes` + data, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_TEAMS", await response.json());
@@ -83,14 +85,15 @@ export default {
             }
         },
 
-        async removeTeam(context,data){
+        async removeTeam(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -101,14 +104,15 @@ export default {
             }
         },
 
-        async updateNameTeam(context,data){
+        async updateNameTeam(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/${data[0]}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'PATCH',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                            'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -120,31 +124,34 @@ export default {
             }
         },
 
-        async findAllStudents(context,data) {
-            const response = await fetch(`${context.state.linkAPI}api/classes/children`+data, {
+        async findAllStudents(context, data) {
+            const response = await fetch(`${context.state.linkAPI}api/classes/children` + data, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_STUDENTS", await response.json());
             }
         },
 
-        async findChild(context,data){
+        async findChild(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/requests?username=${data}`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_KID", await response.json());
-            }
-            else{
+            } else {
                 const err = await response.json()
                 throw new Error(err.error)
             }
         },
 
-        async createRequest(context,data){
+        async createRequest(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/requests`, {
                 method: 'POST',
                 mode: 'cors',
@@ -164,14 +171,15 @@ export default {
             }
         },
 
-        async deleteRequest(context,data){
+        async deleteRequest(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/requests/${data[0]}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -183,14 +191,15 @@ export default {
             }
         },
 
-        async updateChildClass(context,data){
+        async updateChildClass(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/${data[0]}/children/${data[1]}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'PUT',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                            'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -202,14 +211,15 @@ export default {
             }
         },
 
-        async removeStudent(context,data){
+        async removeStudent(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/${data[0]}/children/${data[1]}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                            'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -221,24 +231,27 @@ export default {
             }
         },
 
-         async findRequests(context,data){
+        async findRequests(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/requests/${data}`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_REQUESTS", await response.json());
             }
         },
 
-        async acceptRequest(context,data){
+        async acceptRequest(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/requests/${data[0]}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'PUT',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                            'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -250,15 +263,16 @@ export default {
             }
         },
 
-        async findChildClasses(context,data){
+        async findChildClasses(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/classes/children/${data}`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_CHILDCLASSES", await response.json());
-            }
-            else{
+            } else {
                 const err = await response.json()
                 throw new Error(err.error)
             }

@@ -1,30 +1,32 @@
 import users from './users'
 
-export default{
+export default {
     state: {
-        emotions:[],
+        emotions: [],
 
-        linkAPI: 'http://127.0.0.1:3000/'
+        linkAPI: 'https://newemotiapi.herokuapp.com/'
     },
-  
-  
+
+
     getters: {
-        getEmotions:(state)=>state.emotions
+        getEmotions: (state) => state.emotions
     },
-  
-  
+
+
     mutations: {
-        SET_EMOTIONS(state,payload){
-            state.emotions=payload.emotions
+        SET_EMOTIONS(state, payload) {
+            state.emotions = payload.emotions
         }
     },
-  
-  
+
+
     actions: {
         async getAllEmotions(context) {
             const response = await fetch(`${context.state.linkAPI}api/emotions`, {
                 method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + users.state.loggedUser.token, }
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                }
             })
             if (response.ok) {
                 context.commit("SET_EMOTIONS", await response.json());
@@ -51,14 +53,15 @@ export default{
             }
         },
 
-        async removeEmotion(context,data){
+        async removeEmotion(context, data) {
             const response = await fetch(`${context.state.linkAPI}api/emotions/${data}`, {
-                mode: 'cors', 
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 method: 'DELETE',
-                headers: {'Authorization': 'Bearer '+users.state.loggedUser.token, 
-                          'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': 'Bearer ' + users.state.loggedUser.token,
+                    'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
@@ -69,6 +72,6 @@ export default{
             }
         }
 
-  
+
     }
 }

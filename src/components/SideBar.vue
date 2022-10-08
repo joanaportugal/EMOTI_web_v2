@@ -17,6 +17,7 @@
           marginTop: '20px',
           marginBottom: '20px',
           backgroundColor: '#f5f5eb',
+          width: '100%',
         }"
         id="items"
         class="rounded"
@@ -37,7 +38,10 @@
         <b-avatar
           rounded
           v-else
-          :text="user.name.split(' ')[0].charAt(0)+user.name.split(' ')[1].charAt(0)"
+          :text="
+            user.name.split(' ')[0].charAt(0) +
+            user.name.split(' ')[1].charAt(0)
+          "
           :style="{
             width: '5vw',
             height: '9vh',
