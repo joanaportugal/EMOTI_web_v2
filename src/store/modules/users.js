@@ -9,7 +9,7 @@ export default {
 
         loggedUser: localStorage.user ? JSON.parse(localStorage.user) : {},
 
-        linkAPI: 'https://newemotiapi.herokuapp.com/',
+        linkAPI: 'https://emotiapiv2-production.up.railway.app/',
 
         childs: [],
 
