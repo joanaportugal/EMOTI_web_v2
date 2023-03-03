@@ -8,7 +8,7 @@ export default {
 
     visibility: [],
 
-    linkAPI: "https://emotiapiv2-production.up.railway.app/",
+    linkAPI: "https://cyan-cockroach-tie.cyclic.app/",
 
     historyActivity: [],
   },
