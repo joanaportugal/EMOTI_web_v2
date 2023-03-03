@@ -9,7 +9,7 @@ export default {
 
         loggedUser: localStorage.user ? JSON.parse(localStorage.user) : {},
 
-        linkAPI: 'https://emotiapiv2-production.up.railway.app/',
+        linkAPI: 'https://cyan-cockroach-tie.cyclic.app/',
 
         childs: [],
 
